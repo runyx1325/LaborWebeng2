@@ -1,0 +1,157 @@
+:root {
+    --vh: 1vh;
+    --BORDER_GAP: 6px;
+    --BORDER_RADIUS: 3px;
+    --MOBILE_CHAT_MAXHEIGHT: 200px;
+    --PLAYERS_PER_PAGE: -1;
+    --COLOR_TEXT_CANVAS_TRANSPARENT: #404040;
+    --COLOR_PANEL_BG: rgba(12, 44, 150, 0.75);
+    --COLOR_PANEL_LO: rgba(7, 36, 131, 0.75);
+    --COLOR_PANEL_HI: #1640c9;
+    --COLOR_PANEL_FOCUS: #ee9631;
+    --COLOR_PANEL_BORDER: #040a33;
+    --COLOR_PANEL_BORDER_FOCUS: #56b2fd;
+    --COLOR_PANEL_TEXT: #f0f0f0;
+    --COLOR_PANEL_TEXT_FOCUS: white;
+    --COLOR_PANEL_TEXT_PLACEHOLDER: #9b9b9b;
+    --COLOR_PANEL_BUTTON: #2a51d1;
+    --COLOR_PANEL_BUTTON_HOVER: #1e44be;
+    --COLOR_PANEL_BUTTON_ACTIVE: #1d40b4;
+    --COLOR_TOOL_BASE: white;
+    --COLOR_TOOL_HOVER: #c5c5c5;
+    --COLOR_TOOL_ACTIVE: #ab66eb;
+    --COLOR_TOOL_TEXT: #000;
+    --COLOR_TOOL_SIZE_BASE: white;
+    --COLOR_TOOL_SIZE_HOVER: #c5c5c5;
+    --COLOR_TOOL_SIZE_ACTIVE: #ab66eb;
+    --COLOR_INPUT_BG: #ffffff;
+    --COLOR_INPUT_HOVER: white;
+    --COLOR_INPUT_TEXT: #2c2c2c;
+    --COLOR_INPUT_BORDER: #707070;
+    --COLOR_INPUT_BORDER_FOCUS: #56b2fd;
+    --COLOR_TOOL_TIP_BG: #4571ff;
+    --COLOR_GAMEBAR_TEXT: #000;
+    --COLOR_GAMEBAR_ROUND_TEXT: #000;
+    --COLOR_GAMEBAR_WORD_DESCRIPTION: #363636;
+    --COLOR_CHAT_TEXT_BASE: #000;
+    --COLOR_CHAT_TEXT_GUESSED: #56CE27;
+    --COLOR_CHAT_TEXT_CLOSE: #e2cb00;
+    --COLOR_CHAT_TEXT_DRAWING: #3975CE;
+    --COLOR_CHAT_TEXT_JOIN: #56CE27;
+    --COLOR_CHAT_TEXT_LEAVE: #CE4F0A;
+    --COLOR_CHAT_TEXT_OWNER: #ffa844;
+    --COLOR_CHAT_TEXT_GUESSCHAT: #7dad3f;
+    --COLOR_CHAT_BG_BASE: #fff;
+    --COLOR_CHAT_BG_ALT: #ececec;
+    --COLOR_CHAT_SCROLLBAR: #7e7e7e;
+    --COLOR_CHAT_SCROLLBAR_THUMB: #c7c7c7;
+    --COLOR_CHAT_BG_GUESSED_BASE: #e7ffdf;
+    --COLOR_CHAT_BG_GUESSED_ALT: #cfffbd;
+    --COLOR_CHAT_INPUT_COUNT: #000;
+    --COLOR_PLAYER_TEXT_BASE: #000;
+    --COLOR_PLAYER_ME: #4998ff;
+    --COLOR_PLAYER_ME_GUESSED: #0048b5;
+    --COLOR_PLAYER_BG_BASE: #fff;
+    --COLOR_PLAYER_BG_ALT: #ececec;
+    --COLOR_PLAYER_BG_GUESSED_BASE: #5bdd4a;
+    --COLOR_PLAYER_BG_GUESSED_ALT: #48c737;
+}
+button {
+    font: inherit;
+    font-size: inherit;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    border: 0;
+    font-weight: 800;
+    color: var(--COLOR_PANEL_TEXT);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-decoration: none;
+}
+input, select, textarea {
+    font: inherit;
+    flex: 0 0 auto;
+    height: 32px;
+    width: 100%;
+    color: var(--COLOR_INPUT_TEXT);
+    background-color: var(--COLOR_INPUT_BG);
+    border: 1px solid var(--COLOR_INPUT_BORDER);
+    border-radius: var(--BORDER_RADIUS);
+    transition: background-color .12s ease,border-color .12s ease;
+}
+table{
+    border: 5px solid black;
+}
+th, td {
+  border-spacing:10px;
+  padding:5px;
+}
+
+#home {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#home .logo-big {
+    margin-top: 25px;
+    margin-bottom: 40px;
+}
+#home .logo-small-corner {
+    float: left;
+}
+
+#home .panels {
+    display: flex;
+    width: 100%;
+}
+#home .panel-left {
+    margin-right: 8px;
+    flex: 1 1 50%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    box-sizing: inherit;
+}
+#home .panel {
+    flex: 0 0 auto;
+    width: 400px;
+    background-color: var(--COLOR_PANEL_BG);
+    border-radius: var(--BORDER_RADIUS);
+    padding: 15px;
+    box-sizing: inherit;
+}
+#home .panel-right {
+    margin-left: 8px;
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: inherit;
+}
+#home .button-play {
+    background-color: #53e237;
+    text-shadow: 2px 2px 0 #0000002b;
+    transition: background-color 80ms;
+    border-radius: var(--BORDER_RADIUS);
+    font-size: 2em;
+    height: 54px;
+    width: 100%;
+    margin-top: 10px;
+}
+#home .container-name {
+    display: flex;
+    flex-direction: row;
+}
+#home input {
+    height: 34px;
+    flex: 1 1 auto;
+    padding: 2px 10px;
+    font-weight: 700;
+    box-sizing: inherit;
+}
+
