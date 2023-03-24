@@ -56,6 +56,10 @@
     --COLOR_PLAYER_BG_GUESSED_BASE: #5bdd4a;
     --COLOR_PLAYER_BG_GUESSED_ALT: #48c737;
 }
+body {
+    background-color: #e6d8b7;
+}
+
 button {
     font: inherit;
     font-size: inherit;
@@ -85,9 +89,20 @@ input, select, textarea {
 table{
     border: 5px solid black;
 }
-th, td {
-  border-spacing:10px;
-  padding:5px;
+td {
+    line-height: 0px;
+    min-width: 44px;
+    max-width: 54px;
+    min-height: 44px;
+    max-height: 54px;
+    padding:5px;
+    border-radius: 100px;
+}
+td:hover {
+    background-color: #413d3d;
+}
+#home img{
+    margin: 2px;
 }
 
 #home {
@@ -101,8 +116,8 @@ th, td {
     margin-top: 25px;
     margin-bottom: 40px;
 }
-#home .logo-small-corner {
-    float: left;
+#home .logo-small {
+    height: 4rem;
 }
 
 #home .panels {
