@@ -16,12 +16,14 @@
     <div class ="panels">
       <div class="panel-left"></div>
       <div class="panel">
-        <div class="container-name">
-          <input class="input-name" type="text" placeholder="Enter your name" maxlength="21" data-translate="placeholder">
-        </div>
-        <button class="button-play">
-          <span data-translate="text">Play!</span>
-        </button>
+        <form onsubmit="return play()">
+          <div class="container-name">
+            <input class="input-name" id="nickname" type="text" placeholder="Enter your name" maxlength="21" data-translate="placeholder" required>
+          </div>
+          <button class="button-play" type="submit">
+            <span>Play!</span>
+          </button>
+        </form>
       </div>
       <div class="panel-right">
       </div>
