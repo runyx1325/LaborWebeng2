@@ -89,7 +89,7 @@ input, select, textarea {
 table{
     border: 5px solid black;
 }
-td {
+td,th {
     line-height: 0px;
     min-width: 44px;
     max-width: 54px;

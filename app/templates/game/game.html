@@ -3,163 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Gameboard</title>
-    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div id="home">
         <div class="left-side">
             <div>
               <a href="./">
-                <img class ="logo-small" src="../resources/img/logo.png">
+                <img class ="logo-small" src="{{ url_for('static', filename='images/logo.png') }}">
               </a>
             </div>
         </div>
         <div class="board">
+            
+            {% set row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] %}
+            {% set row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22'] %}
+            {% set row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
+            {% set row3 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
+            {% set row4 = ['10', '00', '00', '00', '00', '20', '00', '00', '00', '00', '00'] %}
+            {% set row5 = ['00', '10', '10', '10', '10', '  ', '30', '30', '30', '30', '00'] %}
+            {% set row6 = ['00', '00', '00', '00', '00', '30', '00', '00', '00', '00', '30'] %}
+            {% set row7 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
+            {% set row8 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
+            {% set row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] %}
+            {% set row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] %}
+            {% set gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]%}
             <table>
-            <tr>
-                <td><img src="../resources/board/yellow/ye_ye.svg"></td>
-                <td><img src="../resources/board/yellow/ye_ye.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/green/gr_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/green/gr_gr.svg"></td>
-                <td><img src="../resources/board/green/gr_gr.svg"></td>
-            </tr>
-            <tr>
-                <td><img src="../resources/board/yellow/ye_ye.svg"></td>
-                <td><img src="../resources/board/yellow/ye_ye.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/green/gr_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/green/gr_gr.svg"></td>
-                <td><img src="../resources/board/green/gr_gr.svg"></td>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/green/gr_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/green/gr_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td><img src="../resources/board/yellow/ye_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/green/gr_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-            </tr>
-            <tr>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/yellow/ye_nu.svg"></td>
-                <td><img src="../resources/board/yellow/ye_nu.svg"></td>
-                <td><img src="../resources/board/yellow/ye_nu.svg"></td>
-                <td><img src="../resources/board/yellow/ye_nu.svg"></td>
-                <th></th>
-                <td><img src="../resources/board/red/re_nu.svg"></td>
-                <td><img src="../resources/board/red/re_nu.svg"></td>
-                <td><img src="../resources/board/red/re_nu.svg"></td>
-                <td><img src="../resources/board/red/re_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-            </tr>
-            <tr>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/blue/bl_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/red/re_nu.svg"></td>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/blue/bl_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/blue/bl_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td><img src="../resources/board/blue/bl_bl.svg"></td>
-                <td><img src="../resources/board/blue/bl_bl.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/blue/bl_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/red/re_re.svg"></td>
-                <td><img src="../resources/board/red/re_re.svg"></td>
-            </tr>
-            <tr>
-                <td><img src="../resources/board/blue/bl_bl.svg"></td>
-                <td><img src="../resources/board/blue/bl_bl.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/blue/bl_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <td><img src="../resources/board/normal/nu_nu.svg"></td>
-                <th></th>
-                <th></th>
-                <td><img src="../resources/board/red/re_re.svg"></td>
-                <td><img src="../resources/board/red/re_re.svg"></td>
-            </tr>
-        </table>
+                {% for row in gameboard %}
+                <tr>
+                    {% for field in row %}
+                        {% if field == '  ' %}
+                            <th></th>
+                        {% else %}
+                            <td><img src="{{ url_for('static', filename='images/board/' ~ field ~ '.svg') }}"></td>
+                        {% endif%}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
         </div>
         <div class="right-side">
 
