@@ -11,6 +11,7 @@ class Mensch():
         Gameboard(self.player, self.playerDict, self.gameboard)
 
     def startingGameboard(self):
+        
         row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] 
         row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22']
         row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] 
@@ -25,10 +26,15 @@ class Mensch():
         gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
         return gameboard
 
+class Felder():
+    def __init__(self) -> None:
+        self.id = id #bekommt jedes Feld und ist nicht die aktuelle Position für eine Figur
+        self.color = color #ist eine Zahl für die Farbe des äußeren Rings
+
 class Player():
     def __init__(self, nickname, color ):
         self.nickname = nickname
-        self.color = color
+        self.color = color #kann integer sein für die entsprechende Farbe
         self.team = {}
         i = 1
         for i in range(4):
@@ -59,8 +65,8 @@ class Player():
 
 class Figure():
     def __init__(self, color, id):
-        self.id = id
-        self.color = color
+        self.id = id #1, 2, 3, 4 mehr ids gibts nicht pro Team
+        self.color = color #ist eine Zahl die für die Farbe innerhalb des Kreises verantwortlich ist
         self.home = True
         self.finish = False
         self.position = 0
