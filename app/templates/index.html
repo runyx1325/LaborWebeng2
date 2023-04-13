@@ -1,56 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Start</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="{{ url_for('static', filename='js/script.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
-<body>
-<script type="text/javascript">
-  function joinroom(){
-    console.log("btn clicked")
-    var nickname = document.getElementById("nickname").value;
-    socket.emit('join', {nickname: nickname, room : 'room'})
-  }
-  var socket = io.connect('localhost:5000');
-  socket.on('connect', function() {
-    socket.emit('my event', {data: 'I\'m connected!'});
-  });
-  socket.on('joined', function(data) {
-    console.log(data['template'])
-    var template = data['template'];
-    fetch(template)
-      .then(response => response.text())
-      .then(html => {
-        document.documentElement.innerHTML = html;
-    });
-  });
-  
-</script>
-  <div id="home">
-    <div class ="logo-big">
-      <a href="./start">
-        <img src="{{ url_for('static', filename='images/logo.png')}}">
-      </a>
-    </div>
-    <div class ="panels">
-      <div class="panel-left"></div>
-      <div class="panel">
-        <form onsubmit="joinroom()">
-          <div class="container-name">
-            <input class="input-name" id="nickname" type="text" placeholder="Enter your name" maxlength="21" data-translate="placeholder" required>
-          </div>
-            <button id="playbtn" class="button-play" type="submit">
-            <span>Play!</span>
-          </button>
-        </form>
-      </div>
-      <div class="panel-right">
-      </div>
-    </div>
-    <div class="bottom"></div>
+{% extends 'base.html' %}
+{% block content%}
+
+<div id="home">
+  <div class ="logo-big">
+    <a href="./">
+      <img src="{{ url_for('static', filename='images/logo.png')}}">
+    </a>
   </div>
-</body>
-</html>
+  <div class ="panels">
+    <div class="panel-left"></div>
+    <div class="panel">
+      <form method="POST">
+        <div class="container-input">
+          <input class="input-nickname" id="nickname" type="text" placeholder="Enter your name" name="nickname" maxlength="21" data-translate="placeholder" value="{{nickname}}">
+        </div>
+        <div class="join">
+          <div class="container-input">
+            <input class="input-code" type="text" placeholder="Room Code" name="code" value="{{code}}" />
+          </div>
+          <button type="submit" name="join" class="button-join">Play!</button>
+        </div>
+        <button type="submit" name="create" class="button-create">Create Private Game</button>
+      </form>
+    </div>
+    <div class="panel-right">
+    </div>
+  </div>
+  <div class="bottom"></div>
+  {% if error %}
+    <ul>
+      <li>{{error}}</li>
+    </ul>
+  {% endif %}
+</div>
+
+{% endblock %}

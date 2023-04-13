@@ -33,6 +33,7 @@ class Felder():
 
 class Player():
     def __init__(self, nickname, color ):
+        self.socket = socketid #zuordnung client/socket mit nickname
         self.nickname = nickname
         self.color = color #kann integer sein für die entsprechende Farbe
         self.team = {}

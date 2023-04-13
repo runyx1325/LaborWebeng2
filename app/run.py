@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
-import game
+import random
+from string import ascii_uppercase
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -10,70 +11,84 @@ MAX_CLIENTS_PER_ROOM = 4
 room_clients = {}
 room_states = {}
 
-@app.route("/start")
-def start():
-    return render_template('index.html')
-  
+def generate_unique_code(length):
+    while True:
+        code = ""
+        for _ in range(length):
+            code += random.choice(ascii_uppercase)
+        if code not in room_clients:
+            break
+    return code
+
+@app.route("/", methods=["POST", "GET"])
+def home():
+    session.clear()
+    if request.method == "POST":
+        nickname = request.form.get("nickname")
+        code = request.form.get("code")
+        join = request.form.get("join", False)
+        create = request.form.get("create", False)
+
+        if not nickname:
+            #Wenn kein Name eingegeben wurde
+            return render_template("index.html", error="Please enter a nickname!", nickname=nickname, code=code)
+        if join != False and not code:
+            #Wenn auf Join geklickt wurde aber kein Raum Code eingegeben wurde
+            return render_template("index.html", error="Please enter a room code!", nickname=nickname, code=code)
+        
+        room = code
+        if create != False:
+            #wenn create eingegeben wurde
+            room = generate_unique_code(4)
+            room_clients[room] = {"members": 0, "clients": {}} #Maximal 4 Clients
+            room_states[room] = {"status": 1} #Geschlossen: 0 | Offen: 1 
+        elif code not in room_clients:
+            #wenn ein falscher raum code eingegeben wurde
+            return render_template("index.html", error="Room does not exist!", nickname=nickname, code=code)
+        
+        session["room"] = room
+        session["nickname"] = nickname
+        return redirect(url_for("game"))
+    
+    return render_template("index.html")
+
+@app.route("/game")
+def game():
+    room = session.get("room")
+    if room is None or session.get("nickname") is None or room not in room_clients:
+        return redirect(url_for("home"))
+    return render_template("game.html", room=room)
+
 @socketio.on('connect')
-def handle_connect():
-    print('Client connected!')
-
-@socketio.on('disconnect')
-def handle_disconnect():
-    print("Client disconnected!")
-
-@socketio.on('join')
-def handle_join(data):
-    print("---")
-    print(MAX_CLIENTS_PER_ROOM)
-    print("---")
-    nickname = data['nickname']
-    room = data['room']
+def connect():
+    room = session.get("room")
+    nickname = session.get("nickname")
+    if not room or not nickname:
+        return
     if room not in room_clients:
-        room_clients[room] = 0
-    if room_clients[room] >= MAX_CLIENTS_PER_ROOM:
-        emit('room_full', {'room': room})
-    else:
-        if room in room_states and room_states[room] == 'running':
-            emit('room_running', {'room': room})
-        else:
-            join_room(room)
-            room_clients[room] += 1
-            emit('joined', {'nickname': nickname, 'room': room, 'template': 'game.html'}, room=room)
-
+        leave_room(room)
+        return
     
-@socketio.on('leave')
-def handle_leave(data):
-    nickname = data['nickname']
-    room = data['room']
+    join_room(room)
+    send({"nickname": nickname}, to=room)
+    room_clients[room]["members"] += 1
+    print(f"{nickname} joined room {room}")
+
+@socketio.on("disconnect")
+def disconnect():
+    room = session.get("room")
+    nickname = session.get("nickname")
     leave_room(room)
-    room_clients[room] -= 1
-    if room_clients[room] == 0:
-        del room_clients[room]
-        del room_states[room]
-    emit('left', {'nickname': nickname, 'room': room}, room=room)
-    
 
+    if room in room_clients:
+        room_clients[room]["memebers"] -= 1
+        if room_clients[room]["mmebers"] <= 0:
+            del room_clients[room]
+            if room in room_states:
+                del room_states[room]
 
-
-    #data = request.get_json()
-    #print(data['data'])
-    #game = Mensch(data)
-
-    #emit('updateView', {'player' : id, 'position': }, broadcast = True)
-    
-    
-#socketio.on('dice')
-#def handleDice():
-
-
-
-    #emit()    
-
-#socketio.on('start')
-#def handleStart():
-    #emit()
-
-
+    send({"nickname": nickname}, to=room)
+    print(f"{nickname} has left the room {room}")
+      
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, debug=True)

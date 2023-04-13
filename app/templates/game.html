@@ -1,50 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Gameboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% extends 'base.html' %}
+{% block content%}
 <body>
-    <div id="home">
-        <div class="left-side">
-            <div>
-              <a href="./start">
-                <img class ="logo-small" src="{{ url_for('static', filename='images/logo.png') }}">
-              </a>
+    <div id="game">
+        <div class="panels">
+            <div class="panel-left">
+                <div>
+                <a href="./">
+                    <img class ="logo-small" src="{{ url_for('static', filename='images/logo.png') }}">
+                </a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="board">
+                    {% set row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] %}
+                    {% set row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22'] %}
+                    {% set row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
+                    {% set row3 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
+                    {% set row4 = ['10', '00', '00', '00', '00', '20', '00', '00', '00', '00', '00'] %}
+                    {% set row5 = ['00', '10', '10', '10', '10', '  ', '40', '40', '40', '40', '00'] %}
+                    {% set row6 = ['00', '00', '00', '00', '00', '30', '00', '00', '00', '00', '40'] %}
+                    {% set row7 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
+                    {% set row8 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
+                    {% set row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] %}
+                    {% set row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] %}
+                    {% set gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]%}
+                    <table>
+                        {% for row in gameboard %}
+                        <tr>
+                            {% for field in row %}
+                                {% if field == '  ' %}
+                                    <th></th>
+                                {% else %}
+                                    <td><img src="{{ url_for('static', filename='images/board/' ~ field ~ '.svg') }}"></td>
+                                {% endif%}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="panel-right">
+                <h2>Game: {{room}}</h2>
             </div>
         </div>
-        <div class="board">
-
-            {% set row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] %}
-            {% set row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22'] %}
-            {% set row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
-            {% set row3 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
-            {% set row4 = ['10', '00', '00', '00', '00', '20', '00', '00', '00', '00', '00'] %}
-            {% set row5 = ['00', '10', '10', '10', '10', '  ', '40', '40', '40', '40', '00'] %}
-            {% set row6 = ['00', '00', '00', '00', '00', '30', '00', '00', '00', '00', '40'] %}
-            {% set row7 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
-            {% set row8 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
-            {% set row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] %}
-            {% set row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] %}
-            {% set gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]%}
-            <table>
-                {% for row in gameboard %}
-                <tr>
-                    {% for field in row %}
-                        {% if field == '  ' %}
-                            <th></th>
-                        {% else %}
-                            <td><img src="{{ url_for('static', filename='images/board/' ~ field ~ '.svg') }}"></td>
-                        {% endif%}
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        <div class="right-side">
-
-        </div>
     </div>
+    
 </body>
-</html>
+
+<script type="text/javascript">
+    var socketio = io();
+</script>
+{% endblock %}
