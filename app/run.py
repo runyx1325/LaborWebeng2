@@ -81,8 +81,8 @@ def disconnect():
     leave_room(room)
 
     if room in room_clients:
-        room_clients[room]["memebers"] -= 1
-        if room_clients[room]["mmebers"] <= 0:
+        room_clients[room]["members"] -= 1
+        if room_clients[room]["members"] <= 0:
             del room_clients[room]
             if room in room_states:
                 del room_states[room]
