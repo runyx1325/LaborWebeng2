@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
-import random
+import random, json
 from string import ascii_uppercase
 
 app = Flask(__name__)
@@ -40,7 +40,8 @@ def home():
         if create != False:
             #wenn create eingegeben wurde
             room = generate_unique_code(4)
-            room_clients[room] = {"members": 0, "clients": {}} #Maximal 4 Clients
+            room_data = {"members": 0, "clients": {}}
+            room_clients[room] = json.dumps(room_data) #Maximal 4 Clients
             room_states[room] = {"status": 1} #Geschlossen: 0 | Offen: 1 
         elif code not in room_clients:
             #wenn ein falscher raum code eingegeben wurde
@@ -60,7 +61,7 @@ def game():
     return render_template("game.html", room=room)
 
 @socketio.on('connect')
-def connect():
+def connect(auth):
     room = session.get("room")
     nickname = session.get("nickname")
     if not room or not nickname:
@@ -71,24 +72,30 @@ def connect():
     
     join_room(room)
     send({"nickname": nickname}, to=room)
+    print(room_clients)
     room_clients[room]["members"] += 1
-    print(f"{nickname} joined room {room}")
+    sid = request.sid
+    session["sid"] = sid
+    room_clients[room]["clients"][sid] = nickname
+    print(f"{nickname} {sid} joined room {room}")
 
 @socketio.on("disconnect")
 def disconnect():
     room = session.get("room")
     nickname = session.get("nickname")
+    sid = session.get("sid")
     leave_room(room)
 
     if room in room_clients:
         room_clients[room]["members"] -= 1
+        del room_clients[room]["clients"][sid]
         if room_clients[room]["members"] <= 0:
             del room_clients[room]
             if room in room_states:
                 del room_states[room]
 
     send({"nickname": nickname}, to=room)
-    print(f"{nickname} has left the room {room}")
+    print(f"{nickname} {sid} has left the room {room}")
       
 if __name__ == '__main__':
     socketio.run(app, debug=True)
