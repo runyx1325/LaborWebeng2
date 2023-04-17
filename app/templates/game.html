@@ -49,5 +49,14 @@
 
 <script type="text/javascript">
     var socketio = io();
+
+socketio.on('send', data => {
+    try {
+        var obj = JSON.parse(data);
+        console.log(obj);
+    } catch(e) {
+        console.log('Data is not a JSON');
+    }
+})
 </script>
 {% endblock %}

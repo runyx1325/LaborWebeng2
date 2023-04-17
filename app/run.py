@@ -79,8 +79,7 @@ def connect(auth):
         return
     
     join_room(room)
-    #send({"nickname": nickname}, to=room)
-    print("---")
+    send({"nickname": nickname}, to=room)
     data = json.loads(room_clients[room])
     data["members"] += 1
     data["clients"][sid] = nickname
@@ -103,7 +102,7 @@ def disconnect():
             if room in room_states:
                 del room_states[room]
 
-    send({"nickname": nickname}, to=room)
+    
     print(f"{nickname} {sid} has left the room {room}")
       
 if __name__ == '__main__':
