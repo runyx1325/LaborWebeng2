@@ -47,6 +47,12 @@ def home():
             #wenn ein falscher raum code eingegeben wurde
             return render_template("index.html", error="Room does not exist!", nickname=nickname, code=code)
         
+        if join != False:
+            #wenn raum bereits voll ist
+            data = json.loads(room_clients[room])
+            if data["members"] >= 4:
+                return render_template("index.html", error="Room is closed!", nickname=nickname, code=code)
+        
         session["room"] = room
         session["nickname"] = nickname
         return redirect(url_for("game"))
@@ -64,6 +70,8 @@ def game():
 def connect(auth):
     room = session.get("room")
     nickname = session.get("nickname")
+    sid = request.sid
+    session["sid"] = sid
     if not room or not nickname:
         return
     if room not in room_clients:
@@ -71,13 +79,13 @@ def connect(auth):
         return
     
     join_room(room)
-    send({"nickname": nickname}, to=room)
-    print(room_clients)
-    room_clients[room]["members"] += 1
-    sid = request.sid
-    session["sid"] = sid
-    room_clients[room]["clients"][sid] = nickname
-    print(f"{nickname} {sid} joined room {room}")
+    #send({"nickname": nickname}, to=room)
+    print("---")
+    data = json.loads(room_clients[room])
+    data["members"] += 1
+    data["clients"][sid] = nickname
+    room_clients[room] = json.dumps(data)
+    print(f"Nickname: {nickname} (sid: {sid}) joined room: {room}")
 
 @socketio.on("disconnect")
 def disconnect():
@@ -87,9 +95,10 @@ def disconnect():
     leave_room(room)
 
     if room in room_clients:
-        room_clients[room]["members"] -= 1
-        del room_clients[room]["clients"][sid]
-        if room_clients[room]["members"] <= 0:
+        data = json.loads(room_clients[room])
+        data["members"] -= 1
+        del data["clients"][sid]
+        if data["members"] <= 0:
             del room_clients[room]
             if room in room_states:
                 del room_states[room]
