@@ -9,6 +9,11 @@
                     <img class ="logo-small" src="{{ url_for('static', filename='images/logo.png') }}">
                 </a>
                 </div>
+                {% if clients %}
+                    <div class="userlist">
+                        
+                    </div>
+                {% endif %}
             </div>
             <div class="panel">
                 <div class="board">
@@ -38,6 +43,11 @@
                         {% endfor %}
                     </table>
                 </div>
+                <div class="start">
+
+                </div>
+                <div class="start button">
+                </div>
             </div>
             <div class="panel-right">
                 <h2>Game: {{room}}</h2>
@@ -50,13 +60,21 @@
 <script type="text/javascript">
     var socketio = io();
 
-socketio.on('send', data => {
-    try {
-        var obj = JSON.parse(data);
-        console.log(obj);
-    } catch(e) {
-        console.log('Data is not a JSON');
+socketio.on('message', function(data) {
+    var obj = JSON.parse(data);
+    
+    if (obj.type == 'user_joined') {
+        //update room user list
+        console.log(obj.type);
+        var clients = [];
+        clients.push({sid: obj.sid, name: obj.type});
+        //nochmal nachdenken wo die Clients gespeichert werden sollen, vielleicht eher auf backend seite und einfach nur ein nickname übergeben wird damit man ihn irgendwie anzeigen kann im frontend
+        
+    } else if (obj.type == '') {
+        //do domething
+        console.log(obj.type);
     }
 })
+
 </script>
 {% endblock %}

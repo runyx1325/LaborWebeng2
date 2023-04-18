@@ -79,7 +79,8 @@ def connect(auth):
         return
     
     join_room(room)
-    send({"nickname": nickname}, to=room)
+    type = "user_joined"
+    send('{"type":"' + type + '", "nickname":"' + nickname + '"}', to=room)
     data = json.loads(room_clients[room])
     data["members"] += 1
     data["clients"][sid] = nickname
