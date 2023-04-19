@@ -63,9 +63,27 @@
 
 socketio.on('message', function(data) {
     var obj = JSON.parse(data);
+    console.log(data);
     
     if (obj.type == 'user_joined') {
         //user joined room, update view
+        var userList = document.getElementById("user-list");
+        userList.innerHTML = ""; //clear previous list items
+
+        for (var clientId in obj.client_list)
+        {
+            if (obj.client_list.hasOwnProperty(clientId)) {
+                var userName = obj.client_list[clientId];
+                var listItem = document.createElement("li");
+                var boldItem = document.createElement("b");
+                var textNode = document.createTextNode(userName);
+                listItem.appendChild(boldItem);
+                boldItem.appendChild(textNode);
+                userList.appendChild(listItem);
+            }
+        }
+    } else if (obj.type == 'user_left') {
+        //user left room, update view
         var userList = document.getElementById("user-list");
         userList.innerHTML = ""; //clear previous list items
 
