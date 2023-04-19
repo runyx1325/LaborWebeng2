@@ -191,8 +191,8 @@ td:hover {
     margin-right: 8px;
     flex: 1 1 15%;
     display: flex;
-    justify-content: center;
     box-sizing: inherit;
+    flex-direction: column;
 }
 #game .panel {
     flex: 0 0 auto;
@@ -210,4 +210,14 @@ td:hover {
 }
 #game .board {
     display: flex;
+}
+#game .logo {
+    display: block;
+}
+#game .user-list {
+    display: block;
+    margin-top: 2rem;
+}
+ul{
+    margin-bottom: 2rem;
 }

@@ -80,12 +80,15 @@ def connect(auth):
     
     join_room(room)
     type = "user_joined"
-    send('{"type":"' + type + '", "nickname":"' + nickname + '"}', to=room)
     data = json.loads(room_clients[room])
     data["members"] += 1
     data["clients"][sid] = nickname
+    client_list = json.dumps(data["clients"])
     room_clients[room] = json.dumps(data)
+    
     print(f"Nickname: {nickname} (sid: {sid}) joined room: {room}")
+    send('{"type":"' + type + '", "client_list":' + (client_list) + '}', to=room)
+
 
 @socketio.on("disconnect")
 def disconnect():

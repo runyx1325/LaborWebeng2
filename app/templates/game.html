@@ -4,16 +4,16 @@
     <div id="game">
         <div class="panels">
             <div class="panel-left">
-                <div>
+                <div class="logo">
                 <a href="./">
                     <img class ="logo-small" src="{{ url_for('static', filename='images/logo.png') }}">
                 </a>
                 </div>
-                {% if clients %}
-                    <div class="userlist">
-                        
-                    </div>
-                {% endif %}
+                <div class="user-list">
+                    <ul id="user-list" style="list-style: none;">
+                    </ul>
+                </div>
+                
             </div>
             <div class="panel">
                 <div class="board">
@@ -59,22 +59,29 @@
 
 <script type="text/javascript">
     var socketio = io();
+    var client = [];
 
 socketio.on('message', function(data) {
     var obj = JSON.parse(data);
     
     if (obj.type == 'user_joined') {
-        //update room user list
-        console.log(obj.type);
-        var clients = [];
-        clients.push({sid: obj.sid, name: obj.type});
-        //nochmal nachdenken wo die Clients gespeichert werden sollen, vielleicht eher auf backend seite und einfach nur ein nickname übergeben wird damit man ihn irgendwie anzeigen kann im frontend
-        
-    } else if (obj.type == '') {
-        //do domething
-        console.log(obj.type);
-    }
-})
+        //user joined room, update view
+        var userList = document.getElementById("user-list");
+        userList.innerHTML = ""; //clear previous list items
 
+        for (var clientId in obj.client_list)
+        {
+            if (obj.client_list.hasOwnProperty(clientId)) {
+                var userName = obj.client_list[clientId];
+                var listItem = document.createElement("li");
+                var boldItem = document.createElement("b");
+                var textNode = document.createTextNode(userName);
+                listItem.appendChild(boldItem);
+                boldItem.appendChild(textNode);
+                userList.appendChild(listItem);
+            }
+        }
+    }
+});
 </script>
 {% endblock %}
