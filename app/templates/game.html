@@ -36,7 +36,7 @@
                                 {% if field == '  ' %}
                                     <th></th>
                                 {% else %}
-                                    <td><img src="{{ url_for('static', filename='images/board/' ~ field ~ '.svg') }}"></td>
+                                    <td onclick="sendOnCellClick()"><img src="{{ url_for('static', filename='images/board/' ~ field ~ '.svg') }}"></td>
                                 {% endif%}
                             {% endfor %}
                         </tr>
@@ -101,5 +101,11 @@ socketio.on('message', function(data) {
         }
     }
 });
+
+function sendOnCellClick() {
+    console.log('room: {{room}} client: ' + socketio.id);
+    socketio.emit('table-cell-clicked', {key1: '{{room}}', key2: socketio.id});
+}
+
 </script>
 {% endblock %}
