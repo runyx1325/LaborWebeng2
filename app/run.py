@@ -117,6 +117,10 @@ def disconnect():
     
     print(room_clients)
     print(f"{nickname} {sid} has left the room {room}")
+
+@socketio.on('table-cell-clicked')
+def table_cell_clicked(data):
+    print('received: ', data)
       
 if __name__ == '__main__':
     socketio.run(app, debug=True)
