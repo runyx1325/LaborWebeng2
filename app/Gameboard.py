@@ -1,3 +1,4 @@
+
 class Gameboard():
     def __init__(self, player, playerList, startingGameboard):
         #Das Spielbrett enthält neben dem aktuellen Spielbrett immer die Spieleranzahl, sowie eine Liste aller Spieler.

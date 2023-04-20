@@ -1,5 +1,9 @@
+
+from Figure import Figure
+
+
 class Player():
-    def __init__(self, nickname, color ):
+    def __init__(self, socketid, nickname, color):
         self.socket = socketid #zuordnung client/socket mit nickname
         self.nickname = nickname
         self.color = color #kann integer sein für die entsprechende Farbe

@@ -1,15 +1,37 @@
-from game import Gameboard, Felder, Figure, Player 
+from flask import Flask, render_template, request, session, redirect, url_for
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
+import random, json
+from Gameboard import Gameboard
+from Figure import Figure
+from Player import Player
+from Felder import Felder
+
 
 
 class Mensch():
     def __init__(self, data):
-        self.player = data['player']
-        self.playerDict = {}
-        for player in data['playerList']:
-            self.playerDict['player'] = Player()
-        
+        data_room = json.loads(data)
+
+        #auslesen aller Schlüssel
+        self.player_sid = data_room['clients'].keys()
+        i = 1   # zuweisen der Farbe der Figur
+        playerlist = []
+        for key in self.player_sid:
+            #Nickname pro Schlüssel auslesen
+            self.player_nickname = data_room['clients'][key]
+            playerlist.append(Player(key, self.player_nickname, i))
+            i += 1
+
+        #1.Spieler auslesen
+        player = list(data_room['clients'].keys())[0]
         self.gameboard = self.startingGameboard()
-        Gameboard(self.player, self.playerDict, self.gameboard)
+
+        # Gameboard erstellen
+        Gameboard(player,playerlist, self.gameboard)
+
+
+        #Start game
+        #Mensch.start_play(data_room)
 
     def startingGameboard(self):
         
@@ -28,4 +50,6 @@ class Mensch():
         return gameboard
     
     def start_play(self, data):
+        data_room = json.loads(data)
+        print(data_room)
         pass
