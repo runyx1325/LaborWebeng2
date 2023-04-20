@@ -1,3 +1,4 @@
+from game import Gameboard, Felder, Figure, Player 
 
 
 class Mensch():
@@ -25,3 +26,6 @@ class Mensch():
         row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] 
         gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
         return gameboard
+    
+    def start_play(self, data):
+        pass
