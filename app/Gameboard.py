@@ -9,6 +9,7 @@ class Gameboard():
         self.gameboard = startingGameboard
         self.gameStatus = False
         self.gameFinished = False
+        self.playerCount = len(playerList)
 
     def start(self):
         self.gameStatus = True
@@ -18,12 +19,13 @@ class Gameboard():
             for i in self.playerList:
                 print("Spieler: "+ i + "ist dran!")
                 #spieler darf würfeln 
+                
                 #spieler darf person bewegen
                 #spielbrett muss sich aktualisieren
                 #nächster Spieler ist dran
             
             #TODO
-            if i == self.number_of_player and self.gameStatus == True:
+            if i == self.playerCount and self.gameStatus == True:
                 i = 0
             if self.checkGameStatus:
                 #Game finished
