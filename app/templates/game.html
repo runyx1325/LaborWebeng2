@@ -59,6 +59,7 @@
 
 socketio.on('message', function(data) {
     var obj = JSON.parse(data);
+    client_list = obj.client_list;
     console.log(data);
     
     if (obj.type == 'user_joined') {
@@ -100,8 +101,8 @@ socketio.on('message', function(data) {
 
 
 function startRound() {
-    console.log('room: {{room}} client: ' + socketio.id);
-    socketio.emit('start-round', {key1: '{{room}}', key2: socketio.id})
+    console.log('room: {{room}} client: ' + socketio.id + 'clients:' + client_list);
+    socketio.emit('start-round', {key1: '{{room}}', key2: socketio.id, clients: client_list})
 }
 
 function sendOnCellClick() {
