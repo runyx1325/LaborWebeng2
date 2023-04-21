@@ -122,12 +122,12 @@ def disconnect():
 @socketio.on('start-round')
 def start_round(data):
     #data = json.loads(data)
-    print(type(data))
-    print(data)
-
+    
+    data_room = json.dumps(data['clients'])
     #test Lea
-    # if Mensch(room_clients[room]):
-    #     pass
+    if Mensch(data_room):
+        print("Klappt")
+        
     print('start round in room: ', data)
 
 @socketio.on('table-cell-clicked')
