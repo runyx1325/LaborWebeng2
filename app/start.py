@@ -10,15 +10,17 @@ from Felder import Felder
 
 class Mensch():
     def __init__(self, data):
+        print(type(data))
+        print(data)
         data_room = json.loads(data)
 
         #auslesen aller Schlüssel
-        self.player_sid = data_room['clients'].keys()
+        self.player_sid = data_room.keys()
         i = 1   # zuweisen der Farbe der Figur
         playerlist = []
         for key in self.player_sid:
             #Nickname pro Schlüssel auslesen
-            self.player_nickname = data_room['clients'][key]
+            self.player_nickname = data_room[key]
             playerlist.append(Player(key, self.player_nickname, i))
             i += 1
 
