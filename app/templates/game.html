@@ -44,10 +44,8 @@
                     </table>
                 </div>
                 <div class="start">
-
                 </div>
-                <div class="start button">
-                </div>
+                <button class="start-button" onclick="startRound()">Start Game</button>
             </div>
             <div class="panel-right">
                 <h2>Game: {{room}}</h2>
@@ -102,10 +100,17 @@ socketio.on('message', function(data) {
     }
 });
 
+
+function startRound() {
+    console.log('room: {{room}} client: ' + socketio.id);
+    socketio.emit('start-round', {key1: '{{room}}', key2: socketio.id})
+}
+
 function sendOnCellClick() {
     console.log('room: {{room}} client: ' + socketio.id);
     socketio.emit('table-cell-clicked', {key1: '{{room}}', key2: socketio.id});
 }
+
 
 </script>
 {% endblock %}
