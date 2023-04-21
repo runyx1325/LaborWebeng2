@@ -23,12 +23,12 @@ class Mensch():
             i += 1
 
         #1.Spieler auslesen
-        player = list(data_room['clients'].keys())[0]
+        #player = list(data_room['clients'].keys())[0]
         self.gameboard = self.startingGameboard()
 
         # Gameboard erstellen
-        Gameboard(player,playerlist, self.gameboard)
-
+        Gameboard(playerlist, self.gameboard)
+        return True
 
         #Start game
         #Mensch.start_play(data_room)

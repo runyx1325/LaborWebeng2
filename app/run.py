@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 import random, json
 from string import ascii_uppercase
+from start import Mensch
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -121,6 +122,13 @@ def disconnect():
 
 @socketio.on('start-round')
 def start_round(data):
+    #data = json.loads(data)
+    print(type(data))
+    print(data)
+
+    #test Lea
+    # if Mensch(room_clients[room]):
+    #     pass
     print('start round in room: ', data)
 
 @socketio.on('table-cell-clicked')

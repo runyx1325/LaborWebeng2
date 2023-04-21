@@ -1,9 +1,10 @@
 
 class Gameboard():
-    def __init__(self, player, playerList, startingGameboard):
+    def __init__(self, playerList, startingGameboard):
         #Das Spielbrett enthält neben dem aktuellen Spielbrett immer die Spieleranzahl, sowie eine Liste aller Spieler.
         #Das Spiel weiß immer, wer gerade dran ist und wer der nächste ist
-        self.number_of_player = player
+        
+        #self.number_of_player = player
         self.playerList = playerList
         self.gameboard = startingGameboard
         self.gameStatus = False
@@ -21,6 +22,7 @@ class Gameboard():
                 #spielbrett muss sich aktualisieren
                 #nächster Spieler ist dran
             
+            #TODO
             if i == self.number_of_player and self.gameStatus == True:
                 i = 0
             if self.checkGameStatus:
