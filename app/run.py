@@ -127,6 +127,15 @@ def start_round(data):
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
     game1 = Mensch(data_clients)
+    #game1.start() return sid wer dran ist
+    #client event dice(sid) drückt button
+    #zahl = random
+    #show zahl beim client
+    #wähle Spieler aus
+    #dann schicken wir infos an lea (sid, team, figure id, zahl, startfeld)
+    #Zugzahl modulo 4 = Spieler
+    
+
         
     print(data['user'] + 'started round in room: '+ data['room'])
 
