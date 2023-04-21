@@ -137,7 +137,7 @@ def start_round(data):
     
 
         
-    print(data['user'] + 'started round in room: '+ data['room'])
+    print(data['user'] + ' started round in room: '+ data['room'])
 
 @socketio.on('table-cell-clicked')
 def table_cell_clicked(data):

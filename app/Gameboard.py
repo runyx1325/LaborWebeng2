@@ -21,7 +21,7 @@ class Gameboard():
             i = 0
             for i in range(self.playerCount):
                 print(type(self.playerList))
-                print("Spieler: " ,i ,"ist dran!")
+                print("Spieler: ", i ,"ist dran!")
                 #spieler darf würfeln 
                 
                 #spieler darf person bewegen
