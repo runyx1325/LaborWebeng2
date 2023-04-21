@@ -155,6 +155,10 @@ td:hover {
     height: 40px;
     font-weight: 700;
     margin-top: 10px;
+    transition: 150ms ease-in-out;
+}
+#home .button-create:hover {
+    background-color: #1469b8;
 }
 #home .button-join {
     background-color: #53e237;
@@ -165,6 +169,10 @@ td:hover {
     height: 54px;
     width: 100%;
     margin-top: 10px;
+    transition: 150ms ease-in-out;
+}
+#home .button-join:hover {
+    background-color: #33b319;
 }
 
 #home .container-input {
@@ -239,4 +247,9 @@ ul{
     background-color: #53e237;
     border-radius: var(--BORDER_RADIUS);
     text-shadow: 2px 2px 0 #0000002b;
+    transition: 150ms ease-in-out;
+}
+
+#game .start-button:hover {
+    background-color: #33b319;
 }
