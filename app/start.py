@@ -31,7 +31,7 @@ class Mensch():
         #return True
 
         #Start game
-        Gameboard.start()
+        #Gameboard.start()
 
     def startingGameboard(self):
         
