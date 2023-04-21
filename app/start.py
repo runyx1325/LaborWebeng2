@@ -13,12 +13,12 @@ class Mensch():
         data_room = json.loads(data)
 
         #auslesen aller Schlüssel
-        self.player_sid = data_room['clients'].keys()
+        self.player_sid = data_room.keys()
         i = 1   # zuweisen der Farbe der Figur
         playerlist = []
         for key in self.player_sid:
             #Nickname pro Schlüssel auslesen
-            self.player_nickname = data_room['clients'][key]
+            self.player_nickname = data_room[key]
             playerlist.append(Player(key, self.player_nickname, i))
             i += 1
 
@@ -27,11 +27,11 @@ class Mensch():
         self.gameboard = self.startingGameboard()
 
         # Gameboard erstellen
-        Gameboard(playerlist, self.gameboard)
-        return True
+        gameboard = Gameboard(playerlist, self.gameboard)
+        #return True
 
         #Start game
-        #Mensch.start_play(data_room)
+        Gameboard.start()
 
     def startingGameboard(self):
         
