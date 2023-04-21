@@ -53,6 +53,8 @@ def home():
             data = json.loads(room_clients[room])
             if data["members"] >= 4:
                 return render_template("index.html", error="Room is closed! Limit of 4 players is reached.", nickname=nickname, code=code)
+            elif room_states[room] == 0:
+                return render_template("index.html", error="Room is closed! Game is already started.", nickname=nickname, code=code)
         
         session["room"] = room
         session["nickname"] = nickname
@@ -86,7 +88,7 @@ def connect(auth):
     data["clients"][sid] = nickname
     client_list = json.dumps(data["clients"])
     room_clients[room] = json.dumps(data)
-    
+        
     print(f"Nickname: {nickname} (sid: {sid}) joined room: {room}")
     send('{"type":"' + type + '", "client_list":' + (client_list) + '}', to=room)
 
@@ -121,14 +123,12 @@ def disconnect():
 
 @socketio.on('start-round')
 def start_round(data):
-    #data = json.loads(data)
-    
-    data_room = json.dumps(data['clients'])
-    #test Lea
-    if Mensch(data_room):
-        print("Klappt")
+    room = data['room']
+    data_clients = json.dumps(data['clients'])
+    room_states[room] = 0
+    game1 = Mensch(data_clients)
         
-    print('start round in room: ', data)
+    print(data['user'] + 'started round in room: '+ data['room'])
 
 @socketio.on('table-cell-clicked')
 def table_cell_clicked(data):
