@@ -97,9 +97,10 @@ td,th {
     max-height: 54px;
     padding:5px;
     border-radius: 100px;
+    transition: 150ms ease-in-out;
 }
 td:hover {
-    background-color: #413d3d;
+    background-color: #c99355;
 }
 #home img{
     margin: 2px;
