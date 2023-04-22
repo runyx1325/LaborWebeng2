@@ -17,7 +17,7 @@
         </div>
         <div class="join">
           <div class="container-input">
-            <input class="input-code" type="text" placeholder="Room Code" name="code" value="{{code}}" />
+            <input class="input-code" type="text" placeholder="Room Code" pattern="[A-Z]{4}" maxlength="4" title="only uppercase letters are allowed" name="code" value="{{code}}" />
           </div>
           <button type="submit" name="join" class="button-join">Play!</button>
         </div>
