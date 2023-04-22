@@ -1,4 +1,4 @@
-
+from Player import Player
 class Gameboard():
     def __init__(self, playerList, startingGameboard):
         #Das Spielbrett enthält neben dem aktuellen Spielbrett immer die Spieleranzahl, sowie eine Liste aller Spieler.
@@ -11,19 +11,23 @@ class Gameboard():
         self.gameFinished = False
         self.playerCount = len(playerList)
 
+        self.start()
+
     def start(self):
+        print("klappt")
         self.gameStatus = True
         #iteration over playerList till the game is finished
         while self.gameStatus:
             i = 0
-            for i in self.playerList:
-                print("Spieler: "+ i + "ist dran!")
+            for i in range(self.playerCount):
+                print(type(self.playerList))
+                print("Spieler: ", i ,"ist dran!")
                 #spieler darf würfeln 
                 
                 #spieler darf person bewegen
                 #spielbrett muss sich aktualisieren
                 #nächster Spieler ist dran
-            
+            self.gameStatus =False
             #TODO
             if i == self.playerCount and self.gameStatus == True:
                 i = 0
