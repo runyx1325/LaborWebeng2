@@ -116,6 +116,10 @@ td:hover {
 #home .logo-big {
     margin-top: 25px;
     margin-bottom: 40px;
+    transition: 150ms ease-in-out;
+}
+#home .logo-big:hover {
+    filter: brightness(70%);
 }
 
 #home .panels {
@@ -189,6 +193,10 @@ td:hover {
 }
 #game .logo-small {
     height: 4rem;
+    transition: 150ms ease-in-out;
+}
+#game .logo-small:hover {
+    filter: brightness(70%);
 }
 #game .panels {
     display: flex;
