@@ -1,12 +1,17 @@
 from Player import Player
+from Field import Field
+
 class Gameboard():
-    def __init__(self, playerList, startingGameboard):
-        #Das Spielbrett enthält neben dem aktuellen Spielbrett immer die Spieleranzahl, sowie eine Liste aller Spieler.
+    def __init__(self, playerList):
+        #playerlist := list of player objects
+        #gameboard := at the beginning get the startinggameboard
+        #gamestatus := True if game is running
+        #gamefinished := True if game is finished
+        #playerCount := number of players
         #Das Spiel weiß immer, wer gerade dran ist und wer der nächste ist
         
-        #self.number_of_player = player
         self.playerList = playerList
-        self.gameboard = startingGameboard
+        self.gameboard = self.startingGameboard()
         self.gameStatus = False
         self.gameFinished = False
         self.playerCount = len(playerList)
@@ -14,7 +19,7 @@ class Gameboard():
         self.start()
 
     def start(self):
-        print("klappt")
+        print("Gameboard start")
         self.gameStatus = True
         #iteration over playerList till the game is finished
         while self.gameStatus:
@@ -34,6 +39,27 @@ class Gameboard():
             if self.checkGameStatus:
                 #Game finished
                 pass
+
+    def startingGameboard(self):
+        #creates gameboard at the beginning
+        #all figures are at home
+        row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] 
+        row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22']
+        row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] 
+        row3 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] 
+        row4 = ['10', '00', '00', '00', '00', '20', '00', '00', '00', '00', '00'] 
+        row5 = ['00', '10', '10', '10', '10', '  ', '40', '40', '40', '40', '00'] 
+        row6 = ['00', '00', '00', '00', '00', '30', '00', '00', '00', '00', '40'] 
+        row7 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] 
+        row8 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] 
+        row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] 
+        row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] 
+        gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
+        #field id, outer circle color, inner circle color
+        Field()
+
+        print("Gameboard created")
+        return gameboard
 
     def checkGameStatus(self):
         for player in self.playerList:
