@@ -4,7 +4,7 @@ import random, json
 from Gameboard import Gameboard
 from Figure import Figure
 from Player import Player
-from Felder import Felder
+from Field import Field
 
 
 
