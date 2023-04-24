@@ -10,23 +10,32 @@ from Felder import Felder
 
 class Mensch():
     def __init__(self, data):
-        data_room = json.loads(data)
+        #What is happening in __init__?
+        #...
 
-        #auslesen aller Schlüssel
+        data_room = json.loads(data)
+        #data_room is a dict with all sids and usernames in the room
+
+        #save keys (sid) of data_room dict
         self.player_sid = data_room.keys()
-        i = 1   # zuweisen der Farbe der Figur
-        playerlist = []
+        
+        # color of Figure
+        i = 1
+        #list of player objects
+        playerlist = [] 
         for key in self.player_sid:
-            #Nickname pro Schlüssel auslesen
+            #save nickname from data_room dict
             self.player_nickname = data_room[key]
             playerlist.append(Player(key, self.player_nickname, i))
             i += 1
-
+        
+        
         #1.Spieler auslesen
         #player = list(data_room['clients'].keys())[0]
         self.gameboard = self.startingGameboard()
 
-        # Gameboard erstellen
+        #Create Gameboard
+        #playerlist := list with 
         gameboard = Gameboard(playerlist, self.gameboard)
         #return True
 
@@ -34,7 +43,8 @@ class Mensch():
         #Gameboard.start()
 
     def startingGameboard(self):
-        
+        #creates gameboard at the beginning
+        #all figures are at home
         row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] 
         row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22']
         row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] 
@@ -47,6 +57,7 @@ class Mensch():
         row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] 
         row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] 
         gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
+        print("Gameboard created")
         return gameboard
     
     def start_play(self, data):
