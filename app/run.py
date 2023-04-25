@@ -127,6 +127,21 @@ def start_round(data):
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
     game1 = Mensch(data_clients)
+    type="gameboard"
+    row0 = []
+    row1 = []
+    row2 = []
+    row3 = []
+    row4 = []
+    row5 = []
+    row6 = []
+    row7 = []
+    row8 = []
+    row9 = []
+    row10= []
+    gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
+    print("Gameboard update")
+    send('{"type":"' + type + '}', to=room)
     #game1.start() return sid wer dran ist
     #client event dice(sid) drückt button
     #zahl = random

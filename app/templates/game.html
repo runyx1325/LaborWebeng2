@@ -17,7 +17,7 @@
                 
             </div>
             <div class="panel">
-                <div class="board">
+                <div class="board" id="gameboard">
                     {% set row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] %}
                     {% set row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22'] %}
                     {% set row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
@@ -97,6 +97,10 @@ socketio.on('message', function(data) {
                 userList.appendChild(listItem);
             }
         }
+    } else if (obj.type == 'gameboard') {
+        console.log("test")
+        //var gameboard = {{gameboard}};
+        //console.log(gameboard);
     }
 });
 

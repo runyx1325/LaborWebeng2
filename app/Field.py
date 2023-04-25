@@ -11,9 +11,10 @@ class Field():
         else:
             self.color = color
             self.onfield = 0
+            self.name = str(self.color)+str(self.onfield)
 
     def __str__(self):
-        return (str(self.color)+str(self.onfield))
+        return self.name
 
     def figureOnField(self, color):
         self.onfield = color
@@ -27,4 +28,7 @@ class Field():
     @property
     def get_onfield(self):
         return self.onfield
+    @property
+    def get_name(self):
+        return self.name
    
