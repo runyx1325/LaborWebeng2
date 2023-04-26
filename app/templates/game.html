@@ -128,6 +128,10 @@ socketio.on('message', function(data) {
 
 
 function startRound() {
+    /*if(Object.keys(client_list).length < 2) {
+        alert("Can't start round with less than two players");
+        return;
+    }*/
     console.log('room: {{room}} user: ' + socketio.id + 'clients:' + client_list);
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
     var button = document.getElementById("start-button");

@@ -22,7 +22,7 @@ class Mensch():
         # color of Figure
         i = 1
         #list of player objects
-        playerlist = [] 
+        playerlist = []
         for key in self.player_sid:
             #save nickname from data_room dict
             self.player_nickname = data_room[key]
