@@ -111,11 +111,11 @@ socketio.on('message', function(data) {
                 var row = document.createElement("tr");
                 tbody.appendChild(row);
             }
-            var cell = document.createElement("td");
             var content = gameboardList[i];
             if (content === "  ") {
-                cell.innerHTML = "<th></th>";
+                var cell = document.createElement("th");
             } else {
+                var cell = document.createElement("td");
                 cell.setAttribute('onclick', 'sendOnCellClick()');
                 var img = document.createElement('img');
                 img.setAttribute('src', '{{ url_for('static', filename='images/board/') }}'+ content +'.svg');
