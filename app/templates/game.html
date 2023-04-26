@@ -48,7 +48,7 @@
                         
                     </table>
                 </div>
-                <button class="start-button" onclick="startRound()">Start Game</button>
+                <button class="start-button" id="start-button" onclick="startRound()">Start Game</button>
             </div>
             <div class="panel-right">
                 <h2>Game: {{room}}</h2>
@@ -129,7 +129,9 @@ socketio.on('message', function(data) {
 
 function startRound() {
     console.log('room: {{room}} user: ' + socketio.id + 'clients:' + client_list);
-    socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list})
+    socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
+    var button = document.getElementById("start-button");
+    button.style.display = "none";
 }
 
 function sendOnCellClick() {
