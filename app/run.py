@@ -104,10 +104,7 @@ def disconnect():
     
     if room in room_clients:
         data = json.loads(room_clients[room])
-        print(data["members"])
         data["members"] -= 1
-        print(data["members"])
-        print(data["clients"][sid])
         del data["clients"][sid]
         room_clients[room] = json.dumps(data)
         if data["members"] <= 0:
@@ -117,8 +114,6 @@ def disconnect():
         else:
             client_list = json.dumps(data["clients"])
             send('{"type":"' + type + '", "client_list":' + (client_list) + '}', to=room)
-    
-    print(room_clients)
     print(f"{nickname} {sid} has left the room {room}")
 
 @socketio.on('start-round')
