@@ -60,10 +60,9 @@
 
 socketio.on('message', function(data) {
     var obj = JSON.parse(data);
-    client_list = obj.client_list;
-    console.log(data);
     
     if (obj.type == 'user_joined') {
+        client_list = obj.client_list;
         //user joined room, update view
         var userList = document.getElementById("user-list");
         userList.innerHTML = ""; //clear previous list items
@@ -81,6 +80,7 @@ socketio.on('message', function(data) {
             }
         }
     } else if (obj.type == 'user_left') {
+        client_list = obj.client_list;
         //user left room, update view
         var userList = document.getElementById("user-list");
         userList.innerHTML = ""; //clear previous list items
@@ -98,9 +98,9 @@ socketio.on('message', function(data) {
             }
         }
     } else if (obj.type == 'gameboard') {
-        console.log("test")
-        //var gameboard = {{gameboard}};
-        //console.log(gameboard);
+        var gameboardList = obj.gameboard
+        console.log(gameboardList)
+        
     }
 });
 

@@ -18,6 +18,10 @@ class Gameboard():
 
         self.start()
 
+    @property
+    def get_gameboard(self):
+        return self.gameboard
+
     def start(self):
         print("Gameboard start")
         self.gameStatus = True
@@ -41,33 +45,7 @@ class Gameboard():
                 pass
 
     def startingGameboard(self):
-        #creates gameboard at the beginning
-        #all figures are at home
-        #row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] 
-        #row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22']
-        #row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] 
-        #row3 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] 
-        #row4 = ['10', '00', '00', '00', '00', '20', '00', '00', '00', '00', '00'] 
-        #row5 = ['00', '10', '10', '10', '10', '  ', '40', '40', '40', '40', '00'] 
-        #row6 = ['00', '00', '00', '00', '00', '30', '00', '00', '00', '00', '40'] 
-        #row7 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] 
-        #row8 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] 
-        #row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] 
-        #row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44']
-        
-        row0 = ['test']
-        row1 = []
-        row2 = []
-        row3 = []
-        row4 = []
-        row5 = []
-        row6 = []
-        row7 = []
-        row8 = []
-        row9 = []
-        row10= []
-        gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
-        
+        #creates gameboard at the beginning        
         field_dict = {}
         #home and finish of all teams
         for team in range(1,5):
@@ -87,8 +65,26 @@ class Gameboard():
                     field_dict[id] = Field(id, 1)
             else:
                 field_dict[id] = Field(id, 0)
-        print(field_dict.keys())
+        #creating void fields with id = -1
+        field_dict[-1] = Field(-1,-1)
+        
+        row0 = [field_dict.get(10), field_dict.get(11), field_dict.get(-1), field_dict.get(-1), field_dict.get(58), field_dict.get(59), field_dict.get(60), field_dict.get(-1), field_dict.get(-1), field_dict.get(40), field_dict.get(41)]
+        row1 = [field_dict.get(12), field_dict.get(13), field_dict.get(-1), field_dict.get(-1), field_dict.get(57), field_dict.get(44), field_dict.get(61), field_dict.get(-1), field_dict.get(-1), field_dict.get(42), field_dict.get(43)]
+        row2 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(56), field_dict.get(45), field_dict.get(62), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
+        row3 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(55), field_dict.get(46), field_dict.get(63), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
+        row4 = [field_dict.get(50), field_dict.get(51), field_dict.get(52), field_dict.get(53), field_dict.get(54), field_dict.get(47), field_dict.get(64), field_dict.get(65), field_dict.get(66), field_dict.get(67), field_dict.get(68)]
+        row5 = [field_dict.get(89), field_dict.get(14), field_dict.get(15), field_dict.get(16), field_dict.get(17), field_dict.get(-1), field_dict.get(27), field_dict.get(26), field_dict.get(25), field_dict.get(24), field_dict.get(69)]
+        row6 = [field_dict.get(88), field_dict.get(87), field_dict.get(86), field_dict.get(85), field_dict.get(84), field_dict.get(37), field_dict.get(74), field_dict.get(73), field_dict.get(72), field_dict.get(71), field_dict.get(70)]
+        row7 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(83), field_dict.get(36), field_dict.get(75), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
+        row8 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(82), field_dict.get(35), field_dict.get(76), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
+        row9 = [field_dict.get(30), field_dict.get(31), field_dict.get(-1), field_dict.get(-1), field_dict.get(81), field_dict.get(34), field_dict.get(77), field_dict.get(-1), field_dict.get(-1), field_dict.get(20), field_dict.get(21)]
+        row10= [field_dict.get(32), field_dict.get(33), field_dict.get(-1), field_dict.get(-1), field_dict.get(80), field_dict.get(79), field_dict.get(78), field_dict.get(-1), field_dict.get(-1), field_dict.get(22), field_dict.get(23)]
+        rows = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
 
+        gameboard = []
+        for row in rows:
+            for x in row:
+                gameboard.append(x.get_name)
         print("Gameboard created")
         return gameboard
 

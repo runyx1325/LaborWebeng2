@@ -11,7 +11,7 @@ class Field():
         else:
             self.color = color
             self.onfield = 0
-            self.name = str(self.color)+str(self.onfield)
+        self.name = str(self.color)+str(self.onfield)
 
     def __str__(self):
         return self.name

@@ -45,3 +45,7 @@ class Mensch():
         data_room = json.loads(data)
         print(data_room)
         pass
+
+    @property
+    def get_gameboard(self):
+        return self.gameboard

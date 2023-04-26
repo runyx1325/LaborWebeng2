@@ -126,32 +126,17 @@ def start_round(data):
     room = data['room']
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
-    game1 = Mensch(data_clients)
-    type="gameboard"
-    row0 = []
-    row1 = []
-    row2 = []
-    row3 = []
-    row4 = []
-    row5 = []
-    row6 = []
-    row7 = []
-    row8 = []
-    row9 = []
-    row10= []
-    gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
-    print("Gameboard update")
-    send('{"type":"' + type + '}', to=room)
+    game = Mensch(data_clients)
+    type="gameboard"    
+    gameboard = json.dumps(game.get_gameboard.get_gameboard)
+    send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
     #game1.start() return sid wer dran ist
     #client event dice(sid) drückt button
     #zahl = random
     #show zahl beim client
     #wähle Spieler aus
     #dann schicken wir infos an lea (sid, team, figure id, zahl, startfeld)
-    #Zugzahl modulo 4 = Spieler
-    
-
-        
+    #Zugzahl modulo 4 = Spieler        
     print(data['user'] + ' started round in room: '+ data['room'])
 
 @socketio.on('table-cell-clicked')
