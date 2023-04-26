@@ -18,30 +18,34 @@
             </div>
             <div class="panel">
                 <div class="board" id="gameboard">
-                    {% set row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] %}
-                    {% set row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22'] %}
-                    {% set row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
-                    {% set row3 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
-                    {% set row4 = ['10', '00', '00', '00', '00', '20', '00', '00', '00', '00', '00'] %}
-                    {% set row5 = ['00', '10', '10', '10', '10', '  ', '40', '40', '40', '40', '00'] %}
-                    {% set row6 = ['00', '00', '00', '00', '00', '30', '00', '00', '00', '00', '40'] %}
-                    {% set row7 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
-                    {% set row8 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
-                    {% set row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] %}
-                    {% set row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] %}
-                    {% set gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]%}
+                    
                     <table>
-                        {% for row in gameboard %}
-                        <tr>
-                            {% for field in row %}
-                                {% if field == '  ' %}
-                                    <th></th>
-                                {% else %}
-                                    <td onclick="sendOnCellClick()"><img src="{{ url_for('static', filename='images/board/' ~ field ~ '.svg') }}"></td>
-                                {% endif%}
+                        <tbody>
+                            {% set row0 = ['11', '11', '  ', '  ', '00', '00', '20', '  ', '  ', '22', '22'] %}
+                            {% set row1 = ['11', '11', '  ', '  ', '00', '20', '00', '  ', '  ', '22', '22'] %}
+                            {% set row2 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
+                            {% set row3 = ['  ', '  ', '  ', '  ', '00', '20', '00', '  ', '  ', '  ', '  '] %}
+                            {% set row4 = ['10', '00', '00', '00', '00', '20', '00', '00', '00', '00', '00'] %}
+                            {% set row5 = ['00', '10', '10', '10', '10', '  ', '40', '40', '40', '40', '00'] %}
+                            {% set row6 = ['00', '00', '00', '00', '00', '30', '00', '00', '00', '00', '40'] %}
+                            {% set row7 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
+                            {% set row8 = ['  ', '  ', '  ', '  ', '00', '30', '00', '  ', '  ', '  ', '  '] %}
+                            {% set row9 = ['33', '33', '  ', '  ', '00', '30', '00', '  ', '  ', '44', '44'] %}
+                            {% set row10= ['33', '33', '  ', '  ', '30', '00', '00', '  ', '  ', '44', '44'] %}
+                            {% set gameboard = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]%}
+                            {% for row in gameboard %}
+                                <tr>
+                                {% for field in row %}
+                                    {% if field == '  ' %}
+                                        <th></th>
+                                    {% else %}
+                                        <td><img src="{{ url_for('static', filename='images/board/' ~ field ~ '.svg') }}"></td>
+                                    {% endif%}
+                                {% endfor %}
+                                </tr>
                             {% endfor %}
-                        </tr>
-                        {% endfor %}
+                        </tbody>
+                        
                     </table>
                 </div>
                 <button class="start-button" onclick="startRound()">Start Game</button>
@@ -96,11 +100,29 @@ socketio.on('message', function(data) {
                 boldItem.appendChild(textNode);
                 userList.appendChild(listItem);
             }
-        }
+        }   
     } else if (obj.type == 'gameboard') {
         var gameboardList = obj.gameboard
-        console.log(gameboardList)
-        
+        var tbody = document.querySelector("#gameboard tbody");
+        tbody.innerHTML = ""; //clear tbody
+
+        for (var i = 0; i < gameboardList.length; i++) {
+            if (i % 11 === 0) {
+                var row = document.createElement("tr");
+                tbody.appendChild(row);
+            }
+            var cell = document.createElement("td");
+            var content = gameboardList[i];
+            if (content === "  ") {
+                cell.innerHTML = "<th></th>";
+            } else {
+                cell.setAttribute('onclick', 'sendOnCellClick()');
+                var img = document.createElement('img');
+                img.setAttribute('src', '{{ url_for('static', filename='images/board/') }}'+ content +'.svg');
+                cell.appendChild(img);
+            }
+            row.appendChild(cell);
+        }
     }
 });
 
