@@ -19,7 +19,7 @@ class Mensch():
         #save keys (sid) of data_room dict
         self.player_sid = data_room.keys()
         
-        # color of Figure
+        #color of Figure
         i = 1
         #list of player objects
         playerlist = []
@@ -28,15 +28,9 @@ class Mensch():
             self.player_nickname = data_room[key]
             playerlist.append(Player(key, self.player_nickname, i))
             i += 1
-        
-        
-        #1.Spieler auslesen
-        #player = list(data_room['clients'].keys())[0]
 
         #Create Gameboard
-        #playerlist := list with 
         self.gameboard = Gameboard(playerlist)
-        #return True
 
         #Start game
         #Gameboard.start()

@@ -1,6 +1,4 @@
-
 from Figure import Figure
-
 
 class Player():
     def __init__(self, socketid, nickname, color):
@@ -11,15 +9,15 @@ class Player():
         self.socket = socketid 
         self.nickname = nickname
         self.color = color
-        self.team = {}
+        self.team_dict = {}
         i = 1
         for i in range(4):
-            self.team[i] = Figure(color, i)
+            self.team_dict[i] = Figure(color, i)
             i += 1
         self.finish = False
     
     def finish(self):
-        for figure in self.team:
+        for figure in self.team_dict.values():
             if figure.get_finish == False:
                 return False
         self.finish = True
@@ -32,8 +30,8 @@ class Player():
     def get_color(self):
         return self.color
     @property
-    def get_team(self):
-        return self.team
+    def get_team_dict(self):
+        return self.team_dict
     @property
     def get_finish(self):
         return self.finish

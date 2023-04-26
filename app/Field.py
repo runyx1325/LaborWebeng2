@@ -7,17 +7,17 @@ class Field():
         #empty fields with id = -1
         if id == -1:
             self.color = ' '
-            self.onfield = ' '
+            self.color_on_field = ' '
         else:
             self.color = color
-            self.onfield = 0
-        self.name = str(self.color)+str(self.onfield)
+            self.color_on_field = 0
 
     def __str__(self):
-        return self.name
+        return str(self.color)+str(self.color_on_field)
 
-    def figureOnField(self, color):
-        self.onfield = color
+    def set_figure_on_field(self, figure):
+        self.figure_on_field = figure
+        self.color_on_field = figure.get_color
 
     @property
     def get_id(self):
@@ -26,9 +26,11 @@ class Field():
     def get_color(self):
         return self.color
     @property
-    def get_onfield(self):
-        return self.onfield
+    def get_color_on_field(self):
+        return self.color_on_field
     @property
     def get_name(self):
-        return self.name
-   
+        return str(self.color)+str(self.color_on_field)
+    @property
+    def get_figure_on_field(self):
+        return self.figure_on_field

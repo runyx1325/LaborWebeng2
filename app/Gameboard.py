@@ -11,7 +11,8 @@ class Gameboard():
         #Das Spiel weiß immer, wer gerade dran ist und wer der nächste ist
         
         self.playerList = playerList
-        self.gameboard = self.startingGameboard()
+        self.field_dict = self.create_gameboard()
+        self.gameboard_for_view = self.get_view(self.field_dict)
         self.gameStatus = False
         self.gameFinished = False
         self.playerCount = len(playerList)
@@ -20,10 +21,9 @@ class Gameboard():
 
     @property
     def get_gameboard(self):
-        return self.gameboard
+        return self.gameboard_for_view
 
     def start(self):
-        print("Gameboard start")
         self.gameStatus = True
         #iteration over playerList till the game is finished
         while self.gameStatus:
@@ -44,7 +44,7 @@ class Gameboard():
                 #Game finished
                 pass
 
-    def startingGameboard(self):
+    def create_gameboard(self):
         #creates gameboard at the beginning        
         field_dict = {}
         #home and finish of all teams
@@ -68,25 +68,31 @@ class Gameboard():
         #creating void fields with id = -1
         field_dict[-1] = Field(-1,-1)
         
-        row0 = [field_dict.get(10), field_dict.get(11), field_dict.get(-1), field_dict.get(-1), field_dict.get(58), field_dict.get(59), field_dict.get(60), field_dict.get(-1), field_dict.get(-1), field_dict.get(40), field_dict.get(41)]
-        row1 = [field_dict.get(12), field_dict.get(13), field_dict.get(-1), field_dict.get(-1), field_dict.get(57), field_dict.get(44), field_dict.get(61), field_dict.get(-1), field_dict.get(-1), field_dict.get(42), field_dict.get(43)]
-        row2 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(56), field_dict.get(45), field_dict.get(62), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
-        row3 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(55), field_dict.get(46), field_dict.get(63), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
-        row4 = [field_dict.get(50), field_dict.get(51), field_dict.get(52), field_dict.get(53), field_dict.get(54), field_dict.get(47), field_dict.get(64), field_dict.get(65), field_dict.get(66), field_dict.get(67), field_dict.get(68)]
-        row5 = [field_dict.get(89), field_dict.get(14), field_dict.get(15), field_dict.get(16), field_dict.get(17), field_dict.get(-1), field_dict.get(27), field_dict.get(26), field_dict.get(25), field_dict.get(24), field_dict.get(69)]
-        row6 = [field_dict.get(88), field_dict.get(87), field_dict.get(86), field_dict.get(85), field_dict.get(84), field_dict.get(37), field_dict.get(74), field_dict.get(73), field_dict.get(72), field_dict.get(71), field_dict.get(70)]
-        row7 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(83), field_dict.get(36), field_dict.get(75), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
-        row8 = [field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(82), field_dict.get(35), field_dict.get(76), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1)]
-        row9 = [field_dict.get(30), field_dict.get(31), field_dict.get(-1), field_dict.get(-1), field_dict.get(81), field_dict.get(34), field_dict.get(77), field_dict.get(-1), field_dict.get(-1), field_dict.get(20), field_dict.get(21)]
-        row10= [field_dict.get(32), field_dict.get(33), field_dict.get(-1), field_dict.get(-1), field_dict.get(80), field_dict.get(79), field_dict.get(78), field_dict.get(-1), field_dict.get(-1), field_dict.get(22), field_dict.get(23)]
-        rows = [row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10]
+        #set figure to home
+        for player in self.playerList:
+            for figure in player.get_team_dict.values():            
+                figure.set_home(field_dict)
 
-        gameboard = []
-        for row in rows:
-            for x in row:
-                gameboard.append(x.get_name)
-        print("Gameboard created")
-        return gameboard
+        return field_dict
+
+    def get_view(self, field_dict):
+        field_list = [
+            field_dict.get(10), field_dict.get(11), field_dict.get(-1), field_dict.get(-1), field_dict.get(58), field_dict.get(59), field_dict.get(60), field_dict.get(-1), field_dict.get(-1), field_dict.get(40), field_dict.get(41),
+            field_dict.get(12), field_dict.get(13), field_dict.get(-1), field_dict.get(-1), field_dict.get(57), field_dict.get(44), field_dict.get(61), field_dict.get(-1), field_dict.get(-1), field_dict.get(42), field_dict.get(43),
+            field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(56), field_dict.get(45), field_dict.get(62), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1),
+            field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(55), field_dict.get(46), field_dict.get(63), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1),
+            field_dict.get(50), field_dict.get(51), field_dict.get(52), field_dict.get(53), field_dict.get(54), field_dict.get(47), field_dict.get(64), field_dict.get(65), field_dict.get(66), field_dict.get(67), field_dict.get(68),
+            field_dict.get(89), field_dict.get(14), field_dict.get(15), field_dict.get(16), field_dict.get(17), field_dict.get(-1), field_dict.get(27), field_dict.get(26), field_dict.get(25), field_dict.get(24), field_dict.get(69),
+            field_dict.get(88), field_dict.get(87), field_dict.get(86), field_dict.get(85), field_dict.get(84), field_dict.get(37), field_dict.get(74), field_dict.get(73), field_dict.get(72), field_dict.get(71), field_dict.get(70),
+            field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(83), field_dict.get(36), field_dict.get(75), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1),
+            field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(82), field_dict.get(35), field_dict.get(76), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1),
+            field_dict.get(30), field_dict.get(31), field_dict.get(-1), field_dict.get(-1), field_dict.get(81), field_dict.get(34), field_dict.get(77), field_dict.get(-1), field_dict.get(-1), field_dict.get(20), field_dict.get(21),
+            field_dict.get(32), field_dict.get(33), field_dict.get(-1), field_dict.get(-1), field_dict.get(80), field_dict.get(79), field_dict.get(78), field_dict.get(-1), field_dict.get(-1), field_dict.get(22), field_dict.get(23)
+        ]
+        gameboard_for_view = []
+        for field in field_list:
+            gameboard_for_view.append(field.get_name)
+        return gameboard_for_view
 
     def checkGameStatus(self):
         for player in self.playerList:

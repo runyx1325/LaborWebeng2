@@ -127,7 +127,7 @@ def start_round(data):
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
     game = Mensch(data_clients)
-    type="gameboard"    
+    type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
     send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
     #game1.start() return sid wer dran ist
