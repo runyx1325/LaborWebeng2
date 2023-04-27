@@ -159,7 +159,7 @@ function startRound() {
 
 function sendOnCellClick() {
     console.log('room: {{room}} client: ' + socketio.id);
-    socketio.emit('table-cell-clicked', {room: '{{room}}', user: socketio.id});
+    socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id});
 }
 
 function overlay_click() {

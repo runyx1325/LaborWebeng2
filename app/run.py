@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
+from flask_socketio import SocketIO, send, join_room, leave_room
 import random, json, time
 from string import ascii_uppercase
 from start import Mensch
@@ -147,10 +147,6 @@ def start_round(data):
         #dann schicken wir infos an lea (sid, team, figure id, zahl, startfeld)
         #Zugzahl modulo 4 = Spieler 
 
-@socketio.on('table-cell-clicked')
-def table_cell_clicked(data):
-    print('received: ', data)
-
 @socketio.on('dice')
 def roll_dice(data):
     room = data['room']
@@ -162,9 +158,8 @@ def roll_dice(data):
 
 @socketio.on('choose-figure')
 def choose_figure(data):
-    room = data['room']
-    sid = data['user']
-    print(data)
+    if room_game[data['room']].get_cur_player == data['user']:
+        print(data["field"])   
       
 if __name__ == '__main__':
     socketio.run(app, debug=True)

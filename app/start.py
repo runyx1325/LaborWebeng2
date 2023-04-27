@@ -50,8 +50,9 @@ class Mensch():
         player = self.playerturn % len(self.player_sid)
         #for next move
         self.playerturn +=1
-        cur_player = list(self.player_sid)
-        return cur_player[player]
+
+        self.cur_player = list(self.player_sid)[player]
+        return self.cur_player
         
     def start_play(self, data):
         data_room = json.loads(data)
@@ -67,3 +68,6 @@ class Mensch():
     @property
     def get_waiting(self):
         return self.waiting
+    @property
+    def get_cur_player(self):
+        return self.cur_player
