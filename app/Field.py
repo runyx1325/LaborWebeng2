@@ -19,6 +19,10 @@ class Field():
         self.figure_on_field = figure
         self.color_on_field = figure.get_color
 
+    def figure_away(self):
+        self.figure_on_field = None
+        self.color_on_field = 0
+
     @property
     def get_id(self):
         return self.id

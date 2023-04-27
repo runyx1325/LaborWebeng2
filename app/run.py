@@ -153,13 +153,22 @@ def roll_dice(data):
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
     number = json.dumps(random.randrange(1,7))
+    room_game[room].set_cur_dice(number)
     type = "send_dice_result"
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
 
 @socketio.on('choose-figure')
 def choose_figure(data):
-    if room_game[data['room']].get_cur_player == data['user']:
-        print(data["field"])   
+    room = data['room']
+    sid = data['user']
+    field = data['field']
+    if room_game[room].get_cur_player == sid:
+        if room_game[room].game_move(sid, field):
+            #update view and nextpalyer 
+            pass
+        else:
+            #wähle eine neues feld
+            pass
       
 if __name__ == '__main__':
     socketio.run(app, debug=True)

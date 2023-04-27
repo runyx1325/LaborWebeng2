@@ -52,7 +52,7 @@ class Gameboard():
             for id in range(0,8):
                 x = team*10+id
                 field_dict[x] = Field(x, team)
-        #create all nromal fields + starting fields
+        #create all normal fields + starting fields
         for id in range(50,90):
             if id%10 == 0:
                 if id%8 == 0:
@@ -76,7 +76,7 @@ class Gameboard():
         return field_dict
 
     def get_view(self, field_dict):
-        field_list = [
+        self.field_list = [
             field_dict.get(10), field_dict.get(11), field_dict.get(-1), field_dict.get(-1), field_dict.get(58), field_dict.get(59), field_dict.get(60), field_dict.get(-1), field_dict.get(-1), field_dict.get(40), field_dict.get(41),
             field_dict.get(12), field_dict.get(13), field_dict.get(-1), field_dict.get(-1), field_dict.get(57), field_dict.get(44), field_dict.get(61), field_dict.get(-1), field_dict.get(-1), field_dict.get(42), field_dict.get(43),
             field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(56), field_dict.get(45), field_dict.get(62), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1), field_dict.get(-1),
@@ -90,9 +90,11 @@ class Gameboard():
             field_dict.get(32), field_dict.get(33), field_dict.get(-1), field_dict.get(-1), field_dict.get(80), field_dict.get(79), field_dict.get(78), field_dict.get(-1), field_dict.get(-1), field_dict.get(22), field_dict.get(23)
         ]
         gameboard_for_view = []
-        for field in field_list:
+        for field in self.field_list:
             gameboard_for_view.append(field.get_name)
         return gameboard_for_view
+    
+    
 
     def checkGameStatus(self):
         for player in self.playerList:
@@ -109,6 +111,12 @@ class Gameboard():
         pass
     
     
+    
+    def get_field(self, number):
+        return self.field_list[number]
     @property
     def get_finished(self):
         return self.gameFinished
+    @property
+    def get_field_dict(self):
+        return self.field_dict

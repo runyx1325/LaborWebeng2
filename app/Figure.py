@@ -10,16 +10,8 @@ class Figure():
         self.nr = nr 
         self.color = color
         self.id = str(self.color)+str(self.nr)
-        self.homefield = int(self.id)
-        match color:
-            case 1:
-                self.startfield = 50
-            case 2:
-                self.startfield = 70
-            case 3: 
-                self.startfield = 80
-            case 4:
-                self.startfield = 60
+        self.home_field = None
+        self.starting_field = None
         self.home = True
         self.finish = False
         self.position = 0 
@@ -35,48 +27,16 @@ class Figure():
     def set_home(self, field_dict):
         self.position = 0
         self.home = True
-        self.homefield = field_dict[self.homefield]
-        self.startfield = field_dict[self.startfield]
-        self.set_on_field(self.homefield)
         self.get_on_field.set_figure_on_field(self)
 
-    def is_home(self):
-        if self.position == 0:
-            self.home = True
-
-    def is_finish(self):
+    def walk(self, number):
+        self.position += number
+        self.home = False
         if self.position > 40:
-            self.finish = True
+            self.finsish = True
 
-    def walk(self, number, gameboardpositions):
-        #number of dice
-        #gameboardpositions := list of blocked position
-        #if figure is home and walk 6 => starting field
-        #if postion + dicenumber > max position
-        #positioncheck if newposition is blocked
-        if self.position == 0 and number == 6:
-            newposition = 1
-            if self.positioncheck(newposition, gameboardpositions):
-                self.position = newposition
-                return True
-            return False
-        #if postion + dicenumber > 44 (max position)
-        elif (self.position + number) > 44:
-            return False 
-        else:
-            newposition = self.position + number
-            if self.positioncheck(newposition, gameboardpositions):
-                self.position = newposition
-                return True
-            return False
-    
-    def positioncheck(self, newpos, gameboard):
-        #checks if newpos is blocked of teamfigure
-        for i in gameboard:
-            if i == self.color:
-                if newpos == gameboard[i]:
-                    return False
-        return False
+    def set_home_field(self, field):
+        self.home_field = field
 
     @property
     def get_id(self):
