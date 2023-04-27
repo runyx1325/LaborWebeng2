@@ -292,8 +292,9 @@ ul{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* add transparency with rgba */
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.9) 25%, rgba(0, 0, 0, 0.4) 100%);
     z-index: 9999; /* make sure the overlay is on top */
+    color: #dedede;
   }
 .overlay:hover {
     cursor: pointer;
