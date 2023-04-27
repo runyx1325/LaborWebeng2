@@ -127,15 +127,18 @@ def start_round(data):
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
     send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
     print(data['user'] + ' started round in room: '+ data['room'])
-    next_player = game.start()
-    #client event dice(sid) drückt button
+
+    while not game.get_gameboard.get_finished:
+        next_player = game.start() #return sid wer dran ist
+        type = "dice"      
+        send('{"type":"' + type + '"}', room=next_player)
+        #client event dice(sid) drückt button
+
     #zahl = random
     #show zahl beim client
     #wähle Spieler aus
     #dann schicken wir infos an lea (sid, team, figure id, zahl, startfeld)
     #Zugzahl modulo 4 = Spieler 
-    type = "dice"      
-    send('{"type":"' + type + '"}', room=next_player)
 
 @socketio.on('table-cell-clicked')
 def table_cell_clicked(data):
