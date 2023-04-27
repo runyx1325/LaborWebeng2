@@ -144,7 +144,7 @@ socketio.on('message', function(data) {
 
 function dice() {
     var dice = document.querySelector('#dice-button');
-    dice.style.display = "block";
+    dice.style.display = "none";
     socketio.emit('dice', {room: '{{room}}', user: socketio.id});
 }
 
@@ -165,6 +165,7 @@ function sendOnCellClick() {
 function overlay_click() {
     var overlay = document.querySelector("#dice-overlay");
     overlay.style.display = "none";
+    socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id})
 }
 
 </script>

@@ -15,7 +15,7 @@ class Mensch():
 
         self.data_room = json.loads(data)
         #data_room is a dict with all sids and usernames in the room
-
+        self.waiting = False
         #save keys (sid) of data_room dict
         self.player_sid = self.data_room.keys()
         
@@ -51,13 +51,19 @@ class Mensch():
         #for next move
         self.playerturn +=1
         cur_player = list(self.player_sid)
-        return cur_player[player], self.data_room[cur_player[player]]
+        return cur_player[player]
         
     def start_play(self, data):
         data_room = json.loads(data)
         print(data_room)
         pass
 
+    def set_waiting(self, bool):
+        self.waiting = bool
+
     @property
     def get_gameboard(self):
         return self.gameboard
+    @property
+    def get_waiting(self):
+        return self.waiting

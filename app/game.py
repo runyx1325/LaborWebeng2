@@ -1,5 +1,4 @@
-import random, json
+import random
 
 def roll_dice():
-    result = random.randrange(1,7)
-    return(result)
+    return random.randrange(1,7)
