@@ -17,7 +17,7 @@ class Gameboard():
         self.gameFinished = False
         self.playerCount = len(playerList)
 
-        self.start()
+        #self.start()
 
     @property
     def get_gameboard(self):
@@ -107,3 +107,8 @@ class Gameboard():
         #newposition check, ist auf dem Feld ein Gegner, niemand oder ein Mitspieler? Überspringe iich im eigenen Haus jemanden? Oder ist die Zahl zu groß?
         #broadcast an alle
         pass
+    
+    
+    @property
+    def get_finished(self):
+        return self.gameFinished

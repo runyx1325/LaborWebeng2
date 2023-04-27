@@ -13,28 +13,46 @@ class Mensch():
         #What is happening in __init__?
         #...
 
-        data_room = json.loads(data)
+        self.data_room = json.loads(data)
         #data_room is a dict with all sids and usernames in the room
 
         #save keys (sid) of data_room dict
-        self.player_sid = data_room.keys()
+        self.player_sid = self.data_room.keys()
         
         #color of Figure
         i = 1
         #list of player objects
-        playerlist = []
-        for key in self.player_sid:
-            #save nickname from data_room dict
-            self.player_nickname = data_room[key]
-            playerlist.append(Player(key, self.player_nickname, i))
-            i += 1
-
+        self.playerlist = []
+        
+        if len(self.player_sid) == 4:
+            orderFour = [1, 4, 2, 3]
+            i = 0
+            for key in self.player_sid:               
+                self.player_nickname = self.data_room[key]
+                self.playerlist.append(Player(key, self.player_nickname, orderFour[i]))
+                i += 1
+            
+        else: 
+            for key in self.player_sid:
+                #save nickname from data_room dict
+                self.player_nickname = self.data_room[key]
+                self.playerlist.append(Player(key, self.player_nickname, i))
+                i += 1
+        
+            
         #Create Gameboard
-        self.gameboard = Gameboard(playerlist)
-
+        self.gameboard = Gameboard(self.playerlist)
+        self.playerturn = 0
         #Start game
         #Gameboard.start()
-    
+    def start(self):
+        #choose current player
+        player = self.playerturn % len(self.player_sid)
+        #for next move
+        self.playerturn +=1
+        cur_player = list(self.player_sid)
+        return cur_player[player], self.data_room[cur_player[player]]
+        
     def start_play(self, data):
         data_room = json.loads(data)
         print(data_room)
