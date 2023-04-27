@@ -221,6 +221,7 @@ td:hover {
     align-items: center;
 }
 #game .panel-right {
+    position: relative;
     margin-left: 8px;
     flex: 1 1 15%;
     display: flex;
@@ -261,4 +262,39 @@ ul{
 
 #game .start-button:hover {
     background-color: #33b319;
+}
+
+#game .dice-button {
+    display: none;
+    position: absolute;
+    bottom: 15px;
+    width: 100px;
+    height: 100px;
+    background-color: #eae5c3;
+    transition: 150ms ease-in-out;
+    font-size: 2em;
+    border-radius: var(--BORDER_RADIUS);
+    text-shadow: 2px 2px 0 #0000002b;
+    box-shadow: 0px 0px 15px black;
+}
+
+#game .dice-button:hover {
+    background-color: #c4bfa3
+}
+
+.overlay {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* add transparency with rgba */
+    z-index: 9999; /* make sure the overlay is on top */
+  }
+.overlay:hover {
+    cursor: pointer;
 }

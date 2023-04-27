@@ -3,6 +3,7 @@ from flask_socketio import SocketIO, send, emit, join_room, leave_room
 import random, json
 from string import ascii_uppercase
 from start import Mensch
+from game import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -125,19 +126,31 @@ def start_round(data):
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
     send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
+    print(data['user'] + ' started round in room: '+ data['room'])
+
     while not game.get_gameboard.get_finished:
-        print(game.start()) #return sid wer dran ist
+        next_player = game.start() #return sid wer dran ist
+        type = "dice"      
+        send('{"type":"' + type + '"}', room=next_player)
         #client event dice(sid) drückt button
+
     #zahl = random
     #show zahl beim client
     #wähle Spieler aus
     #dann schicken wir infos an lea (sid, team, figure id, zahl, startfeld)
-    #Zugzahl modulo 4 = Spieler        
-    print(data['user'] + ' started round in room: '+ data['room'])
+    #Zugzahl modulo 4 = Spieler 
 
 @socketio.on('table-cell-clicked')
 def table_cell_clicked(data):
     print('received: ', data)
+
+@socketio.on('dice')
+def roll_dice(data):
+    room = data['room']
+    user = data['user']
+    number = roll_dice()
+    type = "send_dice_result"
+    send('{"type":"' + type + '", "dice": '+ number +', "user": '+ user +'}', to=room)
       
 if __name__ == '__main__':
     socketio.run(app, debug=True)

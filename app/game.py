@@ -1,5 +1,5 @@
 import random, json
 
-def wuerfel():
-    ergebnis = random.randrange(1,7)
-    return(ergebnis)
+def roll_dice():
+    result = random.randrange(1,7)
+    return(result)
