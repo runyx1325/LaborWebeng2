@@ -16,8 +16,7 @@ class Gameboard():
         self.gameStatus = False
         self.gameFinished = False
         self.playerCount = len(playerList)
-
-        #self.start()
+        
 
     @property
     def get_gameboard(self):
@@ -70,9 +69,8 @@ class Gameboard():
         
         #set figure to home
         for player in self.playerList:
-            for figure in player.get_team_dict.values():            
+            for figure in player.get_team_dict.values():          
                 figure.set_home(field_dict)
-
         return field_dict
 
     def get_view(self, field_dict):
@@ -102,15 +100,7 @@ class Gameboard():
                 self.gameFinished = True
                 self.gameStatus = False
                 return True
-        return False
-
-    def updateGameboard(self, piece, number):
-        #aktuelle position von piece mit number addieren
-        #newposition check, ist auf dem Feld ein Gegner, niemand oder ein Mitspieler? Überspringe iich im eigenen Haus jemanden? Oder ist die Zahl zu groß?
-        #broadcast an alle
-        pass
-    
-    
+        return False    
     
     def get_field(self, number):
         return self.field_list[number]

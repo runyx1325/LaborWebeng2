@@ -27,6 +27,7 @@ class Figure():
     def set_home(self, field_dict):
         self.position = 0
         self.home = True
+        self.on_field = field_dict.get(int(self.id))
         self.get_on_field.set_figure_on_field(self)
 
     def walk(self, number):

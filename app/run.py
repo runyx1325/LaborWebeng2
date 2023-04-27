@@ -141,11 +141,6 @@ def start_round(data):
             if not game.get_waiting:
                 break
         print("Next Player")
-        #zahl = random
-        #show zahl beim client
-        #wähle Spieler aus
-        #dann schicken wir infos an lea (sid, team, figure id, zahl, startfeld)
-        #Zugzahl modulo 4 = Spieler 
 
 @socketio.on('dice')
 def roll_dice(data):
@@ -162,13 +157,15 @@ def choose_figure(data):
     room = data['room']
     sid = data['user']
     field = data['field']
+    game = room_clients[room]
     if room_game[room].get_cur_player == sid:
         if room_game[room].game_move(sid, field):
             #update view and nextpalyer 
-            pass
-        else:
-            #wähle eine neues feld
-            pass
+            type="gameboard"
+            gameboard = json.dumps(game.get_gameboard.get_gameboard)
+            send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
+            game.set_waiting(False)
+    #wähle eine neues feld
       
 if __name__ == '__main__':
     socketio.run(app, debug=True)

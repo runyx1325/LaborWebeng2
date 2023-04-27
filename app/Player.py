@@ -52,7 +52,7 @@ class Player():
             self.home_fields[x] = gameboard.get(x)
         for x in finish_fields:
             self.finish_fields[x] = gameboard.get(x)
-        for figure in self.team:
+        for figure in list(self.team_dict.values()):
             figure.set_home_field = gameboard.get(int(figure.get_id))
             figure.set_starting_field = list(self.starting_field.values())[0]
 

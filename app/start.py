@@ -21,7 +21,6 @@ class Mensch():
         self.player_sid = self.data_room.keys()
         self.playerlist = []
         self.playerDict = {}
-        self.gameboard = Gameboard(self.playerlist)
         self.playerturn = 0
         self.cur_dice = "default"
 
@@ -37,11 +36,16 @@ class Mensch():
             for sid in self.player_sid:
                 #save nickname from data_room dict
                 self.player_nickname = self.data_room[sid]
-                player = self.playerlist.append(Player(sid, self.player_nickname, i))
-                player.set_fields(self.gameboard.get_field_dict)
+                player = Player(sid, self.player_nickname, i)
+                self.playerlist.append(player)
                 i += 1
+        self.gameboard = Gameboard(self.playerlist)
+
         for player in self.playerlist:
+            player.set_fields(self.gameboard.get_field_dict)
             self.playerDict[player.get_sid] = player
+
+        
         
     def start(self):
         #choose current player
@@ -103,6 +107,7 @@ class Mensch():
             new_field.get_figure_on_field.set_home(self.gameboard.get_field_dict)
             new_field.set_figure_on_field(old_field.get_figure_on_field)
             old_field.figure_away()
+        return True
 
 
 
