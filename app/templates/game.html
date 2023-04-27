@@ -154,7 +154,6 @@ function startRound() {
         alert("Can't start round with less than two players");
         return;
     }*/
-    console.log('room: {{room}} user: ' + socketio.id + 'clients:' + client_list);
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
 }
 

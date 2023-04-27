@@ -60,12 +60,14 @@ class Mensch():
         print(data_room)
         pass
 
-    def game_move(self, sid, field_number):
+    def game_move(self, sid, field_number):       
         number = self.get_cur_dice
         player = self.playerDict[sid]
         field = self.get_gameboard.get_field(field_number)
         if self.check_move(player, field, number):
+            print("JAaaa")
             return True
+        print("nein")
         return False
     
     def check_move(self, player, old_field, number):
@@ -77,12 +79,13 @@ class Mensch():
                 #check schritte + number > 40 and < 45
                     #achtung zielbereich  
                 #check feld + number ist nicht mit eigener figur belegt
-                    #mach move
+                    #mach move        
         if old_field.get_color_on_field == player.get_color:
             if old_field.get_id in player.get_home_fields:
-                if number == 6 and list(player.get_starting_field.values())[0].get_color_on_field != player.get_color:
+                if int(number) == 6 and list(player.get_starting_field.values())[0].get_color_on_field != player.get_color:
                     newfield = list(player.get_starting_field.values())[0]
-                    self.make_move(old_field, newfield, number)
+                    if self.make_move(old_field, newfield, number):
+                        return True
             else:
                 if old_field.get_figure_on_field.get_position + number > 40 and old_field.get_figure_on_field.get_position + number < 45:
                     if old_field.get_figure_on_field.get_position + number < 44 or list(player.get_finish_fields.values())[3].get_color_on_field != 0:
@@ -90,24 +93,28 @@ class Mensch():
                             if old_field.get_figure_on_field.get_position + number < 42 or list(player.get_finish_fields.values())[1].get_color_on_field != 0:
                                 if list(player.get_finish_fields.values())[0].get_color_on_field != 0:
                                     newfield = list(player.get_finish_fields.values())[old_field.get_figure_on_field.get_position + number - 41]
-                                    self.make_move(old_field, newfield, number)
+                                    if self.make_move(old_field, newfield, number):
+                                        return True
                 else:
                     if old_field.get_id + number > 89:
                         newfield = self.gameboard.get_field_dict.get(old_field.get_id + number - 40)
-                        self.make_move(old_field, newfield, number)
+                        if self.make_move(old_field, newfield, number):
+                            return True
 
     def make_move(self, old_field, new_field, number):
+        print(old_field.get_id)
+        print(new_field.get_id)
         cur_figure = old_field.get_figure_on_field
         if new_field.get_color_on_field == 0:
-            old_field.set_color_on_field(0)
-            new_field.set_color_on_field(cur_figure.get_color)
+            old_field.figure_away()
             cur_figure.set_on_field(new_field)
             cur_figure.walk(number)
+            return True
         else:
             new_field.get_figure_on_field.set_home(self.gameboard.get_field_dict)
             new_field.set_figure_on_field(old_field.get_figure_on_field)
             old_field.figure_away()
-        return True
+            return True
 
 
 
@@ -115,7 +122,7 @@ class Mensch():
     def set_waiting(self, bool):
         self.waiting = bool
     def set_cur_dice(self, number):
-        self.cur_dice = number
+        self.cur_dice = int(number)
 
     #getter
     @property

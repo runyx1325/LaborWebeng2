@@ -20,7 +20,9 @@ class Player():
         for i in range(4):
             self.team_dict[i] = Figure(color, i)
             i += 1
-        
+
+    def __str__(self):
+        return self.nickname
     
     def finish(self):
         for figure in self.team_dict.values():
