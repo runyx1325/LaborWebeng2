@@ -2,6 +2,9 @@
 {% block content%}
 <body>
     <div id="game">
+        <div onclick="overlay_click()" class="overlay" id="dice-overlay">
+            
+        </div>
         <div class="panels">
             <div class="panel-left">
                 <div class="logo">
@@ -52,10 +55,10 @@
             </div>
             <div class="panel-right">
                 <h2>Game: {{room}}</h2>
+                <button onclick="dice()" class="dice-button" id="dice-button">Dice</button>
             </div>
         </div>
     </div>
-    
 </body>
 
 <script type="text/javascript">
@@ -125,9 +128,25 @@ socketio.on('message', function(data) {
             }
             row.appendChild(cell);
         }
+    } else if (obj.type == "dice") {
+        //show dice for this client
+        var dice = document.querySelector('#dice-button');
+        dice.style.display = "block";
+    } else if (obj.type == "send_dice_result") {
+        var user = obj.user;
+        var number = obj.number;
+        var overlay = document.querySelector("#dice-overlay");
+        overlay.innerHTML = "";
+        overlay.innerHTML = user + " has rolled a " + number;
+        overlay.style.display = "flex";
     }
 });
 
+function dice() {
+    var dice = document.querySelector('#dice-button');
+    dice.style.display = "block";
+    socketio.emit('dice', {room: '{{room}}', user: socketio.id});
+}
 
 function startRound() {
     /*if(Object.keys(client_list).length < 2) {
@@ -143,6 +162,10 @@ function sendOnCellClick() {
     socketio.emit('table-cell-clicked', {room: '{{room}}', user: socketio.id});
 }
 
+function overlay_click() {
+    var overlay = document.querySelector("#dice-overlay");
+    overlay.style.display = "none";
+}
 
 </script>
 {% endblock %}
