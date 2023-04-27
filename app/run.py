@@ -125,8 +125,9 @@ def start_round(data):
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
     send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
-    #game1.start() return sid wer dran ist
-    #client event dice(sid) drückt button
+    while not game.get_gameboard.get_finished:
+        print(game.start()) #return sid wer dran ist
+        #client event dice(sid) drückt button
     #zahl = random
     #show zahl beim client
     #wähle Spieler aus
