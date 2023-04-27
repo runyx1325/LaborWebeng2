@@ -121,11 +121,12 @@ socketio.on('message', function(data) {
                 var cell = document.createElement("th");
             } else {
                 var cell = document.createElement("td");
-                cell.setAttribute('onclick', 'sendOnCellClick()');
+                cell.setAttribute('onclick', `sendOnCellClick(${i})`);
                 var img = document.createElement('img');
                 img.setAttribute('src', '{{ url_for('static', filename='images/board/') }}'+ content +'.svg');
                 cell.appendChild(img);
             }
+            cell.setAttribute("id", i);
             row.appendChild(cell);
         }
     } else if (obj.type == "dice") {
@@ -157,15 +158,13 @@ function startRound() {
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
 }
 
-function sendOnCellClick() {
-    console.log('room: {{room}} client: ' + socketio.id);
-    socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id});
+function sendOnCellClick(i) {
+    socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id, field: i});
 }
 
 function overlay_click() {
     var overlay = document.querySelector("#dice-overlay");
     overlay.style.display = "none";
-    socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id})
 }
 
 </script>
