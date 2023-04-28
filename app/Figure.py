@@ -31,7 +31,10 @@ class Figure():
         self.get_on_field.set_figure_on_field(self)
 
     def walk(self, number):
-        self.position += number
+        if self.position == 0:
+            self.position = 1
+        else:
+            self.position += number
         self.home = False
         if self.position > 40:
             self.finsish = True

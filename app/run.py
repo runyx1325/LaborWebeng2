@@ -132,6 +132,7 @@ def start_round(data):
     print(data['user'] + ' started round in room: '+ data['room'])
 
     while not game.get_gameboard.get_finished:
+        print("start move")
         game.set_waiting(True)
         next_player = game.start()
         type = "dice"   
@@ -140,7 +141,7 @@ def start_round(data):
             time.sleep(1)
             if not game.get_waiting:
                 break
-        print("Next Player")
+        print("Next Player: "+next_player)
 
 @socketio.on('dice')
 def roll_dice(data):

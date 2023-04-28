@@ -79,27 +79,55 @@ class Mensch():
                 #check schritte + number > 40 and < 45
                     #achtung zielbereich  
                 #check feld + number ist nicht mit eigener figur belegt
-                    #mach move        
+                    #mach move
+        print(player)      
+        print(old_field.get_id)
+        print(old_field.get_color_on_field)
         if old_field.get_color_on_field == player.get_color:
+            print("Feld mit eigener Figur ausgewählt")
             if old_field.get_id in player.get_home_fields:
+                print("wenn das feld ein Homefeld des eigenen Spielers ist")
                 if int(number) == 6 and list(player.get_starting_field.values())[0].get_color_on_field != player.get_color:
+                    print("Spieler hat 6 gewürfelt und Startfeld ist nicht mit eigener figur belegt")
                     newfield = list(player.get_starting_field.values())[0]
                     if self.make_move(old_field, newfield, number):
                         return True
             else:
+                print("Alles was kein Homefeld ist")
                 if old_field.get_figure_on_field.get_position + number > 40 and old_field.get_figure_on_field.get_position + number < 45:
-                    if old_field.get_figure_on_field.get_position + number < 44 or list(player.get_finish_fields.values())[3].get_color_on_field != 0:
-                        if old_field.get_figure_on_field.get_position + number < 43 or list(player.get_finish_fields.values())[2].get_color_on_field != 0:
-                            if old_field.get_figure_on_field.get_position + number < 42 or list(player.get_finish_fields.values())[1].get_color_on_field != 0:
-                                if list(player.get_finish_fields.values())[0].get_color_on_field != 0:
+                    print("figur läuft in den Zielbereich")
+                    if old_field.get_figure_on_field.get_position + number < 44 or list(player.get_finish_fields.values())[3].get_color_on_field == 0:
+                        print("letzes feld ist frei")
+                        print(list(player.get_finish_fields.values())[3].get_color_on_field)
+                        print(list(player.get_finish_fields.values())[2].get_color_on_field)
+                        print(old_field.get_figure_on_field.get_position + number < 43 or list(player.get_finish_fields.values())[2].get_color_on_field == 0)
+                        print(list(player.get_finish_fields.values())[2].get_color_on_field != 0)
+                        if old_field.get_figure_on_field.get_position + number < 43 or list(player.get_finish_fields.values())[2].get_color_on_field == 0:
+                            print("vorletztes feld ist frei")
+                            if old_field.get_figure_on_field.get_position + number < 42 or list(player.get_finish_fields.values())[1].get_color_on_field == 0:
+                                print("vorvorletztes feld ist frei")
+                                if list(player.get_finish_fields.values())[0].get_color_on_field == 0:
+                                    print("erstes feld ist frei")
                                     newfield = list(player.get_finish_fields.values())[old_field.get_figure_on_field.get_position + number - 41]
+                                    print(newfield.get_id)
                                     if self.make_move(old_field, newfield, number):
                                         return True
-                else:
+                elif old_field.get_figure_on_field.get_position + number < 45:
+                    print("Figur läuft nicht in den Zielbereich und ist kein Homfeld")
                     if old_field.get_id + number > 89:
+                        print("neues Feld ist über kritische Marke 89")
                         newfield = self.gameboard.get_field_dict.get(old_field.get_id + number - 40)
-                        if self.make_move(old_field, newfield, number):
-                            return True
+                        if newfield.get_color_on_field != player.get_color:
+                            print("neues feld ist nicht von eigenem Spieler blockiert")
+                            if self.make_move(old_field, newfield, number):
+                                return True
+                    else:
+                        print("handelsübliches feld wie in Streich")
+                        newfield = self.gameboard.get_field_dict.get(old_field.get_id + number)
+                        if newfield.get_color_on_field != player.get_color:
+                            print("neues feld ist nicht von eigenem Spieler blockiert")
+                            if self.make_move(old_field, newfield, number):
+                                return True
 
     def make_move(self, old_field, new_field, number):
         print("----")
@@ -117,6 +145,7 @@ class Mensch():
             print(new_field.get_id)
             print(new_field.get_color_on_field)
             print("---")
+            print(cur_figure.get_position)
             return True
         else:
             new_field.get_figure_on_field.set_home(self.gameboard.get_field_dict)
@@ -127,6 +156,7 @@ class Mensch():
             print(new_field.get_id)
             print(new_field.get_color_on_field)
             print("---")
+            print(cur_figure.get_position)
             return True
 
 
