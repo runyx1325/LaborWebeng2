@@ -59,14 +59,28 @@ class Mensch():
     def create_possible_moves(self, sid):
         number = self.get_cur_dice
         player = self.playerDict[sid]
+        player.clear_possible_moves()
         for figure in player.get_team_dict:
-            if self.possible_move(figure, number):
+            if self.check_is_move_possible(figure, number):
                 player.add_possible_move(figure)
             
-    def possible_move(self, figure, number):
-        pass
-        #ist homefield belegt und noch jemand zu hause dann frei machen
-            #kann spieler bewegt werden der auf homefield steht
+    def check_is_move_possible(self, figure, number):
+        if figure.get_home == True:
+            if number == 6:
+
+        #ist die figur zu hause?
+            #ja - hast du eine 6 gewürfelt?
+                #ja - ist das startfeld frei?
+                    #ja - du kannst den move machen
+                    #nein - figur nicht bewegbar
+                #nein - figur nicht bewegbar
+            #nein - Landet die Figur im Zielbereich?
+                #ja - sind die Zielfelder vor dir und deins frei?
+                    #ja - figur bewegbar
+                    #nein - figur nicht bewegbar
+                #nein - Ist das neue Feld nicht von eigener Farbe belegt?
+                    #ja - figur bewegbar
+                    #nein - figur nicht bewegbar
                  
 
     def game_move(self, sid, field_number):       
@@ -103,21 +117,21 @@ class Mensch():
                         return True
             else:
                 print("Alles was kein Homefeld ist")
-                if old_field.get_figure_on_field.get_position + number > 40 and old_field.get_figure_on_field.get_position + number < 45:
+                if old_field.get_figure_on_field.get_steps + number > 40 and old_field.get_figure_on_field.get_steps + number < 45:
                     print("figur läuft in den Zielbereich")
-                    if old_field.get_figure_on_field.get_position + number < 44 or list(player.get_finish_fields.values())[3].get_color_on_field == 0:
+                    if old_field.get_figure_on_field.get_steps + number < 44 or list(player.get_finish_fields.values())[3].get_color_on_field == 0:
                         print("letzes feld ist frei")
-                        if old_field.get_figure_on_field.get_position + number < 43 or list(player.get_finish_fields.values())[2].get_color_on_field == 0:
+                        if old_field.get_figure_on_field.get_steps + number < 43 or list(player.get_finish_fields.values())[2].get_color_on_field == 0:
                             print("vorletztes feld ist frei")
-                            if old_field.get_figure_on_field.get_position + number < 42 or list(player.get_finish_fields.values())[1].get_color_on_field == 0:
+                            if old_field.get_figure_on_field.get_steps + number < 42 or list(player.get_finish_fields.values())[1].get_color_on_field == 0:
                                 print("vorvorletztes feld ist frei")
                                 if list(player.get_finish_fields.values())[0].get_color_on_field == 0:
                                     print("erstes feld ist frei")
-                                    newfield = list(player.get_finish_fields.values())[old_field.get_figure_on_field.get_position + number - 41]
+                                    newfield = list(player.get_finish_fields.values())[old_field.get_figure_on_field.get_steps + number - 41]
                                     print(newfield.get_id)
                                     if self.make_move(old_field, newfield, number):
                                         return True
-                elif old_field.get_figure_on_field.get_position + number < 45:
+                elif old_field.get_figure_on_field.get_steps + number < 45:
                     print("Figur läuft nicht in den Zielbereich und ist kein Homfeld")
                     if old_field.get_id + number > 89:
                         print("neues Feld ist über kritische Marke 89")
