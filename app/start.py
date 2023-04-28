@@ -56,13 +56,14 @@ class Mensch():
         print(data_room)
         pass
 
-    def create_possible_moves(self, sid):
+    def get_possible_moves(self, sid):
         number = self.get_cur_dice
         player = self.playerDict[sid]
         player.clear_possible_moves()
-        for figure in player.get_team_dict:
+        for figure in player.get_team_dict.values():
             if self.check_is_move_possible(figure, number):
                 player.add_possible_move(figure)
+        print(player.get_possible_moves)
             
     def check_is_move_possible(self, figure, number):
         #ist die figur zu hause?
@@ -79,14 +80,14 @@ class Mensch():
                     #ja - figur bewegbar
                     #nein - figur nicht bewegbar
         if figure.get_home == True:
-            if number == 6:
+            if int(number) == 6:
                 if figure.get_starting_field.get_color_on_field != figure.get_color:
                     return True
                 return False
             return False
         elif figure.get_steps + number > 40 and figure.get_steps + number < 45:
             x = figure.get_steps + number
-            while x > 41:
+            while x > 40:
                 if figure.get_finish_fields[x].get_color_on_field != 0:
                     return False
                 x -= 1

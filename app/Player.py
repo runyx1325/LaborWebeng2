@@ -79,6 +79,9 @@ class Player():
     def get_team_dict(self):
         return self.team_dict
     @property
+    def get_possible_moves(self):
+        return self.possible_moves
+    @property
     def get_finish(self):
         return self.finish
     @property

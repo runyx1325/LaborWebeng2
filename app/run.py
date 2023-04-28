@@ -153,8 +153,8 @@ def roll_dice(data):
     number = json.dumps(random.randrange(1,7))
     game = room_game[room]
     game.set_cur_dice(number)
-    game.create_possible_moves(data['user'])
-
+    game.get_possible_moves(data['user'])
+    
     type = "send_dice_result"
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
 
@@ -168,7 +168,6 @@ def choose_figure(data):
     if game.get_cur_player == sid:
         if game.game_move(sid, field):
             print("Move war erfolgreich")
-            #update view and nextplayer or same player
             type="gameboard"
             gameboard = json.dumps(game.get_gameboard.get_gameboard)
             send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)

@@ -13,7 +13,7 @@
                 </a>
                 </div>
                 <div class="user-list">
-                    <p>Current Players:</p>
+                    <p>Players</p>
                     <ul id="user-list" style="list-style: none;">
                     </ul>
                 </div>
@@ -55,6 +55,9 @@
             </div>
             <div class="panel-right">
                 <h2>Game: {{room}}</h2>
+                <div class="room-log" id="room-log">
+                
+                </div>
                 <button onclick="dice()" class="dice-button" id="dice-button">Dice</button>
             </div>
         </div>
@@ -136,10 +139,14 @@ socketio.on('message', function(data) {
     } else if (obj.type == "send_dice_result") {
         var user = obj.user;
         var number = obj.number;
-        var overlay = document.querySelector("#dice-overlay");
-        overlay.innerHTML = "";
-        overlay.innerHTML = user + " has rolled a " + number;
-        overlay.style.display = "flex";
+        //var overlay = document.querySelector("#dice-overlay");
+        //overlay.innerHTML = "";
+        //overlay.innerHTML = user + " has rolled a " + number;
+        //overlay.style.display = "flex";
+        var log = document.getElementById('room-log');
+        var msg = document.createElement("p");
+        msg.innerHTML = client_list[socketio.id] + " rolled a " + number;
+        log.appendChild(msg);
     }
 });
 
@@ -154,10 +161,18 @@ function startRound() {
         alert("Can't start round with less than two players");
         return;
     }*/
+    var log = document.getElementById('room-log');
+    var msg = document.createElement("p");
+    msg.innerHTML = client_list[socketio.id] + " started the game!";
+    log.appendChild(msg);
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
 }
 
 function sendOnCellClick(i) {
+    var log = document.getElementById('room-log');
+    var msg = document.createElement("p");
+    msg.innerHTML = client_list[socketio.id] + " clicked on field " + i;
+    log.appendChild(msg);
     socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id, field: i});
 }
 

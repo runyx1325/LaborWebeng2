@@ -226,6 +226,8 @@ td:hover {
     flex: 1 1 15%;
     display: flex;
     box-sizing: inherit;
+    flex-direction: column;
+    align-items: center;
 }
 #game .board {
     display: flex;
@@ -299,4 +301,18 @@ ul{
   }
 .overlay:hover {
     cursor: pointer;
+}
+.room-log {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 100%;
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+.room-log p{
+    color: var(--COLOR_CHAT_TEXT_BASE);
+    padding: 0.2em;
+    margin: 0;
 }
