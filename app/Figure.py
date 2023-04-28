@@ -12,6 +12,7 @@ class Figure():
         self.id = str(self.color)+str(self.nr)
         self.home_field = None
         self.starting_field = None
+        self.finish_fields = None
         self.home = True
         self.finish = False
         self.steps = 0 
@@ -42,6 +43,12 @@ class Figure():
     def set_home_field(self, field):
         self.home_field = field
 
+    def set_starting_field(self, field):
+        self.starting_field = field
+
+    def set_finish_fields(self, fields):
+        self.finish_fields = fields
+
     @property
     def get_nr(self):
         return self.nr
@@ -57,6 +64,9 @@ class Figure():
     @property
     def get_starting_field(self):
         return self.starting_field
+    @property
+    def get_finish_fields(self):
+        return self.finish_fields
     @property
     def get_home(self):
         return self.home
