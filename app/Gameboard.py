@@ -18,9 +18,7 @@ class Gameboard():
         self.playerCount = len(playerList)
         
 
-    @property
-    def get_gameboard(self):
-        return self.gameboard_for_view
+    
 
     def start(self):
         self.gameStatus = True
@@ -104,6 +102,9 @@ class Gameboard():
     
     def get_field(self, number):
         return self.field_list[number]
+    @property
+    def get_gameboard(self):
+        return self.get_view(self.field_dict)
     @property
     def get_finished(self):
         return self.gameFinished

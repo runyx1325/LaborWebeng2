@@ -102,18 +102,31 @@ class Mensch():
                             return True
 
     def make_move(self, old_field, new_field, number):
+        print("----")
         print(old_field.get_id)
+        print(old_field.get_color_on_field)
         print(new_field.get_id)
+        print(new_field.get_color_on_field)
         cur_figure = old_field.get_figure_on_field
         if new_field.get_color_on_field == 0:
             old_field.figure_away()
             cur_figure.set_on_field(new_field)
             cur_figure.walk(number)
+            print(old_field.get_id)
+            print(old_field.get_color_on_field)
+            print(new_field.get_id)
+            print(new_field.get_color_on_field)
+            print("---")
             return True
         else:
             new_field.get_figure_on_field.set_home(self.gameboard.get_field_dict)
             new_field.set_figure_on_field(old_field.get_figure_on_field)
             old_field.figure_away()
+            print(old_field.get_id)
+            print(old_field.get_color_on_field)
+            print(new_field.get_id)
+            print(new_field.get_color_on_field)
+            print("---")
             return True
 
 

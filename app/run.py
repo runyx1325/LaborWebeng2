@@ -159,8 +159,8 @@ def choose_figure(data):
     field = data['field']
     game = room_game[room]
     
-    if room_game[room].get_cur_player == sid:
-        if room_game[room].game_move(sid, field):
+    if game.get_cur_player == sid:
+        if game.game_move(sid, field):
             print("Move war erfolgreich")
             #update view and nextpalyer
             type="gameboard"
