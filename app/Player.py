@@ -24,6 +24,9 @@ class Player():
 
     def __str__(self):
         return self.nickname
+
+    def clear_possible_moves(self):
+        self.possible_moves = {}
     
     def add_possible_move(self, figure):
         self.possible_moves[figure.get_nr] = figure
