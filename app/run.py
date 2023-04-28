@@ -126,6 +126,7 @@ def start_round(data):
     room_states[room] = 0
     game = Mensch(data_clients)
     room_game[room] = game
+
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
     send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
@@ -150,7 +151,10 @@ def roll_dice(data):
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
     number = json.dumps(random.randrange(1,7))
-    room_game[room].set_cur_dice(number)
+    game = room_game[room]
+    game.set_cur_dice(number)
+    game.create_possible_moves(data['user'])
+
     type = "send_dice_result"
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
 

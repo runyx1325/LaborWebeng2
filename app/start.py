@@ -1,12 +1,8 @@
-from flask import Flask, render_template, request, session, redirect, url_for
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
 import random, json
 from Gameboard import Gameboard
 from Figure import Figure
 from Player import Player
 from Field import Field
-
-
 
 class Mensch():
     def __init__(self, data):
@@ -59,6 +55,19 @@ class Mensch():
         data_room = json.loads(data)
         print(data_room)
         pass
+
+    def create_possible_moves(self, sid):
+        number = self.get_cur_dice
+        player = self.playerDict[sid]
+        for figure in player.get_team_dict:
+            if self.possible_move(figure, number):
+                player.add_possible_move(figure)
+            
+    def possible_move(self, figure, number):
+        pass
+        #ist homefield belegt und noch jemand zu hause dann frei machen
+            #kann spieler bewegt werden der auf homefield steht
+                 
 
     def game_move(self, sid, field_number):       
         number = self.get_cur_dice

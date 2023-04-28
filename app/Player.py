@@ -11,6 +11,7 @@ class Player():
         self.color = color
         self.finish = False
         self.team_dict = {}
+        self.possible_moves = {}
 
         self.starting_field = {}
         self.home_fields = {}
@@ -23,6 +24,9 @@ class Player():
 
     def __str__(self):
         return self.nickname
+    
+    def add_possible_move(self, figure):
+        self.possible_moves[figure.get_nr] = figure
     
     def finish(self):
         for figure in self.team_dict.values():
