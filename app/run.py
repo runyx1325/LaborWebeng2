@@ -137,6 +137,7 @@ def start_round(data):
         next_player = game.start()
         type = "dice"   
         send('{"type":"' + type + '"}', room=next_player)
+        
         while game.get_waiting:
             time.sleep(1)
             if not game.get_waiting:
@@ -148,7 +149,7 @@ def roll_dice(data):
     room = data['room']
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
-    number = json.dumps(6)#random.randrange(1,7))
+    number = json.dumps(random.randrange(1,7))
     room_game[room].set_cur_dice(number)
     type = "send_dice_result"
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
@@ -163,12 +164,15 @@ def choose_figure(data):
     if game.get_cur_player == sid:
         if game.game_move(sid, field):
             print("Move war erfolgreich")
-            #update view and nextpalyer
+            #update view and nextplayer or same player
             type="gameboard"
             gameboard = json.dumps(game.get_gameboard.get_gameboard)
             send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
-            game.set_waiting(False)
-    #wähle eine neues feld
+            if game.get_cur_dice == 6:
+                type = "dice"   
+                send('{"type":"' + type + '"}', room=sid)
+            else:
+                game.set_waiting(False)
       
 if __name__ == '__main__':
     socketio.run(app, debug=True)
