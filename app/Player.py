@@ -38,6 +38,26 @@ class Player():
         self.finish = True
         return True
     
+    def ready(self):
+        if self.finish:
+            return True
+        else:
+            #how many figures are at home
+            counter = 0
+            for figure in self.team_dict.values():
+                if figure.get_home:
+                    counter += 1
+            field = 4 - counter
+            #is the rest in finish?
+            while field > 0:
+                if list(self.finish_fields.values())[4 - field].get_color_on_field == self.color:
+                    counter += 1
+                field -= 1
+            if counter == 4:
+                return True
+            return False
+        
+    
     def set_fields(self, gameboard):
         match self.color:
             case 1:

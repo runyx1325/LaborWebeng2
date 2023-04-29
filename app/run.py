@@ -150,13 +150,24 @@ def roll_dice(data):
     room = data['room']
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
-    number = json.dumps(6)#random.randrange(1,7))
+    number = json.dumps(random.randrange(1,7))
     game = room_game[room]
     game.set_cur_dice(number)
-    game.get_possible_moves(data['user'])
     
-    type = "send_dice_result"
-    send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
+    #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
+    print(game.get_player_dict)
+    if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
+        type = "send_dice_result"
+        send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
+        game.update_counter_bad_moves()
+        #darf er nochmal?
+        game.again()
+        next_player = game.start()
+        type = "dice"   
+        send('{"type":"' + type + '"}', room=next_player)
+    else:
+        type = "send_dice_result"
+        send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
 
 @socketio.on('choose-figure')
 def choose_figure(data):
@@ -167,7 +178,6 @@ def choose_figure(data):
     
     if game.get_cur_player == sid:
         if game.game_move(sid, field):
-            print("Move war erfolgreich")
             type="gameboard"
             gameboard = json.dumps(game.get_gameboard.get_gameboard)
             send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)

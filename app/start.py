@@ -16,9 +16,11 @@ class Mensch():
         self.waiting = False
         self.player_sid = self.data_room.keys()
         self.playerlist = []
-        self.playerDict = {}
+        self.player_dict = {}
         self.playerturn = 0
+        self.counter_bad_moves = 0
         self.cur_dice = "default"
+        
 
         i = 1
         if len(self.player_sid) == 4:
@@ -39,9 +41,7 @@ class Mensch():
 
         for player in self.playerlist:
             player.set_fields(self.gameboard.get_field_dict)
-            self.playerDict[player.get_sid] = player
-
-        
+            self.player_dict[player.get_sid] = player
         
     def start(self):
         #choose current player
@@ -50,20 +50,15 @@ class Mensch():
         self.playerturn +=1
         self.cur_player = list(self.player_sid)[player]
         return self.cur_player
-        
-    def start_play(self, data):
-        data_room = json.loads(data)
-        print(data_room)
-        pass
 
     def get_possible_moves(self, sid):
         number = self.get_cur_dice
-        player = self.playerDict[sid]
+        player = self.player_dict[sid]
         player.clear_possible_moves()
         for figure in player.get_team_dict.values():
             if self.check_is_move_possible(figure, number):
                 player.add_possible_move(figure)
-        print(player.get_possible_moves)
+        return player.get_possible_moves
             
     def check_is_move_possible(self, figure, number):
         #ist die figur zu hause?
@@ -103,12 +98,10 @@ class Mensch():
 
     def game_move(self, sid, field_number):       
         number = self.get_cur_dice
-        player = self.playerDict[sid]
+        player = self.player_dict[sid]
         field = self.get_gameboard.get_field(field_number)
         if self.check_move(player, field, number):
-            print("JAaaa")
             return True
-        print("nein")
         return False
     
     def check_move(self, player, old_field, number):
@@ -121,9 +114,7 @@ class Mensch():
                     #achtung zielbereich  
                 #check feld + number ist nicht mit eigener figur belegt
                     #mach move
-        print(player)      
-        print(old_field.get_id)
-        print(old_field.get_color_on_field)
+        
         if old_field.get_color_on_field == player.get_color:
             print("Feld mit eigener Figur ausgewählt")
             if old_field.get_id in player.get_home_fields:
@@ -179,13 +170,18 @@ class Mensch():
             old_field.figure_away()
             return True
 
-
+    def update_counter_bad_moves(self):
+            self.counter_bad_moves += 1
+    def again(self):
+        self.playerturn -= 1
 
     #setter
     def set_waiting(self, bool):
         self.waiting = bool
     def set_cur_dice(self, number):
         self.cur_dice = int(number)
+    def set_counter_bad_moves(self):
+        self.counter_bad_moves = 1
 
     #getter
     @property
@@ -200,3 +196,9 @@ class Mensch():
     @property 
     def get_cur_dice(self):
         return self.cur_dice
+    @property
+    def get_player_dict(self):
+        return self.player_dict  
+    @property
+    def get_counter_bad_moves(self):
+        return self.counter_bad_moves

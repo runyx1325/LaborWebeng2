@@ -16,9 +16,6 @@ class Gameboard():
         self.gameStatus = False
         self.gameFinished = False
         self.playerCount = len(playerList)
-        
-
-    
 
     def start(self):
         self.gameStatus = True
