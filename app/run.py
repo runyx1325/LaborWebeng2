@@ -155,12 +155,10 @@ def roll_dice(data):
     game.set_cur_dice(number)
     
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
-    print(game.get_player_dict)
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
         type = "send_dice_result"
         send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
         game.update_counter_bad_moves()
-        #darf er nochmal?
         game.again()
         next_player = game.start()
         type = "dice"   
