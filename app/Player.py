@@ -28,8 +28,8 @@ class Player():
     def clear_possible_moves(self):
         self.possible_moves = {}
     
-    def add_possible_move(self, figure):
-        self.possible_moves[figure.get_nr] = figure
+    def add_possible_move(self, figure, new_field):
+        self.possible_moves[figure.get_nr] = new_field
     
     def finish(self):
         for figure in self.team_dict.values():
