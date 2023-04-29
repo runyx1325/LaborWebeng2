@@ -37,6 +37,24 @@ class Player():
                 return False
         self.finish = True
         return True
+
+    def in_home(self):
+        counter = 0
+        for field in list(self.home_fields.values()):
+            if field.get_color_on_field == self.color:
+                counter += 1
+        return counter
+    
+    def empty_home(self):
+        for field in list(self.home_fields.values()):
+            if field.get_color_on_field == self.color:
+                return False
+        return True
+    
+    def empty_start(self):
+        if list(self.starting_field.values())[0].get_color_on_field == self.get_color:
+            return False
+        return True
     
     def ready(self):
         if self.finish:

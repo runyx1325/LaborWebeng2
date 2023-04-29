@@ -5,7 +5,7 @@ class Figure():
         #id := unmique id of figure in this game (team_color + figure_nr)
         #home := true if figure is home
         #finish := true if figure is in finish
-        #position := 0 is home, 1 is starting field, 41/42/43/44 is finish
+        #steps := 0 is home, 1 is starting field, 41/42/43/44 is finish
         #on_field := field object
         self.nr = nr 
         self.color = color
@@ -26,18 +26,18 @@ class Figure():
         field.set_figure_on_field(self)
 
     def set_home(self, field_dict):
-        self.position = 0
+        self.steps = 0
         self.home = True
         self.on_field = field_dict.get(int(self.id))
         self.get_on_field.set_figure_on_field(self)
 
     def walk(self, number):
-        if self.position == 0:
-            self.position = 1
+        if self.steps == 0:
+            self.steps = 1
         else:
-            self.position += number
+            self.steps += number
         self.home = False
-        if self.position > 40:
+        if self.steps > 40:
             self.finsish = True
 
     def set_home_field(self, field):

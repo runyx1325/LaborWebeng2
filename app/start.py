@@ -55,46 +55,115 @@ class Mensch():
         number = self.get_cur_dice
         player = self.player_dict[sid]
         player.clear_possible_moves()
-        for figure in player.get_team_dict.values():
-            if self.check_is_move_possible(figure, number):
-                player.add_possible_move(figure)
-        return player.get_possible_moves
-            
-    def check_is_move_possible(self, figure, number):
-        #ist die figur zu hause?
-            #ja - hast du eine 6 gewürfelt?
-                #ja - ist das startfeld frei?
-                    #ja - du kannst den move machen
-                    #nein - figur nicht bewegbar
-                #nein - figur nicht bewegbar
-            #nein - Landet die Figur im Zielbereich?
-                #ja - sind die Zielfelder vor dir und deins frei?
-                    #ja - figur bewegbar
-                    #nein - figur nicht bewegbar
-                #nein - Ist das neue Feld nicht von eigener Farbe belegt?
-                    #ja - figur bewegbar
-                    #nein - figur nicht bewegbar
-        if figure.get_home == True:
-            if int(number) == 6:
-                if figure.get_starting_field.get_color_on_field != figure.get_color:
-                    return True
-                return False
-            return False
-        elif figure.get_steps + number > 40 and figure.get_steps + number < 45:
-            x = figure.get_steps + number
-            while x > 40:
-                if figure.get_finish_fields[x].get_color_on_field != 0:
-                    return False
-                x -= 1
-            return True
-        elif figure.get_on_field.get_id + number > 89:
-            if self.gameboard.get_field_dict.get(figure.get_on_field.get_id + number - 40).get_color_on_field != figure.get_color:
-                return True
-            return False
+        empty_home = player.empty_home()
+        empty_start = player.empty_start()
+        
+        if int(number) == 6:
+            print("rolled a 6")
+            if not empty_home:
+                print("home is not empty")
+                if not empty_start:
+                    print("start is not empty")
+                    field = list(player.get_starting_field.values())[0]
+                    if self.check_is_move_possible(field, number):#gibt true zurück wenn zug möglich und sonst field welches blockiert hat
+                        figure = field.get_figure_on_field
+                        player.add_possible_move(figure)
+                        return player.get_possible_moves
+                    else:
+                        field = self.check_is_move_possible(field, number)
+                        if self.check_is_move_possible(field, number):
+                            figure = field.get_figure_on_field
+                            player.add_possible_move(figure)
+                            return player.get_possible_moves
+                        else:
+                            field = self.check_is_move_possible(field, number)
+                            if self.check_is_move_possible(field, number):
+                                figure = field.get_figure_on_field
+                                player.add_possible_move(figure)
+                                return player.get_possible_moves
+                            print("nobody can move")
+                            return player.get_possible_moves
+                else:
+                    print("start is empty")
+                    #all figures in home can move
+                    for home_field in list(player.get_home_fields.values()):
+                        if home_field.get_color_on_field != 0:
+                            figure = home_field.get_figure_on_field
+                            player.add_possible_move(figure)
+                    return player.get_possible_moves
+            else:
+                print("home is empty")
+                for figure in list(player.get_team_dict.values()):
+                    field = figure.get_on_field
+                    if figure.get_steps < 35:#landet nicht im zielbereich
+                        if self.check_is_move_possible(field, number):
+                            figure = field.get_figure_on_field
+                            player.add_possible_move(figure)
+                    elif figure.get_steps < 38:#landen alle im zielbereich
+                        x = int(number)
+                        while figure.get_steps + x > 40:
+                            if self.check_is_move_possible(field, x):
+                                x -= 1
+                                if x == 41:
+                                    figure = field.get_figure_on_field
+                                    player.add_possible_move(figure)
+                            else:
+                                break
+                return player.get_possible_moves
         else:
-            if self.gameboard.get_field_dict.get(figure.get_on_field.get_id + number).get_color_on_field != figure.get_color:
-                return True
-            return False
+            print("No 6")
+            if player.in_home() != 4:               
+                if not empty_home and not empty_start:
+                    print("home is not empty")
+                    print("start is not empty")
+                    field = list(player.get_starting_field.values())[0]
+                    if self.check_is_move_possible(field, number):#gibt true zurück wenn zug möglich und sonst field welches blockiert hat
+                        figure = field.get_figure_on_field
+                        player.add_possible_move(figure)
+                        return player.get_possible_moves    
+                    else:
+                        field = self.check_is_move_possible(field, number)
+                        if self.check_is_move_possible(field, number):
+                            figure = field.get_figure_on_field
+                            player.add_possible_move(figure)
+                            return player.get_possible_moves
+                        else:
+                            field = self.check_is_move_possible(field, number)
+                            if self.check_is_move_possible(field, number):
+                                figure = field.get_figure_on_field
+                                player.add_possible_move(figure)
+                                return player.get_possible_moves
+                            print("nobody can move")
+                            return player.get_possible_moves
+                elif empty_home or (not empty_home and empty_start):
+                    print("home is empty or home is not empty but start is empty")
+                    for figure in list(player.get_team_dict.values()):
+                        print(figure.get_steps)
+                        if figure.get_steps != 0:
+                            field = figure.get_on_field
+                            if figure.get_steps < 35:#landet nicht im zielbereich
+                                if self.check_is_move_possible(field, number):
+                                    figure = field.get_figure_on_field
+                                    player.add_possible_move(figure)
+                            elif figure.get_steps < 38:#landen alle im zielbereich
+                                x = int(number)
+                                while figure.get_steps + x > 40:
+                                    if self.check_is_move_possible(field, x):
+                                        x -= 1
+                                        if x == 41:
+                                            figure = field.get_figure_on_field
+                                            player.add_possible_move(figure)
+                                    else:
+                                        break
+                    return player.get_possible_moves
+            return player.get_possible_moves
+            
+    def check_is_move_possible(self, old_field, number):
+        #gibt true zurück wenn zug nicht blockiert wird und sonst field welches blockiert hat
+        new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
+        if new_field.get_color_on_field != old_field.get_color_on_field:
+            return True
+        return new_field
 
     def game_move(self, sid, field_number):       
         number = self.get_cur_dice
