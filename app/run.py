@@ -150,7 +150,7 @@ def roll_dice(data):
     room = data['room']
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
-    number = json.dumps(random.randrange(1,7))
+    number = json.dumps(6)#random.randrange(1,7))
     game = room_game[room]
     game.set_cur_dice(number)
     game.get_possible_moves(data['user'])
@@ -176,6 +176,13 @@ def choose_figure(data):
                 send('{"type":"' + type + '"}', room=sid)
             else:
                 game.set_waiting(False)
-      
+
+@socketio.on('room-log')
+def send_log(data):
+    type = "room-log"
+    room = data['room']
+    msg  = data['msg']    
+    send('{"type":"' + type + '", "msg":"'+ msg+'"}', to=room)
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)

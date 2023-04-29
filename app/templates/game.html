@@ -136,6 +136,7 @@ socketio.on('message', function(data) {
         //show dice for this client
         var dice = document.querySelector('#dice-button');
         dice.style.display = "block";
+
     } else if (obj.type == "send_dice_result") {
         var user = obj.user;
         var number = obj.number;
@@ -143,9 +144,14 @@ socketio.on('message', function(data) {
         //overlay.innerHTML = "";
         //overlay.innerHTML = user + " has rolled a " + number;
         //overlay.style.display = "flex";
+        message = client_list[socketio.id] + " rolled a " + number;
+        socketio.emit('room-log', {room: {{room}}, msg: message});
+
+    } else if (obj.type == "room-log") {
+        console.log(data)
         var log = document.getElementById('room-log');
         var msg = document.createElement("p");
-        msg.innerHTML = client_list[socketio.id] + " rolled a " + number;
+        msg.innerHTML = obj.msg;
         log.appendChild(msg);
     }
 });
@@ -161,18 +167,14 @@ function startRound() {
         alert("Can't start round with less than two players");
         return;
     }*/
-    var log = document.getElementById('room-log');
-    var msg = document.createElement("p");
-    msg.innerHTML = client_list[socketio.id] + " started the game!";
-    log.appendChild(msg);
+    message = client_list[socketio.id] + " started the game!";
+    socketio.emit('room-log', {room: '{{room}}', msg: message});
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
 }
 
 function sendOnCellClick(i) {
-    var log = document.getElementById('room-log');
-    var msg = document.createElement("p");
-    msg.innerHTML = client_list[socketio.id] + " clicked on field " + i;
-    log.appendChild(msg);
+    message = client_list[socketio.id] + " clicked on field " + i;
+    socketio.emit('room-log', {room: '{{room}}', msg: message});
     socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id, field: i});
 }
 
