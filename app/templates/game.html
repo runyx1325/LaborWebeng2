@@ -134,6 +134,8 @@ socketio.on('message', function(data) {
         }
     } else if (obj.type == "dice") {
         //show dice for this client
+        message = " It's your turn: " + client_list[socketio.id];
+        socketio.emit('room-log', {room: '{{room}}', msg: message});
         var dice = document.querySelector('#dice-button');
         dice.style.display = "block";
 
@@ -145,7 +147,7 @@ socketio.on('message', function(data) {
         //overlay.innerHTML = user + " has rolled a " + number;
         //overlay.style.display = "flex";
         message = client_list[socketio.id] + " rolled a " + number;
-        socketio.emit('room-log', {room: {{room}}, msg: message});
+        socketio.emit('room-log', {room: '{{room}}', msg: message});
 
     } else if (obj.type == "room-log") {
         console.log(data)
@@ -153,6 +155,7 @@ socketio.on('message', function(data) {
         var msg = document.createElement("p");
         msg.innerHTML = obj.msg;
         log.appendChild(msg);
+        log.scrollTop = log.scrollHeight;
     }
 });
 
@@ -173,8 +176,6 @@ function startRound() {
 }
 
 function sendOnCellClick(i) {
-    message = client_list[socketio.id] + " clicked on field " + i;
-    socketio.emit('room-log', {room: '{{room}}', msg: message});
     socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id, field: i});
 }
 

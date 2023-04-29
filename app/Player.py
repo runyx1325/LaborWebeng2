@@ -62,9 +62,10 @@ class Player():
         for x in finish_fields:
             self.finish_fields[x] = gameboard.get(x)
         for figure in list(self.team_dict.values()):
-            figure.set_home_field = gameboard.get(int(figure.get_id))
-            figure.set_starting_field = list(self.starting_field.values())[0]
-            figure.set_finish_fields = self.finish_fields
+            figure.set_home_field(gameboard.get(int(figure.get_id)))
+            figure.set_starting_field(list(self.starting_field.values())[0])
+            figure.set_finish_fields(self.finish_fields)
+           
 
     @property
     def get_sid(self):
