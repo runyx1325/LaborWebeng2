@@ -76,7 +76,6 @@
     var client = [];
 
 socketio.on('message', function(data) {
-    console.log(data)
     var obj = JSON.parse(data);
     
     if (obj.type == 'user_joined') {
@@ -154,9 +153,8 @@ socketio.on('message', function(data) {
         message = " rolled a " + number;
         socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
 
-    } else if (obj.type == "room-log") {
-        console.log(data)
-        
+    } else if (obj.type == "room-log") {   
+        //log.scrollTop = log.scrollHeight;     
         var log = document.getElementById('log');
         var art = document.createElement("article");
         var boldText = document.createElement("b");
@@ -165,8 +163,6 @@ socketio.on('message', function(data) {
 
         art.setAttribute("class", "message");
 
-        console.log(typeof(obj.color))
-        console.log(obj.color)
         switch (obj.color){
             case '1'://yellow
                 boldText.style.color = "#FFA400";

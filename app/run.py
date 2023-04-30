@@ -72,7 +72,6 @@ def game():
 
 @socketio.on('connect')
 def connect(auth):
-    print("\n\nHILDFDasljdfkasjdnn\n\n")
     room = session.get("room")
     nickname = session.get("nickname")
     sid = request.sid
@@ -93,7 +92,6 @@ def connect(auth):
         
     print(f"Nickname: {nickname} (sid: {sid}) joined room: {room}")
     send('{"type":"' + type + '", "client_list":' + (client_list) + '}', to=room)
-
 
 @socketio.on("disconnect")
 def disconnect():
@@ -145,34 +143,44 @@ def start_round(data):
             if not game.get_waiting:
                 break
         print("Next Player: "+next_player)
+    print("Game is finished.")
 
 @socketio.on('dice')
 def roll_dice(data):
     room = data['room']
+    sid_cur_player = data['user']
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
-    number = json.dumps(random.randrange(1,6))
+    number = json.dumps(random.randrange(1,7))
     game = room_game[room]
     game.set_cur_dice(number)
     
+    #send dice number to game log
+    type = "send_dice_result"
+    send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=sid_cur_player)
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
-    print("Liste der bewegbaren Figuren: " + str(game.get_possible_moves(data['user']).keys()))
+    print("Bad Moves:" +str(game.get_counter_bad_moves))
+    print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
         #wenn kein zug mögglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
         #dann würfel nochmal
-        type = "send_dice_result"
-        send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
         game.update_counter_bad_moves()
         game.again()
         next_player = game.start()
         type = "dice"   
         send('{"type":"' + type + '"}', room=next_player)
-    elif len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves == 2:
-        type = "send_dice_result"
-        send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
+    elif game.get_counter_bad_moves == 2 and len(game.get_possible_moves(data['user'])) == 0:
+        game.set_counter_bad_moves()
+        game.set_waiting(False)
     else:
-        type = "send_dice_result"
-        send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
+        #choose a figure
+        type = "room-log"
+        message = " Choose a figure!"
+        color = str(room_game[room].get_player_dict.get(request.sid).get_color)
+        game.set_counter_bad_moves()
+        send('{"type":"' + type + '","user":"' + nickname + '","color":"' + color + '", "msg":"'+ message+'"}', to=room)
+    
+        
 
 @socketio.on('choose-figure')
 def choose_figure(data):
@@ -186,6 +194,7 @@ def choose_figure(data):
             type="gameboard"
             gameboard = json.dumps(game.get_gameboard.get_gameboard)
             send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
+            game.set_counter_bad_moves()
             if game.get_cur_dice == 6:
                 type = "dice"   
                 send('{"type":"' + type + '"}', room=sid)

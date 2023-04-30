@@ -2,37 +2,37 @@ from Player import Player
 from Field import Field
 
 class Gameboard():
-    def __init__(self, playerList):
-        #playerlist := list of player objects
+    def __init__(self, player_list):
+        #player_list := list of player objects
         #gameboard := at the beginning get the startinggameboard
-        #gamestatus := True if game is running
-        #gamefinished := True if game is finished
+        #game_status := True if game is running
+        #game_finished := True if game is finished
         #playerCount := number of players
         #Das Spiel weiß immer, wer gerade dran ist und wer der nächste ist
         
-        self.playerList = playerList
+        self.player_list = player_list
         self.field_dict = self.create_gameboard()
         self.gameboard_for_view = self.get_view(self.field_dict)
-        self.gameStatus = False
-        self.gameFinished = False
-        self.playerCount = len(playerList)
+        self.game_status = False
+        self.game_finished = False
+        self.player_count = len(self.player_list)
 
     def start(self):
-        self.gameStatus = True
-        #iteration over playerList till the game is finished
-        while self.gameStatus:
+        self.game_status = True
+        #iteration over player_list till the game is finished
+        while self.game_status:
             i = 0
             for i in range(self.playerCount):
-                print(type(self.playerList))
+                print(type(self.player_list))
                 print("Spieler: ", i ,"ist dran!")
                 #spieler darf würfeln 
                 
                 #spieler darf person bewegen
                 #spielbrett muss sich aktualisieren
                 #nächster Spieler ist dran
-            self.gameStatus =False
+            self.game_status =False
             #TODO
-            if i == self.playerCount and self.gameStatus == True:
+            if i == self.playerCount and self.game_status == True:
                 i = 0
             if self.checkGameStatus:
                 #Game finished
@@ -63,7 +63,7 @@ class Gameboard():
         field_dict[-1] = Field(-1,-1)
         
         #set figure to home
-        for player in self.playerList:
+        for player in self.player_list:
             for figure in player.get_team_dict.values():          
                 figure.set_home(field_dict)
         return field_dict
@@ -85,18 +85,18 @@ class Gameboard():
         gameboard_for_view = []
         for field in self.field_list:
             gameboard_for_view.append(field.get_name)
-        return gameboard_for_view
+        return gameboard_for_view  
     
-    
+    def check_game_is_finished(self):
+        for player in self.player_list:
+            for field in reversed(list(player.get_finish_fields.values())):
+                if field.get_color_on_field != 0:
+                    continue
+                break
+            return True
+        return False
 
-    def checkGameStatus(self):
-        for player in self.playerList:
-            if player.get_finish == True:
-                self.gameFinished = True
-                self.gameStatus = False
-                return True
-        return False    
-    
+
     def get_field(self, number):
         return self.field_list[number]
     @property
@@ -104,7 +104,8 @@ class Gameboard():
         return self.get_view(self.field_dict)
     @property
     def get_finished(self):
-        return self.gameFinished
+        self.game_finished = self.check_game_is_finished()
+        return self.game_finished
     @property
     def get_field_dict(self):
         return self.field_dict
