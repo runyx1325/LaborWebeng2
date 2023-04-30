@@ -110,8 +110,9 @@ class Mensch():
                         while figure.get_steps + x > 40:
                             if self.check_is_move_possible(old_field, x, player) == True:
                                 x -= 1
-                                if figure.get_steps + x == 41:
+                                if figure.get_steps + x == 40:
                                     new_field = list(player.get_finish_fields.values())[old_field.get_figure_on_field.get_steps + number - 41]
+                                    print("neue ")
                                     print(new_field.get_id)
                                     figure = old_field.get_figure_on_field
                                     player.add_possible_move(figure, new_field)
@@ -149,21 +150,22 @@ class Mensch():
                 elif empty_home or (not empty_home and empty_start):
                     print("home is empty or home is not empty but start is empty")
                     for figure in list(player.get_team_dict.values()):
-                        print(figure.get_steps)
+                        
                         if figure.get_steps != 0:
                             old_field = figure.get_on_field
-                            if figure.get_steps < 35:#landet nicht im zielbereich
+                            if figure.get_steps + number < 41:#landet nicht im zielbereich
                                 if self.check_is_move_possible(old_field, number, player) == True:
                                     new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
                                     figure = old_field.get_figure_on_field
                                     player.add_possible_move(figure, new_field)
-                            elif figure.get_steps < 38:#landen alle im zielbereich
+                            elif figure.get_steps + number > 40:#landen alle im zielbereich
                                 x = int(number)
                                 while figure.get_steps + x > 40:
-                                    if self.check_is_move_possible(old_field, x):
+                                    if self.check_is_move_possible(old_field, x, player):
                                         x -= 1
-                                        if x == 41:
-                                            new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
+                                        if figure.get_steps + x == 40:
+                                            y = figure.get_steps + x - 41
+                                            new_field = list(player.get_finish_fields.values())[y]
                                             figure = old_field.get_figure_on_field
                                             player.add_possible_move(figure, new_field)
                                     else:
@@ -172,7 +174,7 @@ class Mensch():
                                 if figure.get_steps + number < 45:
                                     x = 1
                                     while figure.get_steps + x <= figure.get_steps + number:
-                                        if self.check_is_move_possible(old_field, x):
+                                        if self.check_is_move_possible(old_field, x, player):
                                             x += 1
                                             if x == number:
                                                 new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
@@ -191,7 +193,10 @@ class Mensch():
             new_field = list(player.get_home_field.values())[0]
         else:
             if new_steps > 40:
-                new_field = list(player.get_finish_fields.values())[new_steps - 41]
+                x = new_steps - 41
+                print(x)
+                print(len(list(player.get_finish_fields.values())))
+                new_field = list(player.get_finish_fields.values())[x]
             else:
                 if old_field.get_id + number > 89:
                     new_field = self.gameboard.get_field_dict.get(old_field.get_id + number - 40)
@@ -267,7 +272,11 @@ class Mensch():
                                 return True
 
     def make_move(self, old_field, new_field, number):
+        
         cur_figure = old_field.get_figure_on_field
+        print(old_field)
+        print(new_field)
+        print(number)
         if new_field.get_color_on_field == 0:
             old_field.figure_away()
             cur_figure.set_on_field(new_field)
