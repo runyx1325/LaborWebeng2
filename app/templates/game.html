@@ -146,13 +146,11 @@ socketio.on('message', function(data) {
         socketio.emit('room-log', {room: '{{room}}',user: username, msg: message});
         var dice = document.querySelector('#dice-button');
         dice.style.display = "block";
-
     } else if (obj.type == "send_dice_result") {
         var user = obj.user;
         var number = obj.number;
         message = " rolled a " + number;
         socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
-
     } else if (obj.type == "room-log") {   
         //log.scrollTop = log.scrollHeight; 
         var roomLog = document.getElementById('room-log')    
@@ -161,9 +159,7 @@ socketio.on('message', function(data) {
         var boldText = document.createElement("b");
         boldText.textContent = obj.user;
         var msg = document.createTextNode(obj.msg);
-
         art.setAttribute("class", "message");
-
         switch (obj.color){
             case '1'://yellow
                 boldText.style.color = "#FFA400";
@@ -182,11 +178,9 @@ socketio.on('message', function(data) {
                 art.style.backgroundColor = "#009B0020";
                 break;
         }
-        
         art.appendChild(boldText);
         art.appendChild(msg);
         log.appendChild(art);
-        
         roomLog.scrollTop = roomLog.scrollHeight;
     }
 });

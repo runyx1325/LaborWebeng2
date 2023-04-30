@@ -159,8 +159,8 @@ def roll_dice(data):
     type = "send_dice_result"
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=sid_cur_player)
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
-    print("Bad Moves:" +str(game.get_counter_bad_moves))
-    print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
+    # print("Bad Moves:" +str(game.get_counter_bad_moves))
+    # print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
         #wenn kein zug mögglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
         #dann würfel nochmal
@@ -179,8 +179,6 @@ def roll_dice(data):
         color = str(room_game[room].get_player_dict.get(request.sid).get_color)
         game.set_counter_bad_moves()
         send('{"type":"' + type + '","user":"' + nickname + '","color":"' + color + '", "msg":"'+ message+'"}', to=room)
-    
-        
 
 @socketio.on('choose-figure')
 def choose_figure(data):
