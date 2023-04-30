@@ -57,6 +57,7 @@ class Player():
         return True
     
     def ready(self):
+        #returns true when you can roll 3 times
         if self.finish:
             return True
         else:

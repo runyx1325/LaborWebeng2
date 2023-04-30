@@ -114,6 +114,7 @@ td:hover {
     align-items: center;
 }
 #home .logo-big {
+    height: 25rem;
     margin-top: 25px;
     margin-bottom: 40px;
     transition: 150ms ease-in-out;
@@ -121,7 +122,6 @@ td:hover {
 #home .logo-big:hover {
     filter: brightness(70%);
 }
-
 #home .panels {
     display: flex;
     width: 100%;
@@ -179,7 +179,6 @@ td:hover {
 #home .button-join:hover {
     background-color: #33b319;
 }
-
 #home .container-input {
     display: flex;
     flex-direction: row;
@@ -223,6 +222,7 @@ td:hover {
 #game .panel-right {
     position: relative;
     margin-left: 8px;
+    margin-right: 2rem;
     flex: 1 1 15%;
     display: flex;
     box-sizing: inherit;
@@ -306,13 +306,23 @@ ul{
     margin-top: 4rem;
     display: flex;
     flex-direction: column;
-    height: 16rem;
+    height: 25rem;
     width: 100%;
     overflow-y: auto;
     word-wrap: break-word;
+    border: 4px solid black;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px black;
 }
-.room-log p{
+#room-log .message{
     color: var(--COLOR_CHAT_TEXT_BASE);
     padding: 0.2em;
     margin: 0;
+    
+}
+#room-log header{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    margin-top: 0.5rem;
 }

@@ -72,6 +72,7 @@ def game():
 
 @socketio.on('connect')
 def connect(auth):
+    print("\n\nHILDFDasljdfkasjdnn\n\n")
     room = session.get("room")
     nickname = session.get("nickname")
     sid = request.sid
@@ -150,13 +151,15 @@ def roll_dice(data):
     room = data['room']
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
-    number = json.dumps(random.randrange(1,7))
+    number = json.dumps(random.randrange(1,6))
     game = room_game[room]
     game.set_cur_dice(number)
     
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
     print("Liste der bewegbaren Figuren: " + str(game.get_possible_moves(data['user']).keys()))
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
+        #wenn kein zug mögglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
+        #dann würfel nochmal
         type = "send_dice_result"
         send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
         game.update_counter_bad_moves()
@@ -164,6 +167,9 @@ def roll_dice(data):
         next_player = game.start()
         type = "dice"   
         send('{"type":"' + type + '"}', room=next_player)
+    elif len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves == 2:
+        type = "send_dice_result"
+        send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
     else:
         type = "send_dice_result"
         send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=room)
@@ -188,10 +194,13 @@ def choose_figure(data):
 
 @socketio.on('room-log')
 def send_log(data):
+    print(data)
     type = "room-log"
     room = data['room']
-    msg  = data['msg']    
-    send('{"type":"' + type + '", "msg":"'+ msg+'"}', to=room)
+    msg  = data['msg']
+    user = data['user']
+    color = str(room_game[room].get_player_dict.get(request.sid).get_color)
+    send('{"type":"' + type + '","user":"' + user + '","color":"' + color + '", "msg":"'+ msg+'"}', to=room)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

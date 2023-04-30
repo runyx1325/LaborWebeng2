@@ -7,13 +7,16 @@
         </div>
         <div class="panels">
             <div class="panel-left">
-                <div class="logo">
+                <div>
                 <a href="./">
                     <img class ="logo-small" src="{{ url_for('static', filename='images/logo.png') }}">
                 </a>
                 </div>
                 <div class="user-list">
-                    <p>Players</p>
+                    <header>
+                        <b><p>Player List</p></b>
+                    </header>
+                    
                     <ul id="user-list" style="list-style: none;">
                     </ul>
                 </div>
@@ -56,7 +59,11 @@
             <div class="panel-right">
                 <h2>Game: {{room}}</h2>
                 <div class="room-log" id="room-log">
-                
+                    <header>
+                        <b>Game log<b>
+                    </header>
+                    <section class="log" id="log">
+                    </section>
                 </div>
                 <button onclick="dice()" class="dice-button" id="dice-button">Dice</button>
             </div>
@@ -69,6 +76,7 @@
     var client = [];
 
 socketio.on('message', function(data) {
+    console.log(data)
     var obj = JSON.parse(data);
     
     if (obj.type == 'user_joined') {
@@ -134,27 +142,54 @@ socketio.on('message', function(data) {
         }
     } else if (obj.type == "dice") {
         //show dice for this client
-        message = " It's your turn: " + client_list[socketio.id];
-        socketio.emit('room-log', {room: '{{room}}', msg: message});
+        message = " It's your turn!";
+        username = client_list[socketio.id];
+        socketio.emit('room-log', {room: '{{room}}',user: username, msg: message});
         var dice = document.querySelector('#dice-button');
         dice.style.display = "block";
 
     } else if (obj.type == "send_dice_result") {
         var user = obj.user;
         var number = obj.number;
-        //var overlay = document.querySelector("#dice-overlay");
-        //overlay.innerHTML = "";
-        //overlay.innerHTML = user + " has rolled a " + number;
-        //overlay.style.display = "flex";
-        message = client_list[socketio.id] + " rolled a " + number;
-        socketio.emit('room-log', {room: '{{room}}', msg: message});
+        message = " rolled a " + number;
+        socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
 
     } else if (obj.type == "room-log") {
         console.log(data)
-        var log = document.getElementById('room-log');
-        var msg = document.createElement("p");
-        msg.innerHTML = obj.msg;
-        log.appendChild(msg);
+        
+        var log = document.getElementById('log');
+        var art = document.createElement("article");
+        var boldText = document.createElement("b");
+        boldText.textContent = obj.user;
+        var msg = document.createTextNode(obj.msg);
+
+        art.setAttribute("class", "message");
+
+        console.log(typeof(obj.color))
+        console.log(obj.color)
+        switch (obj.color){
+            case '1'://yellow
+                boldText.style.color = "#FFA400";
+                art.style.backgroundColor = "#FFFF0020";
+                break;
+            case '2'://red
+                boldText.style.color = "#FF000B";
+                art.style.backgroundColor = "#FF000B20";
+                break;
+            case '3'://blue
+                boldText.style.color = "#0000FF";
+                art.style.backgroundColor = "#0000FF20";
+                break;
+            case '4'://green
+                boldText.style.color = "#009B00";
+                art.style.backgroundColor = "#009B0020";
+                break;
+        }
+        
+        art.appendChild(boldText);
+        art.appendChild(msg);
+        log.appendChild(art);
+        
         log.scrollTop = log.scrollHeight;
     }
 });
@@ -170,8 +205,9 @@ function startRound() {
         alert("Can't start round with less than two players");
         return;
     }*/
-    message = client_list[socketio.id] + " started the game!";
-    socketio.emit('room-log', {room: '{{room}}', msg: message});
+    message = " started the game!";
+    username = client_list[socketio.id];
+    socketio.emit('room-log', {room: '{{room}}', user: username, msg: message});
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
 }
 
