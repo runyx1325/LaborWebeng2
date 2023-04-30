@@ -154,7 +154,8 @@ socketio.on('message', function(data) {
         socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
 
     } else if (obj.type == "room-log") {   
-        //log.scrollTop = log.scrollHeight;     
+        //log.scrollTop = log.scrollHeight; 
+        var roomLog = document.getElementById('room-log')    
         var log = document.getElementById('log');
         var art = document.createElement("article");
         var boldText = document.createElement("b");
@@ -186,7 +187,7 @@ socketio.on('message', function(data) {
         art.appendChild(msg);
         log.appendChild(art);
         
-        log.scrollTop = log.scrollHeight;
+        roomLog.scrollTop = roomLog.scrollHeight;
     }
 });
 
