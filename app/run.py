@@ -1,3 +1,4 @@
+# coding: utf-8
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, send, join_room, leave_room
 import random, json, time
@@ -90,7 +91,7 @@ def connect(auth):
     client_list = json.dumps(data["clients"])
     room_clients[room] = json.dumps(data)
         
-    print(f"Nickname: {nickname} (sid: {sid}) joined room: {room}")
+    #print(f"Nickname: {nickname} (sid: {sid}) joined room: {room}")
     send('{"type":"' + type + '", "client_list":' + (client_list) + '}', to=room)
 
 @socketio.on("disconnect")
@@ -116,7 +117,7 @@ def disconnect():
         else:
             client_list = json.dumps(data["clients"])
             send('{"type":"' + type + '", "client_list":' + (client_list) + '}', to=room)
-    print(f"{nickname} {sid} has left the room {room}")
+    #print(f"{nickname} {sid} has left the room {room}")
 
 @socketio.on('start-round')
 def start_round(data):
