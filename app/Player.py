@@ -31,7 +31,7 @@ class Player():
     def add_possible_move(self, figure, new_field):
         self.possible_moves[figure.get_nr] = new_field
     
-    def finish(self):
+    def is_finish(self):
         for figure in list(self.team_dict.values()):
             if figure.get_finish == False:
                 return False
@@ -123,7 +123,7 @@ class Player():
         return self.possible_moves
     @property
     def get_finish(self):
-        self.finish = self.finish()
+        self.finish = self.is_finish()
         return self.finish
     @property
     def get_home_fields(self):

@@ -89,12 +89,14 @@ class Gameboard():
     
     def check_game_is_finished(self):
         for player in self.player_list:
-            for field in reversed(list(player.get_finish_fields.values())):
-                if field.get_color_on_field != 0:
-                    continue
-                break
-            return True
-        return False
+            if player.get_finish:
+                return True
+            # for field in reversed(list(player.get_finish_fields.values())):
+            #     if field.get_color_on_field != 0:
+            #         continue
+            #     break
+            # return True
+            return False
 
 
     def get_field(self, number):

@@ -203,7 +203,6 @@ def choose_figure(data):
 
 @socketio.on('room-log')
 def send_log(data):
-    print(data)
     type = "room-log"
     room = data['room']
     msg  = data['msg']
