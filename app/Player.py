@@ -78,23 +78,22 @@ class Player():
         
     
     def set_fields(self, gameboard):
-        match self.color:
-            case 1:
-                home_fields = [10,11,12,13]
-                finish_fields = [14,15,16,17]
-                self.starting_field[50] = gameboard.get(50)
-            case 2:
-                home_fields = [20,21,22,23]
-                finish_fields = [24,25,26,27]
-                self.starting_field[70] = gameboard.get(70)
-            case 3:
-                home_fields = [30,31,32,33]
-                finish_fields = [34,35,36,37]
-                self.starting_field[80] = gameboard.get(80)
-            case 4:
-                home_fields = [40,41,42,43]
-                finish_fields = [44,45,46,47]
-                self.starting_field[60] = gameboard.get(60)
+        if self.color == 1:
+            home_fields = [10,11,12,13]
+            finish_fields = [14,15,16,17]
+            self.starting_field[50] = gameboard.get(50)
+        elif self.color == 2:
+            home_fields = [20,21,22,23]
+            finish_fields = [24,25,26,27]
+            self.starting_field[70] = gameboard.get(70)
+        elif self.color == 3:
+            home_fields = [30,31,32,33]
+            finish_fields = [34,35,36,37]
+            self.starting_field[80] = gameboard.get(80)
+        elif self.color == 4:
+            home_fields = [40,41,42,43]
+            finish_fields = [44,45,46,47]
+            self.starting_field[60] = gameboard.get(60)
 
         for x in home_fields:
             self.home_fields[x] = gameboard.get(x)
