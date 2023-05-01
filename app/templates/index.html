@@ -13,7 +13,7 @@
     <div class="panel">
       <form method="POST">
         <div class="container-input">
-          <input class="input-nickname" id="nickname" type="text" placeholder="Enter your name" name="nickname" maxlength="21" data-translate="placeholder" value="{{nickname}}">
+          <input class="input-nickname" id="nickname" type="text" placeholder="Enter your name" name="nickname" pattern="[A-Za-z]{21}" maxlength="21" title="you can only use letters in your nickname" data-translate="placeholder" value="{{nickname}}">
         </div>
         <div class="join">
           <div class="container-input">
