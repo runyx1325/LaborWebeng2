@@ -161,7 +161,7 @@ def roll_dice(data):
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=sid_cur_player)
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
     # print("Bad Moves:" +str(game.get_counter_bad_moves))
-    # print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
+    print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
         #wenn kein zug mögglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
         #dann würfel nochmal
