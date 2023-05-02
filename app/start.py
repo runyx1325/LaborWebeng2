@@ -68,6 +68,7 @@ class Mensch():
                     old_field = list(player.get_starting_field.values())[0]
                     if self.check_is_move_possible(old_field, number, player) == True:#gibt true zurück wenn zug möglich und sonst field welches blockiert hat
                         new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
+                        print(new_field.get_id)
                         figure = old_field.get_figure_on_field
                         player.add_possible_move(figure, new_field)
                         return player.get_possible_moves
@@ -150,7 +151,6 @@ class Mensch():
                 elif empty_home or (not empty_home and empty_start):
                     ##print("home is empty or home is not empty but start is empty")
                     for figure in list(player.get_team_dict.values()):
-                        print("----")
                         if figure.get_steps != 0:
                             old_field = figure.get_on_field
                             if figure.get_steps + number < 41:#landet nicht im zielbereich

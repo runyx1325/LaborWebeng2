@@ -133,7 +133,6 @@ def start_round(data):
     print(data['user'] + ' started round in room: '+ data['room'])
 
     while not game.get_gameboard.get_finished:
-        print("start move")
         game.set_waiting(True)
         next_player = game.start()
         type = "dice"   
@@ -152,7 +151,7 @@ def roll_dice(data):
     sid_cur_player = data['user']
     user_dict = json.loads(room_clients[room])
     nickname =json.dumps(user_dict["clients"].get(data['user']))
-    number = json.dumps(random.randrange(1,7))
+    number = json.dumps(random.randrange(6,7))
     game = room_game[room]
     game.set_cur_dice(number)
     
