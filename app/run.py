@@ -179,7 +179,7 @@ def roll_dice(data):
         message = " Choose a figure!"
         color = str(room_game[room].get_player_dict.get(request.sid).get_color)
         game.set_counter_bad_moves()
-        send('{"type":"' + type + '","user":"' + nickname + '","color":"' + color + '", "msg":"'+ message+'"}', to=room)
+        send('{"type":"' + type + '","user":' + nickname + ',"color":"' + color + '", "msg":"'+ message+'"}', to=room)
 
 @socketio.on('choose-figure')
 def choose_figure(data):

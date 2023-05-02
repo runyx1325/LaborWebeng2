@@ -152,7 +152,7 @@ socketio.on('message', function(data) {
         message = " rolled a " + number;
         socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
     } else if (obj.type == "room-log") {   
-        //log.scrollTop = log.scrollHeight; 
+        
         var roomLog = document.getElementById('room-log')    
         var log = document.getElementById('log');
         var art = document.createElement("article");
@@ -207,6 +207,8 @@ function sendOnCellClick(i) {
 }
 
 function overlay_click() {
+    //TODO
+    //Hier muss eine Bedingung hin die prüft ob gewürfelt wurde
     var overlay = document.querySelector("#dice-overlay");
     overlay.style.display = "none";
 }
