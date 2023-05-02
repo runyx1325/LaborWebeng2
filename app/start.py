@@ -211,11 +211,12 @@ class Mensch():
         old_field = self.get_gameboard.get_field(field_number)
         figure = old_field.get_figure_on_field
 
-        if figure.get_nr in player.get_possible_moves:
-            new_field = player.get_possible_moves[figure.get_nr]
-            if self.make_move(old_field, new_field, number):
+        if figure.get_color == player.get_color:    
+            if figure.get_nr in player.get_possible_moves:
+                new_field = player.get_possible_moves[figure.get_nr]
+                if self.make_move(old_field, new_field, number):
+                    return True
                 return True
-            return True
         return False
 
     def make_move(self, old_field, new_field, number):
