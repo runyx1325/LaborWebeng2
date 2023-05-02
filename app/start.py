@@ -103,7 +103,10 @@ class Mensch():
                     old_field = figure.get_on_field
                     if figure.get_steps < 35:#landet nicht im zielbereich
                         if self.check_is_move_possible(old_field, number, player) == True:
-                            new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
+                            if old_field.get_id + number > 89:
+                                new_field = self.gameboard.get_field_dict.get(old_field.get_id + number - 40)
+                            else:
+                                new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
                             figure = old_field.get_figure_on_field
                             player.add_possible_move(figure, new_field)
                     elif figure.get_steps < 39:#landen alle im zielbereich
@@ -155,7 +158,10 @@ class Mensch():
                             old_field = figure.get_on_field
                             if figure.get_steps + number < 41:#landet nicht im zielbereich
                                 if self.check_is_move_possible(old_field, number, player) == True:
-                                    new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
+                                    if old_field.get_id + number > 89:
+                                        new_field = self.gameboard.get_field_dict.get(old_field.get_id + number - 40)
+                                    else:    
+                                        new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
                                     figure = old_field.get_figure_on_field
                                     player.add_possible_move(figure, new_field)
                             elif figure.get_steps > 40:#bewegung im zielbereich
@@ -190,7 +196,7 @@ class Mensch():
         #return blocked field or true
         new_steps = old_field.get_figure_on_field.get_steps + number
         if old_field.get_id in player.get_home_fields:
-            new_field = list(player.get_home_field.values())[0]
+            new_field = list(player.get_starting_field.values())[0]
         else:
             if new_steps > 40:
                 x = new_steps - 41
@@ -200,7 +206,8 @@ class Mensch():
             else:
                 if old_field.get_id + number > 89:
                     new_field = self.gameboard.get_field_dict.get(old_field.get_id + number - 40)
-                new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
+                else:
+                    new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
         if new_field.get_color_on_field != old_field.get_color_on_field:
             return True
         return new_field
