@@ -194,6 +194,15 @@ class Mensch():
     def check_is_move_possible(self, old_field, number, player):
         #checking is new_field blocked
         #return blocked field or true
+        # print("Gedrücktes Feld:")
+        # print(old_field.get_id)
+        # print("Figur auf Feld")
+        # print(old_field.get_figure_on_field)
+        # print("Würfel")
+        # print(number)
+        # print("Aktuelle Schritte")
+        # print(old_field.get_figure_on_field.get_steps)
+
         new_steps = old_field.get_figure_on_field.get_steps + number
         if old_field.get_id in player.get_home_fields:
             new_field = list(player.get_starting_field.values())[0]
@@ -234,9 +243,19 @@ class Mensch():
             cur_figure.walk(number)
             return True
         else:
+            print("Altes Feld: ")
+            print(old_field.get_id)
+            print("Neues Feld: ")
+            print(new_field.get_id)
+            print("Geschlagene Figur:")
+            print(new_field.get_figure_on_field)
+            print("Neue Figur")
+            print(old_field.get_figure_on_field)
             new_field.get_figure_on_field.set_home(self.gameboard.get_field_dict)
             new_field.set_figure_on_field(old_field.get_figure_on_field)
             old_field.figure_away()
+            print("Test Figur auf Feld?")
+            print(new_field.get_figure_on_field)
             return True
 
     def update_counter_bad_moves(self):
