@@ -57,25 +57,37 @@ class Player():
         return True
     
     def ready(self):
-        #returns true when you can roll 3 times
-        if self.finish:
-            return True
-        else:
-            #how many figures are at home
-            counter = 0
-            for figure in self.team_dict.values():
-                if figure.get_home:
-                    counter += 1
-            field = 4 - counter
-            #is the rest in finish?
-            while field > 0:
-                if list(self.finish_fields.values())[4 - field].get_color_on_field == self.color:
-                    counter += 1
-                field -= 1
-            if counter == 4:
-                return True
-            return False
-        
+        #return True wenn man 3 Mal würfeln darf
+        #return False wenn man nicht 3 Mal würfeln darf
+
+        #Ist noch jemand zu Hause?
+            #ja - ist die Anzahl der Figuren zu Hause + die Figuren im Ziel == 4
+                #ja - Sind alle Figuren im Ziel eingerückt?
+                    #ja - return True
+                    #nein - return False
+                #nein - return False
+            #nein - return False
+
+        counter_home = 0
+        counter_finish = 0
+        moved_up = False
+        for field in self.get_home_fields.values():
+            if field.get_color_on_field == self.get_color:
+                counter_home += 1
+        for field in self.get_finish_fields.values():
+            if field.get_color_on_field == self.get_color:
+                counter_finish += 1
+        for field in range(counter_finish, 0, -1):
+            if reversed(list(self.get_finish_fields.values()))[field].get_color_on_field == self.get_color:
+                moved_up = True
+            else:
+                moved_up = False
+
+        if counter_home > 0:
+            if counter_home + counter_finish == 4:
+                if moved_up == True:
+                    return True
+                return False        
     
     def set_fields(self, gameboard):
         if self.color == 1:

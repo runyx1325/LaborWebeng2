@@ -161,7 +161,7 @@ def roll_dice(data):
     
     print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
-        #wenn kein zug mögglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
+        #wenn kein zug möglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
         #dann würfel nochmal
         game.update_counter_bad_moves()
         game.again()

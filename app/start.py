@@ -255,20 +255,20 @@ class Mensch():
             cur_figure.walk(number)
             return True
         else:
-            print("Altes Feld: ")
-            print(old_field.get_id)
-            print("Neues Feld: ")
-            print(new_field.get_id)
-            print("Geschlagene Figur:")
-            print(new_field.get_figure_on_field)
-            print("Neue Figur")
-            print(old_field.get_figure_on_field)
+            # print("Altes Feld: ")
+            # print(old_field.get_id)
+            # print("Neues Feld: ")
+            # print(new_field.get_id)
+            # print("Geschlagene Figur:")
+            # print(new_field.get_figure_on_field)
+            # print("Neue Figur")
+            # print(old_field.get_figure_on_field)
             new_field.get_figure_on_field.set_home(self.gameboard.get_field_dict)
             new_field.set_figure_on_field(cur_figure)
             old_field.figure_away()
             cur_figure.walk(number)
-            print("Test Figur auf Feld?")
-            print(new_field.get_figure_on_field)
+            # print("Test Figur auf Feld?")
+            # print(new_field.get_figure_on_field)
             return True
 
     def update_counter_bad_moves(self):
