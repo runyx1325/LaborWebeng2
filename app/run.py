@@ -126,7 +126,6 @@ def start_round(data):
     room_states[room] = 0
     game = Mensch(data_clients)
     room_game[room] = game
-
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
     send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
@@ -157,10 +156,9 @@ def roll_dice(data):
     
     #send dice number to game log
     type = "send_dice_result"
-    print(nickname)
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=sid_cur_player)
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
-    # print("Bad Moves:" +str(game.get_counter_bad_moves))
+    
     print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
         #wenn kein zug mögglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
@@ -187,8 +185,6 @@ def choose_figure(data):
     sid = data['user']
     field = data['field']
     game = room_game[room]
-    #print(field)
-    #print(game.get_cur_dice)
 
     if game.get_cur_player == sid and game.get_cur_dice > 0 and game.get_cur_dice < 7:
         if game.game_move(sid, field):
@@ -210,8 +206,12 @@ def send_log(data):
     room = data['room']
     msg  = data['msg']
     user = data['user']
-    color = str(room_game[room].get_player_dict.get(request.sid).get_color)
-    send('{"type":"' + type + '","user":"' + user + '","color":"' + color + '", "msg":"'+ msg+'"}', to=room)
+    
+    if room in room_game:   
+        color = str(room_game[room].get_player_dict.get(request.sid).get_color)
+        send('{"type":"' + type + '","user":"' + user + '","color":"' + color + '", "msg":"'+ msg+'"}', to=room)
+    else:
+        print("ERROR!!! --- room not in room_game")
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

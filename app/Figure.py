@@ -23,7 +23,9 @@ class Figure():
 
     def set_on_field(self, field):
         self.on_field = field
-        field.set_figure_on_field(self)
+        
+        if field.get_figure_on_field != self:
+            field.set_figure_on_field(self)
 
     def set_home(self, field_dict):
         self.steps = 0

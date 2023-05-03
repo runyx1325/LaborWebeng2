@@ -1,4 +1,4 @@
-import random, json
+import json
 from Gameboard import Gameboard
 from Figure import Figure
 from Player import Player
@@ -154,6 +154,14 @@ class Mensch():
                 elif empty_home or (not empty_home and empty_start):
                     ##print("home is empty or home is not empty but start is empty")
                     for figure in list(player.get_team_dict.values()):
+                        print(figure)
+                        print("Figur: "+str(figure.get_id))
+                        print("Schritte: "+str(figure.get_steps))
+                        field = figure.get_on_field
+                        print("Feld der Figur: "+ str(field.get_figure_on_field))
+                        print("Figur auf dem Feld: "+ str(field.get_figure_on_field.get_id))
+            
+
                         if figure.get_steps != 0:
                             old_field = figure.get_on_field
                             if figure.get_steps + number < 41:#landet nicht im zielbereich
@@ -210,7 +218,7 @@ class Mensch():
             if new_steps > 40:
                 x = new_steps - 41
                 new_field = list(player.get_finish_fields.values())[x]
-                if new_field.get_color_on_field == 1:
+                if new_field.get_color_on_field == player.get_color:
                     return False
             else:
                 if old_field.get_id + number > 89:
@@ -226,6 +234,10 @@ class Mensch():
         player = self.player_dict[sid]
         old_field = self.get_gameboard.get_field(field_number)
         figure = old_field.get_figure_on_field
+
+        print(player)
+        print(old_field)
+        print(figure)
 
         if figure.get_color == player.get_color:    
             if figure.get_nr in player.get_possible_moves:

@@ -9,7 +9,7 @@ class Gameboard():
         #game_finished := True if game is finished
         #playerCount := number of players
         #Das Spiel weiß immer, wer gerade dran ist und wer der nächste ist
-        
+    
         self.player_list = player_list
         self.field_dict = self.create_gameboard()
         self.gameboard_for_view = self.get_view(self.field_dict)
@@ -39,6 +39,7 @@ class Gameboard():
                 pass
 
     def create_gameboard(self):
+        
         #creates gameboard at the beginning        
         field_dict = {}
         #home and finish of all teams
@@ -64,7 +65,7 @@ class Gameboard():
         
         #set figure to home
         for player in self.player_list:
-            for figure in player.get_team_dict.values():          
+            for figure in player.get_team_dict.values():  
                 figure.set_home(field_dict)
         return field_dict
 

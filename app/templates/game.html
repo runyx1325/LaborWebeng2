@@ -198,8 +198,8 @@ function startRound() {
     }*/
     message = " started the game!";
     username = client_list[socketio.id];
-    socketio.emit('room-log', {room: '{{room}}', user: username, msg: message});
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
+    socketio.emit('room-log', {room: '{{room}}', user: username, msg: message});
 }
 
 function sendOnCellClick(i) {
@@ -215,3 +215,5 @@ function overlay_click() {
 
 </script>
 {% endblock %}
+
+

@@ -11,6 +11,7 @@ class Field():
         else:
             self.color = color
             self.color_on_field = 0
+        self.figure_on_field = None
 
     def __str__(self):
         return str(self.color)+str(self.color_on_field)
@@ -18,6 +19,14 @@ class Field():
     def set_figure_on_field(self, figure):
         self.figure_on_field = figure
         self.color_on_field = figure.get_color
+        if figure.get_on_field != self:
+            print("Wenn Feld von Figur nicht gleich Feld: "+str(self.get_id))
+            print("Füge Feld der Figur hinzu")
+            figure.set_on_field(self)
+        else:
+            print("---Felder sollten gleich sien---")
+            print(self.get_id)
+            print(figure.get_on_field.get_id)
 
     def figure_away(self):
         self.figure_on_field = None
