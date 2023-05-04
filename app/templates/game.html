@@ -57,7 +57,10 @@
                 <button class="start-button" id="start-button" onclick="startRound()">Start Game</button>
             </div>
             <div class="panel-right">
-                <h2>Game: {{room}}</h2>
+                <div class="room-key-panel">
+                    <h2 class="room-key-display">Game: {{room}}</h2>
+                    <button class="copy-button" onclick="copyRoomKey()">Copy</button>
+                </div>
                 <div class="room-log" id="room-log">
                     <header>
                         <b>Game log<b>
@@ -211,6 +214,11 @@ function overlay_click() {
     //Hier muss eine Bedingung hin die prüft ob gewürfelt wurde
     var overlay = document.querySelector("#dice-overlay");
     overlay.style.display = "none";
+}
+
+function copyRoomKey() {
+    // Copy the text inside the text field
+    navigator.clipboard.writeText('{{room}}');
 }
 
 </script>
