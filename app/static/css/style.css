@@ -267,24 +267,6 @@ ul{
     background-color: #33b319;
 }
 
-#game .dice-button {
-    display: none;
-    position: absolute;
-    bottom: 15px;
-    width: 100px;
-    height: 100px;
-    background-color: #eae5c3;
-    transition: 150ms ease-in-out;
-    font-size: 2em;
-    border-radius: var(--BORDER_RADIUS);
-    text-shadow: 2px 2px 0 #0000002b;
-    box-shadow: 0px 0px 15px black;
-}
-
-#game .dice-button:hover {
-    background-color: #c4bfa3
-}
-
 #game .room-key-panel {
     display: flex;
     flex-direction: row;
@@ -351,4 +333,68 @@ ul{
     justify-content: center;
     margin: 0;
     margin-top: 0.5rem;
+}
+
+.box-dice {
+    display: none;
+    width: 200px;
+    height: 200px;
+    bottom: 15px;
+    position: absolute;
+    box-shadow: 0px 0px 15px black;
+    transform-style: preserve-3d;
+}
+
+.box-dice:hover {
+    cursor: pointer;
+    animation-name: dice-roll;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+@keyframes dice-roll {
+    100% {
+        transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg);
+    }
+  }
+
+.card-dice {
+    height: 200px;
+    width: 200px;
+    text-align: center;
+    padding: 50% 0px;
+    color: white;
+    background: black;
+    border: 2px solid white;
+    box-sizing: border-box;
+    position: absolute;
+}
+
+#front{
+    transform: translateZ(100px);
+}
+
+#back{
+    transform: translateZ(-100px);
+}
+
+#left {
+    right: 100px;
+    transform: rotateY(-90deg);
+}
+
+#right {
+    left: 100px;
+    transform: rotateY(90deg);
+}
+
+#top {
+    bottom: 100px;
+    transform: rotateX(90deg);
+}
+
+#bottom {
+    top: 100px;
+    transform: rotateX(-90deg);
 }
