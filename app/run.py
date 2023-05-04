@@ -147,13 +147,13 @@ def start_round(data):
 
 @socketio.on('dice')
 def roll_dice(data):
-    game.set_cur_dice(0)
     room = data['room']
     sid_cur_player = data['user']
     user_dict = json.loads(room_clients[room])
     nickname = json.dumps(user_dict["clients"].get(data['user']))
     number = json.dumps(random.randrange(1,7))
     game = room_game[room]
+    game.set_cur_dice(0)
     game.set_cur_dice(number)
     
     #send dice number to game log
