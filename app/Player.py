@@ -24,6 +24,19 @@ class Player():
 
     def __str__(self):
         return self.nickname
+    
+    def set_endgame(self):
+        counter = 0
+        for figure in self.team_dict.values():
+            counter += 1
+            for field in list(reversed(list(self.finish_fields.values()))):
+                if field.get_color_on_field != self.color:
+                    figure.get_on_field.figure_away()
+                    figure.set_on_field(field)
+                    figure.set_steps(41 + counter)
+                    break
+            if counter == 3:
+                break
 
     def clear_possible_moves(self):
         self.possible_moves = {}

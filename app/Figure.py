@@ -41,7 +41,11 @@ class Figure():
         self.home = False
         if self.steps > 40:
             self.finish = True
-        
+
+    def set_steps(self, number):
+        self.steps = number
+        if self.steps > 40:
+            self.finish = True
 
     def set_home_field(self, field):
         self.home_field = field

@@ -13,6 +13,8 @@ MAX_CLIENTS_PER_ROOM = 4
 room_clients = {}
 room_states = {}
 room_game = {}
+settings = True
+
 
 def generate_unique_code(length):
     while True:
@@ -63,14 +65,12 @@ def home():
         return redirect(url_for("game"))
     
     return render_template("index.html")
-
 @app.route("/game")
 def game():
     room = session.get("room")
     if room is None or session.get("nickname") is None or room not in room_clients:
         return redirect(url_for("home"))
     return render_template("game.html", room=room)
-
 @socketio.on('connect')
 def connect(auth):
     room = session.get("room")
@@ -93,7 +93,6 @@ def connect(auth):
         
     #print(f"Nickname: {nickname} (sid: {sid}) joined room: {room}")
     send('{"type":"' + type + '", "client_list":' + (client_list) + '}', to=room)
-
 @socketio.on("disconnect")
 def disconnect():
     room = session.get("room")
@@ -124,7 +123,7 @@ def start_round(data):
     room = data['room']
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
-    game = Mensch(data_clients)
+    game = Mensch(data_clients, settings)
     room_game[room] = game
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)

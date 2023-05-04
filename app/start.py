@@ -5,7 +5,7 @@ from Player import Player
 from Field import Field
 
 class Mensch():
-    def __init__(self, data):
+    def __init__(self, data, settings):
         #data_room := dict with room data
         #waiiting := is True if somebody making a move till player finsished move
         #player_sid := list with sid of players
@@ -42,6 +42,10 @@ class Mensch():
         for player in self.playerlist:
             player.set_fields(self.gameboard.get_field_dict)
             self.player_dict[player.get_sid] = player
+
+        if settings:
+            for player in self.playerlist:
+                player.set_endgame() 
         
     def start(self):
         #choose current player
