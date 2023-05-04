@@ -13,7 +13,6 @@ MAX_CLIENTS_PER_ROOM = 4
 room_clients = {}
 room_states = {}
 room_game = {}
-settings = False
 
 
 def generate_unique_code(length):
@@ -123,7 +122,7 @@ def start_round(data):
     room = data['room']
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
-    game = Mensch(data_clients, settings)
+    game = Mensch(data_clients)
     room_game[room] = game
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
@@ -212,6 +211,7 @@ def choose_figure(data):
             else:
                 #game finished
                 #send to all who the winner is
+                game.set_cur_dice(0)
                 winner = game.get_winner
                 winner_name = json.dumps(winner.get_nickname)
                 type = "game_finished"

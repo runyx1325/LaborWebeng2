@@ -24,19 +24,6 @@ class Player():
 
     def __str__(self):
         return self.nickname
-    
-    def set_endgame(self):
-        counter = 0
-        for figure in self.team_dict.values():
-            counter += 1
-            for field in list(reversed(list(self.finish_fields.values()))):
-                if field.get_color_on_field != self.color:
-                    figure.get_on_field.figure_away()
-                    figure.set_on_field(field)
-                    figure.set_steps(41 + counter)
-                    break
-            if counter == 3:
-                break
 
     def clear_possible_moves(self):
         self.possible_moves = {}
@@ -75,7 +62,7 @@ class Player():
 
         #Ist noch jemand zu Hause?
             #ja - ist die Anzahl der Figuren zu Hause + die Figuren im Ziel == 4
-                #ja - Sind alle Figuren im Ziel eingerückt?
+                #ja - Sind alle Figuren im Ziel aufgerückt?
                     #ja - return True
                     #nein - return False
                 #nein - return False
@@ -92,8 +79,9 @@ class Player():
                 counter_finish += 1
 
         for field in range(4 - counter_finish):
-            if (list(self.get_finish_fields.values()))[field].get_color_on_field == self.get_color:
+            if list(self.get_finish_fields.values())[field].get_color_on_field == self.get_color:
                 moved_up = False
+                break
             else:
                 moved_up = True
         if counter_home > 0 and counter_home < 4:
