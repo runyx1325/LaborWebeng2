@@ -154,12 +154,12 @@ class Mensch():
                 elif empty_home or (not empty_home and empty_start):
                     ##print("home is empty or home is not empty but start is empty")
                     for figure in list(player.get_team_dict.values()):
-                        print(figure)
-                        print("Figur: "+str(figure.get_id))
-                        print("Schritte: "+str(figure.get_steps))
+                        # print(figure)
+                        # print("Figur: "+str(figure.get_id))
+                        # print("Schritte: "+str(figure.get_steps))
                         field = figure.get_on_field
-                        print("Feld der Figur: "+ str(field.get_figure_on_field))
-                        print("Figur auf dem Feld: "+ str(field.get_figure_on_field.get_id))
+                        # print("Feld der Figur: "+ str(field.get_figure_on_field))
+                        # print("Figur auf dem Feld: "+ str(field.get_figure_on_field.get_id))
             
 
                         if figure.get_steps != 0:
@@ -235,9 +235,9 @@ class Mensch():
         old_field = self.get_gameboard.get_field(field_number)
         figure = old_field.get_figure_on_field
 
-        print(player)
-        print(old_field)
-        print(figure)
+        # print(player)
+        # print(old_field)
+        # print(figure)
 
         if figure.get_color == player.get_color:    
             if figure.get_nr in player.get_possible_moves:

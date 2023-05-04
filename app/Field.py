@@ -20,13 +20,13 @@ class Field():
         self.figure_on_field = figure
         self.color_on_field = figure.get_color
         if figure.get_on_field != self:
-            print("Wenn Feld von Figur nicht gleich Feld: "+str(self.get_id))
-            print("Füge Feld der Figur hinzu")
+            # print("Wenn Feld von Figur nicht gleich Feld: "+str(self.get_id))
+            # print("Füge Feld der Figur hinzu")
             figure.set_on_field(self)
-        else:
-            print("---Felder sollten gleich sien---")
-            print(self.get_id)
-            print(figure.get_on_field.get_id)
+        # else:
+        #     print("---Felder sollten gleich sien---")
+        #     print(self.get_id)
+        #     print(figure.get_on_field.get_id)
 
     def figure_away(self):
         self.figure_on_field = None

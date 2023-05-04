@@ -131,7 +131,8 @@ def start_round(data):
     send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
     print(data['user'] + ' started round in room: '+ data['room'])
 
-    while not game.get_gameboard.get_finished:
+    while game.get_gameboard.get_finished == False:
+        print("Ist das Spiel vorbei? "+str(game.get_gameboard.get_finished))
         game.set_waiting(True)
         next_player = game.start()
         type = "dice"   
@@ -160,7 +161,8 @@ def roll_dice(data):
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
     
     print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
-    if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready:
+    print("Darf er 3 Mal würfeln? "+str(game.get_player_dict[data['user']].ready()))
+    if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready():
         #wenn kein zug möglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
         #dann würfel nochmal
         game.update_counter_bad_moves()
@@ -169,6 +171,9 @@ def roll_dice(data):
         type = "dice"   
         send('{"type":"' + type + '"}', room=next_player)
     elif game.get_counter_bad_moves == 2 and len(game.get_possible_moves(data['user'])) == 0:
+        game.set_counter_bad_moves()
+        game.set_waiting(False)
+    elif len(game.get_possible_moves(data['user'])) == 0:
         game.set_counter_bad_moves()
         game.set_waiting(False)
     else:
@@ -192,13 +197,17 @@ def choose_figure(data):
             gameboard = json.dumps(game.get_gameboard.get_gameboard)
             send('{"type":"' + type + '", "gameboard": '+ gameboard +'}', to=room)
             game.set_counter_bad_moves()
-            if game.get_cur_dice == 6:
+            if game.get_cur_dice == 6 and not game.get_gameboard.get_finished:
                 game.set_cur_dice(0)
                 type = "dice"   
                 send('{"type":"' + type + '"}', room=sid)
-            else:
+            elif not game.get_gameboard.get_finished:
                 game.set_cur_dice(0)
                 game.set_waiting(False)
+            else:
+                #game finished
+                print("HILFE DU SOLLST HIER vielleicht LANDEN")
+                input()
 
 @socketio.on('room-log')
 def send_log(data):

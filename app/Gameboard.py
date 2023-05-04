@@ -92,12 +92,7 @@ class Gameboard():
         for player in self.player_list:
             if player.get_finish:
                 return True
-            # for field in reversed(list(player.get_finish_fields.values())):
-            #     if field.get_color_on_field != 0:
-            #         continue
-            #     break
-            # return True
-            return False
+        return False
 
 
     def get_field(self, number):
