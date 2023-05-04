@@ -173,6 +173,11 @@ def roll_dice(data):
     elif game.get_counter_bad_moves == 2 and len(game.get_possible_moves(data['user'])) == 0:
         game.set_counter_bad_moves()
         game.set_waiting(False)
+    elif len(game.get_possible_moves(data['user'])) == 0 and number == 6:
+        game.again()
+        next_player = game.start()
+        type = "dice"   
+        send('{"type":"' + type + '"}', room=next_player)
     elif len(game.get_possible_moves(data['user'])) == 0:
         game.set_counter_bad_moves()
         game.set_waiting(False)
@@ -207,7 +212,7 @@ def choose_figure(data):
             else:
                 #game finished
                 print("HILFE DU SOLLST HIER vielleicht LANDEN")
-                input()
+                input("Hallo jemand hat gewonnen")
 
 @socketio.on('room-log')
 def send_log(data):
