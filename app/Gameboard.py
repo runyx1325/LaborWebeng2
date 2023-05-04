@@ -17,27 +17,6 @@ class Gameboard():
         self.game_finished = False
         self.player_count = len(self.player_list)
 
-    def start(self):
-        self.game_status = True
-        #iteration over player_list till the game is finished
-        while self.game_status:
-            i = 0
-            for i in range(self.playerCount):
-                print(type(self.player_list))
-                print("Spieler: ", i ,"ist dran!")
-                #spieler darf würfeln 
-                
-                #spieler darf person bewegen
-                #spielbrett muss sich aktualisieren
-                #nächster Spieler ist dran
-            self.game_status =False
-            #TODO
-            if i == self.playerCount and self.game_status == True:
-                i = 0
-            if self.checkGameStatus:
-                #Game finished
-                pass
-
     def create_gameboard(self):
         
         #creates gameboard at the beginning        

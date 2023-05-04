@@ -13,7 +13,7 @@ MAX_CLIENTS_PER_ROOM = 4
 room_clients = {}
 room_states = {}
 room_game = {}
-settings = True
+settings = False
 
 
 def generate_unique_code(length):
@@ -150,7 +150,7 @@ def roll_dice(data):
     sid_cur_player = data['user']
     user_dict = json.loads(room_clients[room])
     nickname = json.dumps(user_dict["clients"].get(data['user']))
-    number = json.dumps(random.randrange(5,7))
+    number = json.dumps(random.randrange(1,7))
     game = room_game[room]
     game.set_cur_dice(0)
     game.set_cur_dice(number)
@@ -160,8 +160,6 @@ def roll_dice(data):
     send('{"type":"' + type + '", "number": '+ number +', "user": '+ nickname +'}', to=sid_cur_player)
     #if no move is possible and less than 3 bad moves and all figures on best possible field, try again
     
-    print("possible Moves: "+ str(game.get_possible_moves(data['user'])))
-    print("Darf er 3 Mal würfeln? "+str(game.get_player_dict[data['user']].ready()))
     if len(game.get_possible_moves(data['user'])) == 0 and game.get_counter_bad_moves < 2 and game.get_player_dict[data['user']].ready():
         #wenn kein zug möglich und noch nicht 3 Mal gewürfelt und alle figuren im ziel sind aufgerückt oder zu Hause
         #dann würfel nochmal
@@ -170,18 +168,17 @@ def roll_dice(data):
         next_player = game.start()
         type = "dice"   
         send('{"type":"' + type + '"}', room=next_player)
-    elif game.get_counter_bad_moves == 2 and len(game.get_possible_moves(data['user'])) == 0:
+    elif game.get_counter_bad_moves == 2 and len(game.get_possible_moves(data['user'])) == 0 and not int(number) == 6:
         game.set_counter_bad_moves()
         game.set_waiting(False)
-    elif len(game.get_possible_moves(data['user'])) == 0 and number == 6:
+    elif len(game.get_possible_moves(data['user'])) == 0 and int(number) == 6:
         game.set_cur_dice(0)
-        print(str(game.get_cur_player))
         game.again()
         next_player = game.start()
-        print(str(next_player))
         type = "dice"   
         send('{"type":"' + type + '"}', room=next_player)
     elif len(game.get_possible_moves(data['user'])) == 0:
+        game.set_cur_dice(0)
         game.set_counter_bad_moves()
         game.set_waiting(False)
     else:
@@ -214,8 +211,12 @@ def choose_figure(data):
                 game.set_waiting(False)
             else:
                 #game finished
-                print("HILFE DU SOLLST HIER vielleicht LANDEN")
-                input("Hallo jemand hat gewonnen")
+                #send to all who the winner is
+                winner = game.get_winner
+                winner_name = json.dumps(winner.get_nickname)
+                type = "game_finished"
+                send('{"type":"' + type + '", "winner": '+ winner_name +'}', to=room)
+
 
 @socketio.on('room-log')
 def send_log(data):

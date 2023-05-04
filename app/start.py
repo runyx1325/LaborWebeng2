@@ -64,15 +64,11 @@ class Mensch():
         
         
         if int(number) == 6:
-            ##print("rolled a 6")
             if not empty_home:
-                ##print("home is not empty")
                 if not empty_start:
-                    ##print("start is not empty")
                     old_field = list(player.get_starting_field.values())[0]
                     if self.check_is_move_possible(old_field, number, player) == True:#gibt true zurück wenn zug möglich und sonst field welches blockiert hat
                         new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
-                        print(new_field.get_id)
                         figure = old_field.get_figure_on_field
                         player.add_possible_move(figure, new_field)
                         return player.get_possible_moves
@@ -90,11 +86,8 @@ class Mensch():
                                 figure = old_field.get_figure_on_field
                                 player.add_possible_move(figure, new_field)
                                 return player.get_possible_moves
-                            ##print("nobody can move")
                             return player.get_possible_moves
                 else:
-                    ##print("start is empty")
-                    #all figures in home can move
                     for home_field in list(player.get_home_fields.values()):
                         if home_field.get_color_on_field != 0:
                             new_field = list(player.get_starting_field.values())[0]
@@ -102,7 +95,6 @@ class Mensch():
                             player.add_possible_move(figure, new_field)
                     return player.get_possible_moves
             else:
-                ##print("home is empty")
                 for figure in list(player.get_team_dict.values()):
                     old_field = figure.get_on_field
                     if figure.get_steps < 35:#landet nicht im zielbereich
@@ -120,19 +112,14 @@ class Mensch():
                                 x -= 1
                                 if figure.get_steps + x == 40:
                                     new_field = list(player.get_finish_fields.values())[old_field.get_figure_on_field.get_steps + number - 41]
-                                    ##print("neue ")
-                                    #print(new_field.get_id)
                                     figure = old_field.get_figure_on_field
                                     player.add_possible_move(figure, new_field)
                             else:
                                 break
                 return player.get_possible_moves
         else:
-            #print("No 6")
             if player.in_home() != 4:               
                 if not empty_home and not empty_start:
-                    ##print("home is not empty")
-                    ##print("start is not empty")
                     old_field = list(player.get_starting_field.values())[0]
                     if self.check_is_move_possible(old_field, number, player) == True:#gibt true zurück wenn zug möglich und sonst field welches blockiert hat
                         new_field = self.gameboard.get_field_dict.get(old_field.get_id + number)
@@ -153,19 +140,9 @@ class Mensch():
                                 figure = old_field.get_figure_on_field
                                 player.add_possible_move(figure, new_field)
                                 return player.get_possible_moves
-                            ##print("nobody can move")
                             return player.get_possible_moves
                 elif empty_home or (not empty_home and empty_start):
-                    ##print("home is empty or home is not empty but start is empty")
-                    for figure in list(player.get_team_dict.values()):
-                        # print(figure)
-                        # print("Figur: "+str(figure.get_id))
-                        # print("Schritte: "+str(figure.get_steps))
-                        field = figure.get_on_field
-                        # print("Feld der Figur: "+ str(field.get_figure_on_field))
-                        # print("Figur auf dem Feld: "+ str(field.get_figure_on_field.get_id))
-            
-
+                    for figure in list(player.get_team_dict.values()):         
                         if figure.get_steps != 0:
                             old_field = figure.get_on_field
                             if figure.get_steps + number < 41:#landet nicht im zielbereich
@@ -206,15 +183,6 @@ class Mensch():
     def check_is_move_possible(self, old_field, number, player):
         #checking is new_field blocked
         #return blocked field or true
-        # print("Gedrücktes Feld:")
-        # print(old_field.get_id)
-        # print("Figur auf Feld")
-        # print(old_field.get_figure_on_field)
-        # print("Würfel")
-        # print(number)
-        # print("Aktuelle Schritte")
-        # print(old_field.get_figure_on_field.get_steps)
-
         new_steps = old_field.get_figure_on_field.get_steps + number
         if old_field.get_id in player.get_home_fields:
             new_field = list(player.get_starting_field.values())[0]
@@ -239,10 +207,6 @@ class Mensch():
         old_field = self.get_gameboard.get_field(field_number)
         figure = old_field.get_figure_on_field
 
-        # print(player)
-        # print(old_field)
-        # print(figure)
-
         if figure.get_color == player.get_color:    
             if figure.get_nr in player.get_possible_moves:
                 new_field = player.get_possible_moves[figure.get_nr]
@@ -259,20 +223,10 @@ class Mensch():
             cur_figure.walk(number)
             return True
         else:
-            # print("Altes Feld: ")
-            # print(old_field.get_id)
-            # print("Neues Feld: ")
-            # print(new_field.get_id)
-            # print("Geschlagene Figur:")
-            # print(new_field.get_figure_on_field)
-            # print("Neue Figur")
-            # print(old_field.get_figure_on_field)
             new_field.get_figure_on_field.set_home(self.gameboard.get_field_dict)
             new_field.set_figure_on_field(cur_figure)
             old_field.figure_away()
             cur_figure.walk(number)
-            # print("Test Figur auf Feld?")
-            # print(new_field.get_figure_on_field)
             return True
 
     def update_counter_bad_moves(self):
@@ -307,3 +261,10 @@ class Mensch():
     @property
     def get_counter_bad_moves(self):
         return self.counter_bad_moves
+    @property
+    def get_winner(self):
+        if self.gameboard.get_finished:
+            for player in self.player_dict.values():
+                if player.get_finish:
+                    self.winner = player
+        return self.winner
