@@ -147,6 +147,7 @@ def start_round(data):
 
 @socketio.on('dice')
 def roll_dice(data):
+    game.set_cur_dice(0)
     room = data['room']
     sid_cur_player = data['user']
     user_dict = json.loads(room_clients[room])
