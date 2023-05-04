@@ -90,32 +90,20 @@ class Player():
         for field in self.get_finish_fields.values():
             if field.get_color_on_field == self.get_color:
                 counter_finish += 1
-        # print("---")
+
         for field in range(4 - counter_finish):
-            # print(field)
-            # print("Feld ID: "+str((list(self.get_finish_fields.values()))[field].get_id))
-            # print("Farbe auf Feld: "+str((list(self.get_finish_fields.values()))[field].get_color_on_field))
             if (list(self.get_finish_fields.values()))[field].get_color_on_field == self.get_color:
                 moved_up = False
             else:
                 moved_up = True
-        # print("---")
-        # print("Counter Home: "+str(counter_home))
-        # print("Counter Finish: "+str(counter_finish))
-        # print("Aufgerückt? "+str(moved_up))
         if counter_home > 0 and counter_home < 4:
-            # print("1 - 3 Spieler im Haus")
             if counter_home + counter_finish == 4:
-                # print("Alle sind im Haus oder Ziel")
                 if moved_up == True:
-                    # print("Alle sind auufgerückt im Haus")
                     return True
                 return False
             return False
         elif counter_home == 4:
-            # print("4 Spieler im Haus")
             return True
-        # print("else")
         return False     
     
     def set_fields(self, gameboard):
