@@ -175,8 +175,11 @@ def roll_dice(data):
         game.set_counter_bad_moves()
         game.set_waiting(False)
     elif len(game.get_possible_moves(data['user'])) == 0 and number == 6:
+        game.set_cur_dice(0)
+        print(str(game.get_cur_player))
         game.again()
         next_player = game.start()
+        print(str(next_player))
         type = "dice"   
         send('{"type":"' + type + '"}', room=next_player)
     elif len(game.get_possible_moves(data['user'])) == 0:
