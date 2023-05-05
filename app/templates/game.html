@@ -20,7 +20,7 @@
                     <ul id="user-list" style="list-style: none;">
                     </ul>
                 </div>
-                
+                {% include 'dice.html' %}
             </div>
             <div class="panel">
                 <div class="board" id="gameboard">
@@ -68,7 +68,6 @@
                     <section class="log" id="log">
                     </section>
                 </div>
-                {% include 'dice.html' %}
             </div>
         </div>
     </div>
@@ -190,8 +189,12 @@ socketio.on('message', function(data) {
 
 function dice() {
     var dice = document.querySelector('#dice-button');
-    dice.style.display = "none";
-    socketio.emit('dice', {room: '{{room}}', user: socketio.id});
+    dice.classList.add("animated")
+    setTimeout(function() {
+        dice.style.display = "none";
+        dice.classList.remove("animated")
+        socketio.emit('dice', {room: '{{room}}', user: socketio.id});
+    }, 1500);
 }
 
 function startRound() {
