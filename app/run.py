@@ -130,7 +130,6 @@ def start_round(data):
     print(data['user'] + ' started round in room: '+ data['room'])
 
     while game.get_gameboard.get_finished == False:
-        print("Ist das Spiel vorbei? "+str(game.get_gameboard.get_finished))
         game.set_waiting(True)
         next_player = game.start()
         type = "dice"   
@@ -140,7 +139,6 @@ def start_round(data):
             time.sleep(1)
             if not game.get_waiting:
                 break
-        print("Next Player: "+next_player)
     print("Game is finished.")
 
 @socketio.on('dice')
