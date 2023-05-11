@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block content%}
+{% block content %}
 <body>
     <div id="game">
         <div onclick="overlay_click()" class="overlay" id="dice-overlay">
@@ -184,6 +184,10 @@ socketio.on('message', function(data) {
         art.appendChild(msg);
         log.appendChild(art);
         roomLog.scrollTop = roomLog.scrollHeight;
+    } else if (obj.type == "game_finished") {
+        user = obj.winner;
+        message = " won the game!";
+        socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
     }
 });
 
@@ -198,10 +202,10 @@ function dice() {
 }
 
 function startRound() {
-    /*if(Object.keys(client_list).length < 2) {
+    if(Object.keys(client_list).length < 2) {
         alert("Can't start round with less than two players");
         return;
-    }*/
+    }
     message = " started the game!";
     username = client_list[socketio.id];
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
@@ -221,7 +225,8 @@ function overlay_click() {
 
 function copyRoomKey() {
     // Copy the text inside the text field
-    navigator.clipboard.writeText('{{room}}');
+    var room = {{room}};
+    navigator.clipboard.writeText(room);
 }
 
 </script>

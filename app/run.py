@@ -70,6 +70,15 @@ def game():
     if room is None or session.get("nickname") is None or room not in room_clients:
         return redirect(url_for("home"))
     return render_template("game.html", room=room)
+
+@app.route("/impressum")
+def impressum():
+    return render_template("impressum.html")
+
+@app.route("/dsgvo")
+def dsgvo():
+    return render_template("dsgvo.html")
+
 @socketio.on('connect')
 def connect(auth):
     room = session.get("room")
