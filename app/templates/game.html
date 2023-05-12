@@ -58,7 +58,7 @@
             </div>
             <div class="panel-right">
                 <div class="room-key-panel">
-                    <h2 class="room-key-display">Game: {{room}}</h2>
+                    <a class="room-key-display">Game: {{room}}</a>
                     <button class="copy-button" onclick="copyRoomKey()">Copy</button>
                 </div>
                 <div class="room-log" id="room-log">
@@ -225,7 +225,7 @@ function overlay_click() {
 
 function copyRoomKey() {
     // Copy the text inside the text field
-    var room = {{room}};
+    var room = '{{room}}';
     navigator.clipboard.writeText(room);
 }
 
