@@ -202,10 +202,10 @@ function dice() {
 }
 
 function startRound() {
-    /*if(Object.keys(client_list).length < 2) {
+    if(Object.keys(client_list).length < 2) {
         alert("Can't start round with less than two players");
         return;
-    }*/
+    }
     message = " started the game!";
     username = client_list[socketio.id];
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});

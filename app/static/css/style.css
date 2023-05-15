@@ -57,6 +57,7 @@
     --COLOR_PLAYER_BG_GUESSED_ALT: #48c737;
 }
 body {
+    font-family: Consolas;
     background: radial-gradient(circle, #6b86ad 25%, #536784 75%, #2a3444 100%);
 }
 
