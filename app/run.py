@@ -13,7 +13,7 @@ MAX_CLIENTS_PER_ROOM = 4
 room_clients = {}
 room_states = {}
 room_game = {}
-
+settings = True
 
 def generate_unique_code(length):
     while True:
@@ -131,7 +131,7 @@ def start_round(data):
     room = data['room']
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
-    game = Mensch(data_clients)
+    game = Mensch(data_clients, settings)
     room_game[room] = game
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
@@ -216,13 +216,12 @@ def choose_figure(data):
                 game.set_cur_dice(0)
                 game.set_waiting(False)
             else:
-                #game finished
-                #send to all who the winner is
+                #game finished - game log winner
                 game.set_cur_dice(0)
                 winner = game.get_winner
                 winner_name = json.dumps(winner.get_nickname)
                 type = "game_finished"
-                send('{"type":"' + type + '", "winner": '+ winner_name +'}', to=room)
+                send('{"type":"' + type + '", "winner": '+ winner_name +'}', to=sid)
 
 
 @socketio.on('room-log')
@@ -232,8 +231,12 @@ def send_log(data):
     msg  = data['msg']
     user = data['user']
     
-    if room in room_game:   
-        color = str(room_game[room].get_player_dict.get(request.sid).get_color)
+    if room in room_game:
+        sid = ""
+        for key, val in room_game[room].get_player_dict.items():
+            if str(val) == str(user):
+                sid = str(key)
+        color = str(room_game[room].get_player_dict.get(str(sid)).get_color)
         send('{"type":"' + type + '","user":"' + user + '","color":"' + color + '", "msg":"'+ msg+'"}', to=room)
     else:
         print("ERROR!!! --- room not in room_game")
