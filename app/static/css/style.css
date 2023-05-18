@@ -164,7 +164,7 @@ td:hover {
 }
 #game .panel {
     flex: 0 0 auto;
-    width: 70%;
+    width: 50%;
     padding: 15px;
     box-sizing: inherit;
     display: flex;
@@ -174,7 +174,6 @@ td:hover {
 #game .panel-right {
     position: relative;
     margin-left: 8px;
-    margin-right: 2rem;
     flex: 1 1 15%;
     display: flex;
     box-sizing: inherit;
@@ -197,6 +196,7 @@ td:hover {
     background-image: linear-gradient(to bottom right, #ffbb6c, #b7854b);
     box-shadow: 0px 0px 10px black;
     margin-bottom: auto;
+    width: 60%;
 }
 ul{
     padding: 0;
@@ -226,6 +226,7 @@ ul{
     align-items: center;
 }
 #game .room-key-display {
+    width: auto;
     font-size: 2rem;
     padding: 2px;
     border-radius: var(--BORDER_RADIUS);
@@ -259,6 +260,7 @@ ul{
     border: 4px solid black;
     background-color: #fff;
     box-shadow: 0px 0px 10px black;
+    width: 75%;
 }
 #room-log .message{
     color: var(--COLOR_CHAT_TEXT_BASE);
