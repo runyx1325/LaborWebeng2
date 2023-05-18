@@ -18,7 +18,7 @@ room_states = {}
 # Game object of every existing Room
 room_game = {}
 # Test purposes
-settings_endgame = True
+settings_endgame = False
 
 
 
