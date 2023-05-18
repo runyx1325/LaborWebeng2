@@ -13,7 +13,7 @@ MAX_CLIENTS_PER_ROOM = 4
 room_clients = {}
 room_states = {}
 room_game = {}
-
+settings = True
 
 def generate_unique_code(length):
     while True:
@@ -70,6 +70,15 @@ def game():
     if room is None or session.get("nickname") is None or room not in room_clients:
         return redirect(url_for("home"))
     return render_template("game.html", room=room)
+
+@app.route("/impressum")
+def impressum():
+    return render_template("impressum.html")
+
+@app.route("/dsgvo")
+def dsgvo():
+    return render_template("dsgvo.html")
+
 @socketio.on('connect')
 def connect(auth):
     room = session.get("room")
@@ -122,7 +131,7 @@ def start_round(data):
     room = data['room']
     data_clients = json.dumps(data['clients'])
     room_states[room] = 0
-    game = Mensch(data_clients)
+    game = Mensch(data_clients, settings)
     room_game[room] = game
     type="gameboard"
     gameboard = json.dumps(game.get_gameboard.get_gameboard)
@@ -130,7 +139,6 @@ def start_round(data):
     print(data['user'] + ' started round in room: '+ data['room'])
 
     while game.get_gameboard.get_finished == False:
-        print("Ist das Spiel vorbei? "+str(game.get_gameboard.get_finished))
         game.set_waiting(True)
         next_player = game.start()
         type = "dice"   
@@ -140,7 +148,6 @@ def start_round(data):
             time.sleep(1)
             if not game.get_waiting:
                 break
-        print("Next Player: "+next_player)
     print("Game is finished.")
 
 @socketio.on('dice')
@@ -209,13 +216,12 @@ def choose_figure(data):
                 game.set_cur_dice(0)
                 game.set_waiting(False)
             else:
-                #game finished
-                #send to all who the winner is
+                #game finished - game log winner
                 game.set_cur_dice(0)
                 winner = game.get_winner
                 winner_name = json.dumps(winner.get_nickname)
                 type = "game_finished"
-                send('{"type":"' + type + '", "winner": '+ winner_name +'}', to=room)
+                send('{"type":"' + type + '", "winner": '+ winner_name +'}', to=sid)
 
 
 @socketio.on('room-log')
@@ -225,8 +231,12 @@ def send_log(data):
     msg  = data['msg']
     user = data['user']
     
-    if room in room_game:   
-        color = str(room_game[room].get_player_dict.get(request.sid).get_color)
+    if room in room_game:
+        sid = ""
+        for key, val in room_game[room].get_player_dict.items():
+            if str(val) == str(user):
+                sid = str(key)
+        color = str(room_game[room].get_player_dict.get(str(sid)).get_color)
         send('{"type":"' + type + '","user":"' + user + '","color":"' + color + '", "msg":"'+ msg+'"}', to=room)
     else:
         print("ERROR!!! --- room not in room_game")
