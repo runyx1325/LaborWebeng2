@@ -44,10 +44,10 @@ class Gameboard():
             else:
                 field_dict[id] = Field(id, 0)
                 
-        #creating void fields with id = -1
+        # creating void fields with id = -1
         field_dict[-1] = Field(-1,-1)
         
-        #set figure to home or endgame
+        # set figure to home or endgame
         for player in self.player_list:
             for figure in player.get_team_dict.values():  
                 figure.set_home(field_dict)
@@ -81,6 +81,7 @@ class Gameboard():
         
         gameboard_for_view = []
         
+        # ...
         for field in self.field_list:
             gameboard_for_view.append(field.get_name)
             

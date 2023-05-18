@@ -74,18 +74,23 @@
 </body>
 
 <script type="text/javascript">
+    //starting websocket connection
     var socketio = io();
     var client = [];
 
+//handle all events send from the server
 socketio.on('message', function(data) {
     var obj = JSON.parse(data);
     
+    //event user_joined
     if (obj.type == 'user_joined') {
         client_list = obj.client_list;
         //user joined room, update view
         var userList = document.getElementById("user-list");
-        userList.innerHTML = ""; //clear previous list items
+        //clear previous list items
+        userList.innerHTML = ""; 
 
+        //build html player list
         for (var clientId in obj.client_list)
         {
             if (obj.client_list.hasOwnProperty(clientId)) {
@@ -98,12 +103,16 @@ socketio.on('message', function(data) {
                 userList.appendChild(listItem);
             }
         }
-    } else if (obj.type == 'user_left') {
+    
+    } 
+    //event user_left
+    else if (obj.type == 'user_left') {
         client_list = obj.client_list;
         //user left room, update view
         var userList = document.getElementById("user-list");
-        userList.innerHTML = ""; //clear previous list items
-
+        //clear previous list items
+        userList.innerHTML = ""; 
+        //build html player list
         for (var clientId in obj.client_list)
         {
             if (obj.client_list.hasOwnProperty(clientId)) {
@@ -115,14 +124,19 @@ socketio.on('message', function(data) {
                 boldItem.appendChild(textNode);
                 userList.appendChild(listItem);
             }
-        }   
-    } else if (obj.type == 'gameboard') {
+        } 
+    } 
+    //event gameboard
+    else if (obj.type == 'gameboard') {
+        //hide start-button
         var button = document.getElementById("start-button");
         button.style.display = "none";
         var gameboardList = obj.gameboard
         var tbody = document.querySelector("#gameboard tbody");
-        tbody.innerHTML = ""; //clear tbody
+        //clear tbody
+        tbody.innerHTML = ""; 
 
+        //build new gameboard
         for (var i = 0; i < gameboardList.length; i++) {
             if (i % 11 === 0) {
                 var row = document.createElement("tr");
@@ -141,20 +155,28 @@ socketio.on('message', function(data) {
             cell.setAttribute("id", i);
             row.appendChild(cell);
         }
-    } else if (obj.type == "dice") {
-        //show dice for this client
+    } 
+    //event dice
+    else if (obj.type == "dice") {
+        //shows dice for one client
         message = " It's your turn!";
         username = client_list[socketio.id];
+        //send room-log with message to server
         socketio.emit('room-log', {room: '{{room}}',user: username, msg: message});
         var dice = document.querySelector('#dice-button');
         dice.style.display = "block";
-    } else if (obj.type == "send_dice_result") {
+    } 
+    //event send_dice_result
+    else if (obj.type == "send_dice_result") {
         var user = obj.user;
         var number = obj.number;
         message = " rolled a " + number;
-        socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
-    } else if (obj.type == "room-log") {   
-        
+        //send room-log with message to server
+        socketio.emit('room-log', {room: '{{room}}',user: user, msg: message}); 
+    } 
+    //event room-log
+    else if (obj.type == "room-log") {   
+        //creates new game log message with correct color
         var roomLog = document.getElementById('room-log')    
         var log = document.getElementById('log');
         var art = document.createElement("article");
@@ -162,6 +184,8 @@ socketio.on('message', function(data) {
         boldText.textContent = obj.user;
         var msg = document.createTextNode(obj.msg);
         art.setAttribute("class", "message");
+
+        //display the team color of user
         switch (obj.color){
             case '1'://yellow
                 boldText.style.color = "#FFA400";
@@ -180,51 +204,61 @@ socketio.on('message', function(data) {
                 art.style.backgroundColor = "#009B0020";
                 break;
         }
+        //build html 
         art.appendChild(boldText);
         art.appendChild(msg);
         log.appendChild(art);
+        //scrolls game log down
         roomLog.scrollTop = roomLog.scrollHeight;
-    } else if (obj.type == "game_finished") {
+    
+    
+    
+    }
+    //event game_finished 
+    else if (obj.type == "game_finished") {
         user = obj.winner;
         message = " won the game!";
+        //send event room-log with message to server
         socketio.emit('room-log', {room: '{{room}}',user: user, msg: message});
     }
 });
 
+//if dice is clicked
 function dice() {
     var dice = document.querySelector('#dice-button');
     dice.classList.add("animated")
+    //waiting for animation
     setTimeout(function() {
         dice.style.display = "none";
         dice.classList.remove("animated")
+        //send event dice to server
         socketio.emit('dice', {room: '{{room}}', user: socketio.id});
     }, 1500);
 }
 
+//starting round
 function startRound() {
+    //check if at least 2 players are in room
     if(Object.keys(client_list).length < 2) {
         alert("Can't start round with less than two players");
         return;
     }
+
     message = " started the game!";
     username = client_list[socketio.id];
+    //send event start-round to server
     socketio.emit('start-round', {room: '{{room}}', user: socketio.id, clients: client_list});
+    //send event room-log with message to server
     socketio.emit('room-log', {room: '{{room}}', user: username, msg: message});
 }
 
+//send clicked cell to server
 function sendOnCellClick(i) {
     socketio.emit('choose-figure', {room: '{{room}}', user: socketio.id, field: i});
 }
 
-function overlay_click() {
-    //TODO
-    //Hier muss eine Bedingung hin die prüft ob gewürfelt wurde
-    var overlay = document.querySelector("#dice-overlay");
-    overlay.style.display = "none";
-}
-
+//Copy the text inside the text field
 function copyRoomKey() {
-    // Copy the text inside the text field
     var room = '{{room}}';
     navigator.clipboard.writeText(room);
 }
