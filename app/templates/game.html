@@ -260,7 +260,27 @@ function sendOnCellClick(i) {
 //Copy the text inside the text field
 function copyRoomKey() {
     var room = '{{room}}';
-    navigator.clipboard.writeText(room);
+     if (navigator.clipboard && navigator.clipboard.writeText) {
+        // Use the navigator.clipboard.writeText method if available
+        navigator.clipboard.writeText(room)
+            .then(function() {
+                console.log('Room key copied to clipboard: ' + room);
+            })
+            .catch(function(error) {
+                console.error('Failed to copy room key to clipboard:', error);
+            });
+    } else if (document.execCommand) {
+        // Fallback to document.execCommand method
+        var textarea = document.createElement('textarea');
+        textarea.value = room;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        console.log('Room key copied to clipboard: ' + room);
+    } else {
+        console.error('Copy to clipboard is not supported in this browser.');
+    }
 }
 
 </script>
