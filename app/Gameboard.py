@@ -3,12 +3,13 @@ from Field import Field
 
 class Gameboard():
     def __init__(self, player_list):
-        #player_list := list of player objects
-        #gameboard := at the beginning get the startinggameboard
-        #game_status := True if game is running
-        #game_finished := True if game is finished
-        #playerCount := number of players
-        #Das Spiel weiß immer, wer gerade dran ist und wer der nächste ist
+        # player_list := list of player objects
+        # field_dict := all gameboard fields
+        # gameboard := at the beginning get the startinggameboard
+        # game_status := True if game is running
+        # game_finished := True if game is finished
+        # playerCount := number of players
+        # The game always knows whose turn it is and who is next
     
         self.player_list = player_list
         self.field_dict = self.create_gameboard()
@@ -17,28 +18,32 @@ class Gameboard():
         self.game_finished = False
         self.player_count = len(self.player_list)
 
+
+
     def create_gameboard(self):
         
-        #creates gameboard at the beginning        
+        # creates gameboard at the beginning        
         field_dict = {}
-        #home and finish of all teams
+        # home and finish of all teams
         for team in range(1,5):
             for id in range(0,8):
-                x = team*10+id
+                x = team * 10 + id
                 field_dict[x] = Field(x, team)
-        #create all normal fields + starting fields
+                
+        # create all normal fields + starting fields
         for id in range(50,90):
-            if id%10 == 0:
-                if id%8 == 0:
+            if id % 10 == 0:
+                if id % 8 == 0:
                     field_dict[id] = Field(id, 3)
-                elif id%7 == 0:
+                elif id % 7 == 0:
                     field_dict[id] = Field(id, 2)
-                elif id%6 == 0:
+                elif id % 6 == 0:
                     field_dict[id] = Field(id, 4)
-                elif id%5 == 0:
+                elif id % 5 == 0:
                     field_dict[id] = Field(id, 1)
             else:
                 field_dict[id] = Field(id, 0)
+                
         #creating void fields with id = -1
         field_dict[-1] = Field(-1,-1)
         
@@ -46,9 +51,20 @@ class Gameboard():
         for player in self.player_list:
             for figure in player.get_team_dict.values():  
                 figure.set_home(field_dict)
+                
         return field_dict
 
+    
+    def check_game_is_finished(self):
+        for player in self.player_list:
+            # is game finished by one player
+            if player.get_finish:
+                return True
+        return False
+    
+    
     def get_view(self, field_dict):
+        # initializes all fields
         self.field_list = [
             field_dict.get(10), field_dict.get(11), field_dict.get(-1), field_dict.get(-1), field_dict.get(58), field_dict.get(59), field_dict.get(60), field_dict.get(-1), field_dict.get(-1), field_dict.get(40), field_dict.get(41),
             field_dict.get(12), field_dict.get(13), field_dict.get(-1), field_dict.get(-1), field_dict.get(57), field_dict.get(44), field_dict.get(61), field_dict.get(-1), field_dict.get(-1), field_dict.get(42), field_dict.get(43),
@@ -62,20 +78,19 @@ class Gameboard():
             field_dict.get(30), field_dict.get(31), field_dict.get(-1), field_dict.get(-1), field_dict.get(81), field_dict.get(34), field_dict.get(77), field_dict.get(-1), field_dict.get(-1), field_dict.get(20), field_dict.get(21),
             field_dict.get(32), field_dict.get(33), field_dict.get(-1), field_dict.get(-1), field_dict.get(80), field_dict.get(79), field_dict.get(78), field_dict.get(-1), field_dict.get(-1), field_dict.get(22), field_dict.get(23)
         ]
+        
         gameboard_for_view = []
+        
         for field in self.field_list:
             gameboard_for_view.append(field.get_name)
+            
         return gameboard_for_view  
     
-    def check_game_is_finished(self):
-        for player in self.player_list:
-            if player.get_finish:
-                return True
-        return False
-
 
     def get_field(self, number):
         return self.field_list[number]
+    
+    # getter
     @property
     def get_gameboard(self):
         return self.get_view(self.field_dict)
